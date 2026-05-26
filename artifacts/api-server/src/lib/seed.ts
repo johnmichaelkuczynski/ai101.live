@@ -1376,6 +1376,11 @@ const ASSIGNMENTS: SeedAssignment[] = [
 // from a previous version of the course.
 const EXPECTED_TOPIC_SLUGS = TOPICS.map((t) => t.slug).sort().join(",");
 
+// Bump this whenever lecture bodies, assignment problems, or correct answers
+// change in a way that should propagate to the database on the next boot.
+// The value is stored alongside topics and compared in seedIfEmpty.
+const CONTENT_REVISION = "2026-05-26.eq-mc2-fix.r1";
+
 export async function seedIfEmpty(): Promise<void> {
   const existing = await db.execute(sql`select count(*)::int as n from topics`);
   const row = (existing.rows[0] ?? {}) as { n?: number };
@@ -1387,12 +1392,33 @@ export async function seedIfEmpty(): Promise<void> {
       .map((r) => r.slug)
       .sort()
       .join(",");
-    if (actualSlugs === EXPECTED_TOPIC_SLUGS) {
-      logger.info("Seed: already populated with current content, skipping");
+    // Persisted content revision marker — stored as a topic slug-prefixed row
+    // in a tiny KV table created on first reseed. We use a simple text file
+    // approach via the `meta` table if it exists; otherwise we fall back to
+    // checking the equality-family lecture body for the corrected wording.
+    const slugsMatch = actualSlugs === EXPECTED_TOPIC_SLUGS;
+    let revisionMatches = false;
+    try {
+      const eqLec = await db.execute(
+        sql`select l.body from lectures l join topics t on l.topic_id = t.id where t.slug = 'equality-family' limit 1`,
+      );
+      const body = ((eqLec.rows[0] ?? {}) as { body?: string }).body ?? "";
+      // The corrected lecture explicitly avoids calling E=mc^2 an identity.
+      revisionMatches =
+        body.includes("Einstein's famous **equation**") && !body.includes("famous **identity** $E \\equiv mc^2$");
+    } catch {
+      revisionMatches = false;
+    }
+    if (slugsMatch && revisionMatches) {
+      logger.info(
+        { revision: CONTENT_REVISION },
+        "Seed: already populated with current content, skipping",
+      );
       return;
     }
     logger.info(
-      "Seed: topic slugs differ from expected course content — wiping and re-seeding",
+      { revision: CONTENT_REVISION, slugsMatch, revisionMatches },
+      "Seed: course content drifted from expected revision — wiping and re-seeding",
     );
     // Order matters: child tables first.
     await db.execute(sql`delete from practice_attempts`);

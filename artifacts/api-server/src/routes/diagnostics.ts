@@ -12,7 +12,7 @@ import {
   practiceProblemsTable,
   practiceAttemptsTable,
 } from "@workspace/db";
-import { chatText, chatJson, FAST_MODEL } from "../lib/ai";
+import { chatText, chatJson, FAST_MODEL, TEXT_MODEL } from "../lib/ai";
 import { detect } from "../lib/detection";
 import { gradeAnswer } from "../lib/grading";
 
@@ -493,6 +493,185 @@ router.post("/diagnostics/expand-lectures", async (req, res) => {
   }
 
   res.json({ ok: failed === 0, level, updated, failed, total: lectures.length });
+});
+
+// ---------- Diagnostic 3: content audit (OpenAI fact-checks every lecture + every "correct" answer) ----------
+type LectureIssue = { quote: string; problem: string; fix: string };
+type LectureAuditRow = {
+  lectureId: number;
+  title: string;
+  ok: boolean;
+  issues: LectureIssue[];
+  error?: string;
+};
+type ProblemAuditRow = {
+  problemId: number;
+  assignmentTitle: string;
+  prompt: string;
+  statedAnswer: string;
+  ok: boolean;
+  issue?: string;
+  betterAnswer?: string;
+  error?: string;
+};
+
+async function auditLecture(
+  l: { id: number; title: string; body: string },
+): Promise<LectureAuditRow> {
+  try {
+    const out = await chatJson<{ issues?: LectureIssue[] }>(
+      "You are a rigorous mathematics and physics fact-checker for a college-level course on mathematical notation. " +
+        "You scrutinize a single lecture body for FACTUAL ERRORS only — wrong definitions, wrong formulas, wrong physical laws, wrong worked examples, misuse of notation (e.g. calling an equation an identity when it isn't), incorrect numerical claims, or self-contradictions. " +
+        "Style, tone, completeness, and pedagogy are OUT OF SCOPE — do NOT flag them. " +
+        'Respond as strict JSON: {"issues": [{"quote": string, "problem": string, "fix": string}]}. ' +
+        '"quote" must be a short verbatim snippet from the lecture (<= 160 chars). "problem" states the error in one sentence. "fix" proposes the correction in one sentence. ' +
+        'If the lecture contains no factual errors, respond with {"issues": []}.',
+      `LECTURE TITLE: ${l.title}\n\nLECTURE BODY:\n"""\n${l.body}\n"""`,
+      TEXT_MODEL,
+    );
+    const issues = Array.isArray(out?.issues)
+      ? out.issues
+          .filter(
+            (x): x is LectureIssue =>
+              !!x && typeof x.quote === "string" && typeof x.problem === "string" && typeof x.fix === "string",
+          )
+          .slice(0, 20)
+      : [];
+    return { lectureId: l.id, title: l.title, ok: issues.length === 0, issues };
+  } catch (e) {
+    return {
+      lectureId: l.id,
+      title: l.title,
+      ok: false,
+      issues: [],
+      error: e instanceof Error ? e.message : String(e),
+    };
+  }
+}
+
+async function auditProblem(p: {
+  id: number;
+  assignmentTitle: string;
+  prompt: string;
+  correctAnswer: string;
+}): Promise<ProblemAuditRow> {
+  try {
+    const out = await chatJson<{
+      verdict?: "correct" | "incorrect" | "ambiguous";
+      issue?: string;
+      betterAnswer?: string;
+    }>(
+      "You are a rigorous grader for a college-level math-notation course. " +
+        "You are given a problem PROMPT and the STATED CORRECT ANSWER stored in the course database. " +
+        "Decide whether the stated answer is genuinely correct, fully sufficient, and notationally appropriate for the prompt. " +
+        "Minor stylistic differences (LaTeX vs unicode, spacing, equivalent algebraic forms) are NOT issues. Flag only true errors: wrong value, wrong formula, wrong symbol, wrong physics, missing a required part of the answer, or an answer that does not actually satisfy the prompt. " +
+        'Respond as strict JSON: {"verdict": "correct" | "incorrect" | "ambiguous", "issue": string, "betterAnswer": string}. ' +
+        'If verdict is "correct", issue and betterAnswer may be empty strings. ' +
+        'If verdict is "incorrect" or "ambiguous", "issue" must explain the problem in one sentence and "betterAnswer" must give the answer you would store instead.',
+      `PROMPT:\n"""${p.prompt}"""\n\nSTATED CORRECT ANSWER:\n"""${p.correctAnswer}"""`,
+      TEXT_MODEL,
+    );
+    const verdict = out?.verdict ?? "ambiguous";
+    const ok = verdict === "correct";
+    return {
+      problemId: p.id,
+      assignmentTitle: p.assignmentTitle,
+      prompt: p.prompt,
+      statedAnswer: p.correctAnswer,
+      ok,
+      issue: ok ? undefined : (out?.issue || "Auditor returned no explanation."),
+      betterAnswer: ok ? undefined : (out?.betterAnswer || undefined),
+    };
+  } catch (e) {
+    return {
+      problemId: p.id,
+      assignmentTitle: p.assignmentTitle,
+      prompt: p.prompt,
+      statedAnswer: p.correctAnswer,
+      ok: false,
+      error: e instanceof Error ? e.message : String(e),
+    };
+  }
+}
+
+async function runWithConcurrency<T, R>(
+  items: T[],
+  worker: (t: T) => Promise<R>,
+  concurrency: number,
+): Promise<R[]> {
+  const results: R[] = new Array(items.length);
+  let next = 0;
+  async function pump(): Promise<void> {
+    while (true) {
+      const i = next++;
+      if (i >= items.length) return;
+      results[i] = await worker(items[i]!);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, () => pump()));
+  return results;
+}
+
+router.post("/diagnostics/content-audit", async (_req, res) => {
+  res.setTimeout(15 * 60 * 1000);
+  try {
+    const lectures = await db
+      .select({
+        id: lecturesTable.id,
+        title: lecturesTable.title,
+        body: lecturesTable.body,
+      })
+      .from(lecturesTable)
+      .orderBy(asc(lecturesTable.id));
+
+    const problemRows = await db
+      .select({
+        id: problemsTable.id,
+        assignmentId: problemsTable.assignmentId,
+        prompt: problemsTable.prompt,
+        correctAnswer: problemsTable.correctAnswer,
+      })
+      .from(problemsTable)
+      .orderBy(asc(problemsTable.assignmentId), asc(problemsTable.position));
+
+    const assignmentRows = await db
+      .select({ id: assignmentsTable.id, title: assignmentsTable.title })
+      .from(assignmentsTable);
+    const titleById = new Map(assignmentRows.map((a) => [a.id, a.title]));
+
+    const problems = problemRows.map((p) => ({
+      id: p.id,
+      assignmentTitle: titleById.get(p.assignmentId) ?? `assignment ${p.assignmentId}`,
+      prompt: p.prompt,
+      correctAnswer: p.correctAnswer,
+    }));
+
+    const [lectureResults, problemResults] = await Promise.all([
+      runWithConcurrency(lectures, auditLecture, 4),
+      runWithConcurrency(problems, auditProblem, 4),
+    ]);
+
+    const lectureIssues = lectureResults.filter((r) => !r.ok || r.issues.length > 0);
+    const problemIssues = problemResults.filter((r) => !r.ok);
+
+    res.json({
+      ok: lectureIssues.length === 0 && problemIssues.length === 0,
+      generatedAt: new Date().toISOString(),
+      summary: {
+        lecturesChecked: lectureResults.length,
+        problemsChecked: problemResults.length,
+        lecturesWithIssues: lectureIssues.length,
+        problemsWithIssues: problemIssues.length,
+      },
+      lectureIssues,
+      problemIssues,
+    });
+  } catch (e) {
+    res.status(500).json({
+      ok: false,
+      error: e instanceof Error ? e.message : String(e),
+    });
+  }
 });
 
 // ---------- Reset: wipe all student progress, keep course content ----------
