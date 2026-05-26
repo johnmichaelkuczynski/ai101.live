@@ -90,7 +90,7 @@ export function Scene3({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
                 animate={{ opacity: 1, y: 0, scale: 1 }} 
                 className="self-end max-w-[85%] bg-primary text-white p-4 rounded-2xl rounded-tr-sm shadow-sm mt-auto"
               >
-                Why is dividing by zero undefined?
+                When should I use ≈ instead of =?
               </motion.div>
             )}
 
@@ -118,7 +118,7 @@ export function Scene3({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
           <div className="mt-6 w-full min-h-24 border border-border rounded-xl bg-background p-3 flex items-end shadow-inner relative z-10">
             <div className="w-full flex justify-between items-center pr-2">
               <div className="text-foreground text-[15px] font-medium pl-2 relative w-full h-full flex items-center">
-                {phase === 1 && <TypewriterText text="Why is dividing by zero undefined?" speed={25} />}
+                {phase === 1 && <TypewriterText text="When should I use ≈ instead of =?" speed={25} />}
                 {phase >= 2 && phase < 4 && <span className="text-muted-foreground font-normal">Ask a question about the equality family...</span>}
                 {phase >= 4 && <TypewriterText text="What about limits?" speed={20} />}
                 {((phase >= 1 && phase < 2) || phase >= 4) && (
