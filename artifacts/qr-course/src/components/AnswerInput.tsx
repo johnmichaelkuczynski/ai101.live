@@ -1,15 +1,18 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { KeystrokeTrace } from "@workspace/api-client-react";
 import { MathKeyboard } from "@/components/MathKeyboard";
+import { QuickPickBar } from "@/components/QuickPickBar";
 
 interface AnswerInputProps {
   value: string;
   onChange: (val: string, trace: KeystrokeTrace) => void;
   placeholder?: string;
   disabled?: boolean;
+  /** Source text (the question prompt) used to derive the per-question quick-pick symbol bar. */
+  promptSource?: string;
 }
 
-export function AnswerInput({ value, onChange, placeholder, disabled }: AnswerInputProps) {
+export function AnswerInput({ value, onChange, placeholder, disabled, promptSource }: AnswerInputProps) {
   const [sessionValue, setSessionValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -149,6 +152,9 @@ export function AnswerInput({ value, onChange, placeholder, disabled }: AnswerIn
 
   return (
     <div className="flex flex-col gap-2 w-full">
+      {!disabled && promptSource ? (
+        <QuickPickBar source={promptSource} onInsert={insertAtCursor} />
+      ) : null}
       <textarea
         ref={textareaRef}
         value={sessionValue}
