@@ -61,7 +61,7 @@ export function Scene3({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
         <h1 className="text-3xl font-serif text-primary mb-8">1.1 The equality family: =, ≠, ≈, ≡</h1>
         <div className="prose prose-sm max-w-none text-foreground/80 space-y-6">
           <h2 className="font-serif text-2xl text-primary">Four kinds of "equals"</h2>
-          <p>Mathematical notation is the most compressed writing a scientist ever produces. Every symbol does work — and misreading one flips the meaning of the whole sentence. This course teaches you to read, type, and mean each symbol on the page.</p>
+          <p>Conceptual mathematics asks the question math classes usually skip: what are these things, really? What is a number, an operation, a proof, an axiom? This course teaches the ideas behind the symbols, from the integers to Gödel and the halting problem.</p>
         </div>
       </div>
 

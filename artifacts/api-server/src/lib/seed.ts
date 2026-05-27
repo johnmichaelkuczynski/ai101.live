@@ -1407,7 +1407,7 @@ const ASSIGNMENTS: SeedAssignment[] = [
     isTimed: true,
     timeLimitMinutes: 30,
     instructions:
-      "Timed. 30 minutes. Math keyboard available; pasting is disabled. Answers should be written in compact mathematical notation.",
+      "Timed. 30 minutes. Math keyboard available; pasting is disabled. Answers should be written in compact symbolic form using the on-screen math keyboard.",
     problems: [
       {
         topicSlug: "counting-integers-numberline",
