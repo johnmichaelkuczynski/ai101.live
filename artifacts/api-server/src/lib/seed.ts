@@ -19,1279 +19,804 @@ type SeedTopic = {
 
 const TOPICS: SeedTopic[] = [
   // ───────────────────────────────────────────────────────────────
-  // Week 1 — The number systems
+  // Week 1 — What AI is and how it got here
   // ───────────────────────────────────────────────────────────────
   {
-    slug: "counting-integers-numberline",
-    title: "Counting, the integers, and the number line",
+    slug: "what-ai-is",
+    title: "What AI is (and isn't)",
     weekNumber: 1,
-    blurb: "From tally marks to a continuous line of integers.",
-    lectureTitle: "1.1 Counting, the integers, and the number line",
-    body: `# Counting, the integers, and the number line
+    blurb: "Intelligence, automation, and the hype — and how to tell them apart.",
+    lectureTitle: "1.1 What AI is (and isn't): intelligence, automation, and the hype",
+    body: `# What AI is (and isn't)
 
-Mathematics begins with *counting*. The natural numbers $\\mathbb{N} = \\{1, 2, 3, \\ldots\\}$ — or $\\{0, 1, 2, \\ldots\\}$, depending on the author — are the answer to "how many?" They are discrete, ordered, and unbounded above.
+**Artificial intelligence** is the field of building systems that perform tasks we would normally say require human intelligence: recognizing a face, understanding a sentence, recommending a song, driving a car. That is a deliberately loose definition, because "intelligence" itself has no agreed technical meaning. In practice, when people say *AI* today they almost always mean a system that has *learned* to do something from examples rather than being told exactly how.
 
-Extending counting in the opposite direction gives the **integers** $\\mathbb{Z} = \\{\\ldots, -2, -1, 0, 1, 2, \\ldots\\}$. The letter $\\mathbb{Z}$ comes from German *Zahlen* ("numbers"). What makes $\\mathbb{Z}$ a genuine *extension* of $\\mathbb{N}$ is that subtraction is now always defined: $3 - 5 = -2$ has no answer in $\\mathbb{N}$, but it does in $\\mathbb{Z}$.
+## Automation is not intelligence
 
-## The number line
+The single most useful distinction in this whole course: a thermostat is automation, not intelligence. It follows a fixed, preset rule — if the temperature drops below the set point, turn on the heat — and it will follow that rule forever, unchanged. Automation executes instructions a human wrote down in advance. Intelligence, in the sense AI cares about, *adapts*: it improves with experience and handles inputs nobody anticipated. A spam filter that gets better as it sees more spam is closer to AI; a rule that says "block any email containing the word LOTTERY" is just automation.
 
-Around 1600, John Wallis popularized the picture of integers as evenly-spaced points on a horizontal **line** stretching to infinity in both directions. The visual is so familiar we forget it is a *modeling choice*: we are asserting that numbers, which began life as counts of distinct objects, can be identified with positions on a continuum.
+## Narrow vs. general
 
-That single picture quietly unifies arithmetic with geometry. Addition becomes translation; negation becomes reflection through $0$; ordering ($<$, $>$) becomes "left of, right of." Every later number system — the rationals, the reals, the complex numbers — is built by adding more points to (or stacking more lines onto) this single mental object.
+Every AI system in use today is **narrow**: it does one kind of task. A model that plays chess at superhuman level cannot make you breakfast or hold a conversation. **General** AI — a single system with human-level competence across the full range of tasks — does not exist, and there is no consensus on when, or whether, it will. Most of the gap between what AI can really do and what headlines claim it can do is the gap between narrow and general.
 
-## A historical example
+## The hype
 
-Negative numbers were rejected as absurd in Europe until the 17th century — Cardano (1545) called them *numeri ficti*, "fictitious numbers." What changed minds was *bookkeeping*: a debt of seven coins is structurally a $-7$, and treating it as a number lets you add receipts and debts in one column. The number line absorbed the negatives by giving them a home: a *place* to stand, on the left of zero.`,
+AI has gone through repeated cycles of inflated promises followed by disappointment. The honest stance is neither "it's magic" nor "it's just hype." It is a powerful set of statistical tools that are genuinely transformative for some tasks and useless or dangerous for others. Learning to tell which is which is the entire point of this course.`,
   },
   {
-    slug: "rationals-ratios",
-    title: "Rational numbers and ratios",
+    slug: "history-symbolic-to-ml",
+    title: "A brief history of AI",
     weekNumber: 1,
-    blurb: "Numbers as ratios of integers; why $\\mathbb{Q}$ is dense.",
-    lectureTitle: "1.2 Rational numbers and ratios",
-    body: `# Rational numbers and ratios
+    blurb: "From symbolic reasoning and expert systems to data-driven machine learning.",
+    lectureTitle: "1.2 A brief history: from symbolic AI to machine learning",
+    body: `# A brief history: from symbolic AI to machine learning
 
-A **rational number** is a ratio $p/q$ of integers with $q \\neq 0$. The set of all such ratios, with two representations identified when they cross-multiply equal, is
+The field has a name and a birthday. In the summer of 1956, a small group of researchers gathered at the **Dartmouth workshop** and coined the term *artificial intelligence*. Their bet was that "every aspect of learning or any other feature of intelligence can in principle be so precisely described that a machine can be made to simulate it." That optimism set the agenda for decades.
 
-$$\\mathbb{Q} = \\{\\,p/q : p, q \\in \\mathbb{Z},\\ q \\neq 0\\,\\}.$$
+## The symbolic era
 
-The point of this construction is to make *division* always work — exactly as the integers existed to make subtraction always work.
+The first paradigm, often called **symbolic AI** or "good old-fashioned AI," tried to capture intelligence as explicit rules and logical symbols written by humans. Its high-water mark was the **expert system** of the 1970s and 80s: hundreds of hand-coded if-then rules encoding a doctor's or engineer's knowledge. These systems were brittle. They worked inside their narrow rulebook and failed completely just outside it, and writing the rules by hand did not scale. Disillusionment led to funding collapses now called the **AI winters**.
 
-## Density
+## The shift to learning
 
-Between any two rationals, no matter how close, there is another rational: take their average. Iterate, and you discover that the rationals are **dense** on the number line — there are no "gaps" between them as far as any finite measurement could ever detect.
-
-This is so counterintuitive that for centuries mathematicians assumed the rationals already filled the line. They do not — but you cannot tell from the inside.
-
-## A scientific example
-
-Every measurement humans actually make is rational. A digital scale reading "$1.732\\,\\text{kg}$" is asserting $1732/1000$. The speed of light in SI units, $c = 299{,}792{,}458\\,\\text{m/s}$, is an *exact* integer by definition since 1983 — and therefore rational.
-
-## Ratios vs. fractions
-
-The word *ratio* in $\\mathbb{Q}$ matters. Pythagoras taught that the harmony of a musical interval is a ratio of small integers: the octave is $2{:}1$, the perfect fifth $3{:}2$, the perfect fourth $4{:}3$. Greek mathematics for two centuries was essentially the study of *ratios of magnitudes*, on the implicit assumption that any two magnitudes had one. The next lecture is the story of how that assumption broke.`,
-  },
-  {
-    slug: "irrationals-sqrt2",
-    title: "Irrational numbers and the $\\sqrt 2$ scandal",
-    weekNumber: 1,
-    blurb: "The diagonal of the unit square is not a ratio.",
-    lectureTitle: "1.3 Irrational numbers and the $\\sqrt 2$ scandal",
-    body: `# Irrational numbers and the $\\sqrt 2$ scandal
-
-The Pythagoreans believed every length was a ratio of two integers — that is, every length was rational. The unit square killed that belief.
-
-## The diagonal
-
-By the Pythagorean theorem, the diagonal of a square of side $1$ has length $d$ with $d^2 = 1^2 + 1^2 = 2$, so $d = \\sqrt 2$. The Pythagoreans tried to write $\\sqrt 2 = p/q$ and discovered they could not.
-
-## The proof by contradiction
-
-Suppose $\\sqrt 2 = p/q$ in lowest terms. Then $p^2 = 2 q^2$, so $p^2$ is even, so $p$ is even, so $p = 2k$. Substituting: $4k^2 = 2q^2$, i.e. $q^2 = 2k^2$, so $q$ is even too. But then $p$ and $q$ share a factor of $2$ — contradicting "lowest terms." Therefore no such $p/q$ exists. $\\sqrt 2 \\notin \\mathbb{Q}$.
-
-This is one of the oldest theorems in mathematics and one of the cleanest examples of *proof by contradiction*, a technique we will revisit in week 4.
-
-## A scandal, not just a result
-
-Legend says Hippasus of Metapontum, who first proved this, was thrown overboard by his fellow Pythagoreans for revealing the result. Whether or not the drowning happened, the cultural shock was real: the entire Pythagorean cosmology — "all is number" meaning "all is ratio of integers" — collapsed. A new kind of number was needed.
-
-## The bigger picture
-
-$\\sqrt 2$, $\\pi$, $e$, $\\log_2 3$, and almost every number you can write down are irrational. The irrationals are not a few exotic exceptions sprinkled into $\\mathbb{Q}$; they are, in a precise sense we will quantify in 1.8, the *overwhelming majority* of the real numbers.`,
-  },
-  {
-    slug: "reals-completeness",
-    title: "Real numbers and completeness",
-    weekNumber: 1,
-    blurb: "Filling in the gaps: $\\mathbb{R}$ has no holes.",
-    lectureTitle: "1.4 Real numbers and completeness",
-    body: `# Real numbers and completeness
-
-The rationals are dense but full of holes — $\\sqrt 2$, $\\pi$, and uncountably many others are missing. The **real numbers** $\\mathbb{R}$ are the result of filling in *every* such hole.
-
-## What "complete" means
-
-A number system is **complete** if every "convergent-looking" sequence actually converges to something *inside the system*. Two precise versions of this idea:
-
-- **Least Upper Bound axiom.** Every nonempty subset of $\\mathbb{R}$ with an upper bound has a least upper bound (a supremum) in $\\mathbb{R}$.
-- **Cauchy completeness.** Every sequence whose terms get arbitrarily close to each other converges to a real limit.
-
-In $\\mathbb{Q}$ both properties *fail*. The sequence $1, 1.4, 1.41, 1.414, 1.4142, \\ldots$ of decimal approximations to $\\sqrt 2$ is a Cauchy sequence of rationals with no rational limit. In $\\mathbb{R}$ its limit is $\\sqrt 2$, which is, by construction, *in* $\\mathbb{R}$.
-
-## How $\\mathbb{R}$ is built
-
-Two classical constructions:
-
-1. **Dedekind cuts** (1872). A real number is a partition of $\\mathbb{Q}$ into a "lower" and "upper" set with no greatest element below. $\\sqrt 2$ is the cut $\\{q \\in \\mathbb{Q} : q^2 < 2\\}\\,|\\,\\{q \\in \\mathbb{Q} : q^2 > 2\\}$.
-2. **Cauchy sequences** (Cantor, 1872). A real number is an equivalence class of Cauchy sequences of rationals.
-
-Both constructions yield the same field $\\mathbb{R}$, up to isomorphism.
-
-## A scientific example
-
-In physics, the *continuum* hypothesis — that space and time are modeled by $\\mathbb{R}$, not $\\mathbb{Q}$ — is what lets us write down differential equations. The reals' completeness is exactly what guarantees that, e.g., Newton's $F = ma$ has solutions; in the rationals alone, most ODEs would have no solution to converge to.`,
-  },
-  {
-    slug: "complex-rotations",
-    title: "Imaginary and complex numbers as rotations",
-    weekNumber: 1,
-    blurb: "$i$ is not mysterious — it's a $90°$ turn.",
-    lectureTitle: "1.5 Imaginary and complex numbers as rotations",
-    body: `# Imaginary and complex numbers as rotations
-
-A **complex number** has the form $z = a + bi$ with $a, b \\in \\mathbb{R}$ and $i$ defined by $i^2 = -1$. The set of all such numbers is $\\mathbb{C}$.
-
-## The leap
-
-Cardano (1545) used $\\sqrt{-1}$ as a *bookkeeping device* in solving cubic equations — the imaginary parts cancelled at the end, leaving real roots. For two centuries $\\sqrt{-1}$ remained, in Euler's words, "neither nothing, nor greater than nothing, nor less than nothing." The mystery was: *what is it the number of?*
-
-## The Argand picture
-
-Caspar Wessel (1799) and Jean-Robert Argand (1806) independently noticed that complex numbers live not on a *line* but on a *plane*: identify $a + bi$ with the point $(a, b)$. Real numbers occupy the horizontal axis. The number $i$ sits at $(0, 1)$.
-
-In this picture, **multiplication by $i$ is rotation by $90°$**. Multiplying by $i$ twice rotates by $180°$, which is multiplication by $-1$ — and that is precisely the equation $i^2 = -1$. The imaginary unit is not a mystery; it is the quarter-turn.
-
-More generally, multiplying by $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$ rotates the plane by angle $\\theta$. This is **Euler's formula**, and the special case $e^{i\\pi} + 1 = 0$ packages five fundamental constants in seven symbols.
-
-## A scientific example
-
-Alternating current in electrical engineering is described by complex *impedances*: a resistor contributes a real number, a capacitor or inductor contributes an imaginary number. The phase shift between voltage and current is literally an angle in the complex plane. Without $i$, you would write coupled trigonometric differential equations; with $i$, you write algebra.`,
-  },
-  {
-    slug: "zero-negatives-leaps",
-    title: "Zero, negatives, and other conceptual leaps",
-    weekNumber: 1,
-    blurb: "How long it took to accept the numbers we now take for granted.",
-    lectureTitle: "1.6 Zero, negatives, and other conceptual leaps",
-    body: `# Zero, negatives, and other conceptual leaps
-
-The set $\\{0, 1, -3, \\sqrt 2, \\pi, i\\}$ contains nothing exotic to a modern eye. To the mathematicians who lived through the introduction of each of these ideas, every entry was scandalous.
-
-## Zero
-
-Most early number systems had no $0$. The Babylonians, Greeks, and Romans counted with words for "nothing" but no *numeral* for it — Roman numerals have no zero. Indian mathematicians (Brahmagupta, c. 628 CE) wrote down the first formal arithmetic rules for $0$: $a + 0 = a$, $a \\cdot 0 = 0$, and the still-debated $a / 0$. The numeral itself, *śūnya* ("emptiness"), travelled west via Arabic mathematicians and reached Europe through Fibonacci's *Liber Abaci* (1202). Even then, several Italian cities banned zero into the 1300s on the grounds that it made accounting forgery easier.
-
-## Negatives
-
-Diophantus (3rd c. CE) called the equation $4x + 20 = 4$ "absurd" because its solution would have to be negative. Descartes (1637) called negative roots of polynomial equations *fausses racines*, "false roots." Acceptance only came when negatives modelled something — debt, direction, signed measurement — that could not be wished away.
-
-## Irrationals, transcendentals, $i$
-
-Each new kind of number arrived as a forced response to an equation the previous system could not solve:
-
-- $x + 1 = 0$ forces $\\mathbb{Z}$.
-- $2x = 1$ forces $\\mathbb{Q}$.
-- $x^2 = 2$ forces $\\mathbb{R}$ (or at least the algebraic reals).
-- $x^2 + 1 = 0$ forces $\\mathbb{C}$.
-
-## The lesson
-
-A *conceptual leap* in mathematics is almost always the recognition that an object the previous generation called "impossible" is in fact useful, consistent, and indispensable. The reluctance is cultural, not logical.`,
-  },
-  {
-    slug: "bases-place-value",
-    title: "Bases, place value, and representation",
-    weekNumber: 1,
-    blurb: "A number is one thing; its written form is another.",
-    lectureTitle: "1.7 Bases, place value, and representation",
-    body: `# Bases, place value, and representation
-
-The number *seventeen* is a single concept. Its written representations include:
-
-- $17$ in base $10$
-- $10001$ in base $2$
-- $11$ in base $16$ (often written $0x11$)
-- XVII in Roman numerals
-- 一十七 in Chinese.
-
-The number is invariant; the *numeral* changes with the convention.
-
-## Place value
-
-In a positional system of base $b$, the string $d_k d_{k-1} \\ldots d_1 d_0$ means
-
-$$d_k b^k + d_{k-1} b^{k-1} + \\cdots + d_1 b + d_0,$$
-
-with each digit $d_i$ in $\\{0, 1, \\ldots, b-1\\}$. The *position* of a digit determines what power of $b$ it contributes. This is the deep insight that the Romans lacked: in Roman numerals, $X$ always means ten, no matter where it sits.
-
-Place value lets you do arithmetic algorithmically: add column by column, carry when a column overflows. Try long-division in Roman numerals — you can't, which is why the Roman world used an abacus.
-
-## Why base 10?
-
-There is no mathematical reason for base 10. We use it because humans have ten fingers. The Babylonians used base 60 — you still find it in time ($60$ seconds, $60$ minutes) and angles ($360°$). The Maya used base 20. Modern computers use base 2.
-
-## A scientific example
-
-Floating-point arithmetic in a computer represents a real number as $\\pm m \\cdot 2^{e}$, with the *mantissa* $m$ and *exponent* $e$ both stored in binary. The number $0.1$ has a finite decimal representation but an *infinite* binary one — which is why "0.1 + 0.2" is not exactly "0.3" in JavaScript. The mathematical number is fine; its representation in base $2$ rounds.
-
-## A philosophical aside
-
-Once you separate a number from its representation, you can ask: which properties of a number are intrinsic, and which are artifacts of how we wrote it? "Is 7 a prime?" is intrinsic. "Does the decimal expansion of 7 contain the digit 3?" is representational.`,
-  },
-  {
-    slug: "countable-uncountable",
-    title: "Countable vs. uncountable infinity",
-    weekNumber: 1,
-    blurb: "There are more reals than rationals — strictly more.",
-    lectureTitle: "1.8 Countable vs. uncountable infinity",
-    body: `# Countable vs. uncountable infinity
-
-For finite sets, "same size" means "same count." For infinite sets, Cantor (1874) showed that "same size" must mean **same cardinality**: there is a one-to-one correspondence (a bijection) between them.
-
-## Countable
-
-A set is **countable** if it can be put in bijection with $\\mathbb{N}$. Astonishingly:
-
-- $\\mathbb{Z}$ is countable: list $0, 1, -1, 2, -2, 3, -3, \\ldots$
-- $\\mathbb{N} \\times \\mathbb{N}$ is countable: walk diagonals $(0,0), (1,0), (0,1), (2,0), (1,1), (0,2), \\ldots$
-- $\\mathbb{Q}$ is countable: a rational $p/q$ is a pair of integers, so apply the previous result.
-
-So all three of $\\mathbb{N}$, $\\mathbb{Z}$, $\\mathbb{Q}$ have the *same* infinite size. Cantor called this size $\\aleph_0$ ("aleph-null").
-
-## Uncountable
-
-Cantor's **diagonal argument** shows $\\mathbb{R}$ is **not** countable. Suppose, for contradiction, you had a list $r_1, r_2, r_3, \\ldots$ of every real number in $[0,1]$. Write each $r_n$ as a decimal:
-
-$$r_1 = 0.d_{11} d_{12} d_{13} \\ldots$$
-$$r_2 = 0.d_{21} d_{22} d_{23} \\ldots$$
-$$\\vdots$$
-
-Now construct a new number $x = 0.e_1 e_2 e_3 \\ldots$ where $e_n$ is *different* from $d_{nn}$ (say, $e_n = 5$ if $d_{nn} \\neq 5$, else $e_n = 6$). By construction, $x$ differs from $r_n$ in the $n$th decimal place, so $x$ is not on the list — yet $x \\in [0,1]$. Contradiction. There is no such list.
-
-The cardinality of $\\mathbb{R}$ is strictly greater than $\\aleph_0$; it is usually written $\\mathfrak{c}$ or $2^{\\aleph_0}$.
-
-## What this means
-
-There are infinitely many sizes of infinity. The rationals are sparse compared to the reals in a precise sense: if you "pick a random real," the probability you get a rational is exactly $0$. Most numbers — almost all of them — are irrational, in fact *transcendental*, and we cannot write them down.
-
-This week we have climbed from counting to a hierarchy of infinities. Next week we ask: what are we *doing* to these numbers when we add, multiply, and group them?`,
-  },
-
-  // ───────────────────────────────────────────────────────────────
-  // Week 2 — Operations and structures
-  // ───────────────────────────────────────────────────────────────
-  {
-    slug: "what-is-operation",
-    title: "What an operation is",
-    weekNumber: 2,
-    blurb: "An operation is a function that combines elements of a set.",
-    lectureTitle: "2.1 What an operation is",
-    body: `# What an operation is
-
-We have spent week 1 collecting numbers. Now we ask: what is happening when we *combine* them?
-
-## The formal definition
-
-A **binary operation** on a set $S$ is a function
-
-$$* : S \\times S \\to S$$
-
-that takes two elements of $S$ and returns one element of $S$. Addition on $\\mathbb{R}$ is one ($+ : \\mathbb{R} \\times \\mathbb{R} \\to \\mathbb{R}$). So is multiplication. So is concatenation of strings, union of sets, composition of functions.
-
-The deep word in that definition is the codomain: the result is required to be *in $S$*. This is called **closure**, and it is not automatic.
-
-## Closure: not automatic
-
-- Subtraction is a binary operation on $\\mathbb{Z}$ but **not** on $\\mathbb{N}$ — $3 - 5 = -2 \\notin \\mathbb{N}$.
-- Division is a binary operation on $\\mathbb{Q}^{\\times} = \\mathbb{Q}\\setminus\\{0\\}$ but **not** on $\\mathbb{Q}$ — you cannot divide by $0$.
-- The cross product is a binary operation on $\\mathbb{R}^3$ but does not generalize as a binary operation to $\\mathbb{R}^n$ for arbitrary $n$.
-
-The history of week 1 — the introduction of negatives, fractions, irrationals, complex numbers — is, retold structurally, the story of *enlarging the set so that the operation has closure*.
-
-## Unary and $n$-ary
-
-Beyond binary, you also have:
-
-- **Unary** operations: negation $x \\mapsto -x$, square root $x \\mapsto \\sqrt x$.
-- **$n$-ary** operations: e.g. the determinant of an $n \\times n$ matrix.
-- **Nullary** operations (constants): the identity element $0$ of addition, the identity element $1$ of multiplication.
-
-## A scientific example
-
-In quantum mechanics, the operation $[A, B] = AB - BA$ on linear operators is a binary operation called the **commutator**. It is *not* closed under all combinations — its very failure of niceness encodes the uncertainty principle. The operation has been chosen because its violations of nice structure tell you something physical.`,
-  },
-  {
-    slug: "commutative-associative-distributive",
-    title: "Commutativity, associativity, distributivity",
-    weekNumber: 2,
-    blurb: "Three structural laws — and what happens when they fail.",
-    lectureTitle: "2.2 Commutativity, associativity, distributivity",
-    body: `# Commutativity, associativity, distributivity
-
-Once we have an operation $*$ on a set $S$, three properties dominate the discussion.
-
-## Commutativity
-
-$$a * b = b * a \\quad \\text{for all } a, b \\in S.$$
-
-Order doesn't matter. Addition and multiplication of real numbers are commutative. Subtraction is **not** — $3 - 5 \\neq 5 - 3$. Function composition is usually **not** — $\\sin(\\cos x) \\neq \\cos(\\sin x)$ in general. Matrix multiplication is **not** — and this failure is the whole content of quantum mechanics' non-commuting observables.
-
-## Associativity
-
-$$(a * b) * c = a * (b * c) \\quad \\text{for all } a, b, c \\in S.$$
-
-Grouping doesn't matter. Without associativity you cannot write $a*b*c$ unambiguously; you would have to specify which pair to combine first. Addition, multiplication, function composition, and matrix multiplication are all associative. Subtraction and the cross product are **not** — $(1-2)-3 = -4 \\neq 2 = 1 - (2-3)$, and $(\\vec a \\times \\vec b) \\times \\vec c \\neq \\vec a \\times (\\vec b \\times \\vec c)$ in general.
-
-## Distributivity
-
-With two operations $*$ and $\\circ$ on the same set, $*$ **distributes over** $\\circ$ if
-
-$$a * (b \\circ c) = (a * b) \\circ (a * c).$$
-
-Multiplication distributes over addition: $a(b + c) = ab + ac$. Addition does **not** distribute over multiplication: $a + (bc) \\neq (a + b)(a + c)$ in general.
-
-## Why these three?
-
-These three laws are not arbitrary — they are exactly the laws that make algebraic *manipulation* work. Solving $2x + 3 = 11$ silently uses every one of them. Without commutativity of addition, the order of the terms would matter. Without associativity, $2x + 3$ would be ambiguous. Without distributivity, you could not factor or expand.
-
-Modern abstract algebra is the systematic study of *which combinations of these laws hold*, and *what consequences each combination has*. The next four lectures are tour stops on that map.`,
-  },
-  {
-    slug: "groups-symmetry",
-    title: "Groups and symmetry",
-    weekNumber: 2,
-    blurb: "A group is a set with an invertible, associative operation.",
-    lectureTitle: "2.3 Groups and symmetry",
-    body: `# Groups and symmetry
-
-A **group** is a set $G$ together with a binary operation $* : G \\times G \\to G$ satisfying four axioms:
-
-1. **Closure.** For all $a, b \\in G$, $a * b \\in G$.
-2. **Associativity.** $(a*b)*c = a*(b*c)$ for all $a, b, c$.
-3. **Identity.** There exists $e \\in G$ with $e*a = a*e = a$ for all $a$.
-4. **Inverses.** For every $a \\in G$ there exists $a^{-1} \\in G$ with $a*a^{-1} = a^{-1}*a = e$.
-
-If, in addition, $a*b = b*a$ for all $a,b$, the group is **abelian**.
-
-## Examples
-
-- $(\\mathbb{Z}, +)$, $(\\mathbb{Q}, +)$, $(\\mathbb{R}, +)$, $(\\mathbb{C}, +)$ — abelian groups under addition; identity $0$.
-- $(\\mathbb{Q}^{\\times}, \\cdot)$, $(\\mathbb{R}^{\\times}, \\cdot)$ — abelian groups under multiplication (after removing $0$); identity $1$.
-- $S_n$, the **symmetric group** — permutations of $n$ objects under composition. Non-abelian for $n \\ge 3$.
-- The set of rotations of an equilateral triangle (identity, $120°$, $240°$) under composition.
-
-## Groups are symmetries
-
-The headline theorem (Cayley, 1854): every group is isomorphic to a group of permutations. A more useful way to say it: a group is *the set of symmetries of something*.
-
-- The symmetries of a square form a group of order $8$ (the dihedral group $D_4$): four rotations $\\times$ two flips.
-- The symmetries of a circle form an *infinite* group: every rotation by every real angle.
-- The symmetries of an equation are a group, called its Galois group, and they decide whether the equation is solvable by radicals (Galois, 1832).
-
-This single insight — that *symmetry is a group* — pervades modern mathematics and physics. Noether's theorem (1918) says every continuous symmetry of a physical system gives a conserved quantity: time-translation symmetry $\\Rightarrow$ conservation of energy; rotational symmetry $\\Rightarrow$ conservation of angular momentum.
-
-## A scientific example
-
-The set of $3 \\times 3$ rotation matrices $SO(3)$ is the group of rotations of physical space. It is non-abelian: rotating $90°$ about the $x$-axis then $90°$ about the $y$-axis is a different physical rotation than doing them in the opposite order. Try it with a book — that non-commutativity is a real fact about the geometry of 3D space.`,
-  },
-  {
-    slug: "rings-fields",
-    title: "Rings and fields",
-    weekNumber: 2,
-    blurb: "Two operations playing well together: addition and multiplication.",
-    lectureTitle: "2.4 Rings and fields",
-    body: `# Rings and fields
-
-A group has one operation. The familiar number systems have two — and the way the two interact is what gives arithmetic its power.
-
-## Ring
-
-A **ring** $R$ is a set with two operations, traditionally $+$ and $\\cdot$, such that:
-
-- $(R, +)$ is an abelian group with identity $0$.
-- $(R, \\cdot)$ is associative and has an identity $1$ (in a **ring with unity**).
-- Multiplication distributes over addition: $a(b+c) = ab + ac$ and $(b+c)a = ba + ca$.
-
-Note: multiplication is not required to be commutative, and elements are not required to have multiplicative inverses.
-
-## Examples of rings
-
-- $\\mathbb{Z}$, $\\mathbb{Q}$, $\\mathbb{R}$, $\\mathbb{C}$ — all commutative rings with unity.
-- $M_n(\\mathbb{R})$, the $n \\times n$ real matrices — a **noncommutative** ring under matrix addition and multiplication.
-- $\\mathbb{R}[x]$, polynomials in $x$ with real coefficients — a commutative ring.
-- $\\mathbb{Z}/n\\mathbb{Z}$, the integers modulo $n$ — see lecture 2.8.
-
-## Field
-
-A **field** $F$ is a commutative ring in which every nonzero element has a multiplicative inverse. Equivalently: $(F\\setminus\\{0\\}, \\cdot)$ is an abelian group.
-
-- $\\mathbb{Q}$, $\\mathbb{R}$, $\\mathbb{C}$ are fields.
-- $\\mathbb{Z}$ is **not** a field: $2$ has no integer inverse.
-- $\\mathbb{Z}/p\\mathbb{Z}$ is a field exactly when $p$ is prime.
-
-## Why these axioms?
-
-A field is precisely the abstract setting in which the entire toolkit of high-school algebra — solving linear equations, dividing both sides, manipulating fractions — works. Once you know "these axioms hold," you get all the theorems for free, whether the field is $\\mathbb{R}$ or the integers mod $7$ or the rational functions over $\\mathbb{C}$.
-
-## A scientific example
-
-The finite field $\\mathbb{F}_{2^8}$ with $256$ elements is the arithmetic backbone of the AES encryption standard that protects most of the world's internet traffic. The S-box of AES is, definitionally, multiplicative inversion in this field followed by an affine map. Every secure HTTPS connection you make is computing in a 256-element field on your behalf.`,
-  },
-  {
-    slug: "vector-spaces",
-    title: "Vector spaces and linear combination",
-    weekNumber: 2,
-    blurb: "Adding arrows and scaling them — the universal language of linear math.",
-    lectureTitle: "2.5 Vector spaces and linear combination",
-    body: `# Vector spaces and linear combination
-
-A **vector space** $V$ over a field $F$ is a set whose elements (**vectors**) can be added to each other and scaled by elements of $F$ (**scalars**), subject to a short list of axioms:
-
-- $(V, +)$ is an abelian group.
-- For all $\\alpha, \\beta \\in F$ and $v, w \\in V$:
-  - $\\alpha(v + w) = \\alpha v + \\alpha w$
-  - $(\\alpha + \\beta) v = \\alpha v + \\beta v$
-  - $(\\alpha \\beta) v = \\alpha(\\beta v)$
-  - $1 \\cdot v = v$.
-
-## Examples
-
-- $\\mathbb{R}^n$, ordered $n$-tuples of real numbers, with componentwise addition and scalar multiplication. The prototype example.
-- The set of all polynomials with real coefficients, $\\mathbb{R}[x]$, under polynomial addition and scaling.
-- The set of all continuous functions $f : [0,1] \\to \\mathbb{R}$, under pointwise addition.
-- The set of solutions to a linear homogeneous differential equation.
-
-The same axioms apply to all of these — and so the same theorems do.
-
-## Linear combinations, span, basis
-
-A **linear combination** of vectors $v_1, \\ldots, v_k$ is an expression
-
-$$\\alpha_1 v_1 + \\alpha_2 v_2 + \\cdots + \\alpha_k v_k, \\quad \\alpha_i \\in F.$$
-
-The set of all linear combinations of a fixed list is its **span**. A list is **linearly independent** if no vector in it is a linear combination of the others. A **basis** is a linearly independent list whose span is all of $V$. The number of vectors in any basis is the **dimension** of $V$.
-
-## Why this matters
-
-Most of physics, signal processing, machine learning, and computer graphics is the systematic exploitation of vector-space structure. Fourier analysis says: the space of "nice" functions has a basis of sines and cosines, so any signal is a linear combination of pure tones. Principal component analysis says: high-dimensional data can usually be approximated in a low-dimensional subspace.
-
-## A scientific example
-
-A quantum state of a spin-$\\tfrac{1}{2}$ particle is a unit vector in the complex vector space $\\mathbb{C}^2$. The basis $\\{|{\\uparrow}\\rangle, |{\\downarrow}\\rangle\\}$ is "spin up" and "spin down" along a chosen axis. Every other state — including the "superposition" states that drive every paradox of quantum mechanics — is a linear combination $\\alpha|{\\uparrow}\\rangle + \\beta|{\\downarrow}\\rangle$. The famous mystery is entirely the linearity.`,
-  },
-  {
-    slug: "functions-mappings",
-    title: "Functions as mappings",
-    weekNumber: 2,
-    blurb: "A function is a rule that sends every input to exactly one output.",
-    lectureTitle: "2.6 Functions as mappings",
-    body: `# Functions as mappings
-
-A **function** $f : A \\to B$ is a rule that assigns to *every* element $a$ of the **domain** $A$ exactly one element $f(a)$ of the **codomain** $B$.
-
-The set $f(A) = \\{f(a) : a \\in A\\} \\subseteq B$ is the **image** (or range). The codomain $B$ is the place where outputs are *allowed* to live; the image is the subset they actually hit.
-
-## Three classifications
-
-- **Injective** (one-to-one): different inputs give different outputs. $f(a_1) = f(a_2) \\Rightarrow a_1 = a_2$.
-- **Surjective** (onto): every element of the codomain is hit. $f(A) = B$.
-- **Bijective**: both. Bijections are precisely the functions that have a two-sided inverse $f^{-1} : B \\to A$.
-
-A bijection $f : A \\to B$ is, in essence, a *renaming* of $A$'s elements as $B$'s elements. Two sets have the same cardinality (1.8) iff there is a bijection between them.
-
-## Composition
-
-Functions compose: if $f : A \\to B$ and $g : B \\to C$, then $g \\circ f : A \\to C$ is the function $a \\mapsto g(f(a))$. Composition is **associative** but generally **not** commutative.
-
-The set of bijections of a fixed set $X$ to itself, under composition, is a group — the symmetric group $S_X$. This is the bridge from "function" back to "group."
-
-## Functions vs. formulas
-
-A function is *not* a formula. A formula is one way to *describe* a function. The function $f : \\mathbb{R} \\to \\mathbb{R}$, $f(x) = x^2$ can equally well be described as $f(x) = |x|^2$, $f(x) = x \\cdot x$, or by a table or by a graph. They are all the same function: same domain, same codomain, same input-to-output rule.
-
-## A scientific example
-
-Crystallography classifies crystals by their **symmetry group** — the group of geometric transformations $f : \\mathbb{R}^3 \\to \\mathbb{R}^3$ that map the crystal to itself. There are exactly $230$ such groups in 3D (the *crystallographic space groups*), determined a century ago, and every real crystal falls into exactly one of them.`,
-  },
-  {
-    slug: "relations-equivalence-iso",
-    title: "Relations, equivalence classes, and isomorphism",
-    weekNumber: 2,
-    blurb: "Sameness, refined: when do two different things count as the same?",
-    lectureTitle: "2.7 Relations, equivalence classes, and isomorphism",
-    body: `# Relations, equivalence classes, and isomorphism
-
-A **relation** on a set $S$ is a subset $R \\subseteq S \\times S$. We write $a \\sim b$ for $(a, b) \\in R$. An **equivalence relation** is one satisfying three properties:
-
-1. **Reflexive.** $a \\sim a$ for all $a$.
-2. **Symmetric.** $a \\sim b \\Rightarrow b \\sim a$.
-3. **Transitive.** $a \\sim b$ and $b \\sim c \\Rightarrow a \\sim c$.
-
-## Equivalence classes
-
-Given an equivalence relation $\\sim$ on $S$, the **equivalence class** of $a$ is
-
-$$[a] = \\{x \\in S : x \\sim a\\}.$$
-
-The classes form a **partition** of $S$: every element is in exactly one class, and the classes don't overlap. Conversely, every partition of $S$ defines an equivalence relation.
-
-## Examples
-
-- "Has the same birthday as" on the set of all humans. The classes have at most $366$ elements each.
-- $a \\sim b$ iff $a - b \\in \\mathbb{Z}$, on $\\mathbb{R}$. Each class is the set of reals with a given fractional part. The quotient set is the circle $\\mathbb{R}/\\mathbb{Z}$.
-- $a \\sim b$ iff $a - b$ is divisible by $5$, on $\\mathbb{Z}$. The classes are $\\{[0], [1], [2], [3], [4]\\}$ — the integers mod $5$ (lecture 2.8).
-
-Every time mathematicians say "consider $X$ up to $\\sim$," they are forming a quotient set by an equivalence relation.
-
-## Isomorphism: the deepest equivalence
-
-Two algebraic objects — two groups, two rings, two vector spaces — are **isomorphic** when there is a bijection between them that preserves the operations. Symbolically, $G \\cong H$.
-
-Isomorphism says: $G$ and $H$ are "the same object, with different names for the elements." Every property expressible in the language of the structure transfers across an isomorphism.
-
-## A scientific example
-
-The group $(\\mathbb{R}, +)$ and the group $(\\mathbb{R}_{>0}, \\cdot)$ are isomorphic: the bijection $x \\mapsto e^x$ sends $a + b$ to $e^{a+b} = e^a \\cdot e^b$. This isomorphism is exactly what makes the **logarithm** useful: it lets you convert a hard multiplication problem into an easier addition problem (the principle behind slide rules and log tables).`,
-  },
-  {
-    slug: "modular-arithmetic",
-    title: "Modular arithmetic",
-    weekNumber: 2,
-    blurb: "Clock arithmetic, and the basis of modern cryptography.",
-    lectureTitle: "2.8 Modular arithmetic",
-    body: `# Modular arithmetic
-
-Fix a positive integer $n$, called the **modulus**. Define an equivalence relation on $\\mathbb{Z}$ by
-
-$$a \\equiv b \\pmod n \\iff n \\mid (a - b).$$
-
-The equivalence classes are $[0], [1], \\ldots, [n-1]$. The set of classes is denoted $\\mathbb{Z}/n\\mathbb{Z}$ or $\\mathbb{Z}_n$.
-
-The miracle is that addition and multiplication on $\\mathbb{Z}$ **descend** to operations on $\\mathbb{Z}/n\\mathbb{Z}$: $[a] + [b] = [a+b]$ and $[a] \\cdot [b] = [ab]$, with the answer independent of which representative you chose. So $\\mathbb{Z}/n\\mathbb{Z}$ is itself a ring (lecture 2.4) — a finite one, with $n$ elements.
-
-## Clock arithmetic
-
-The most familiar example is $\\mathbb{Z}/12\\mathbb{Z}$ — the integers mod $12$. If it is $9$ o'clock and you wait $5$ hours, the clock reads $9 + 5 \\equiv 2 \\pmod{12}$. Every act of telling time is modular arithmetic.
-
-## When is $\\mathbb{Z}/n\\mathbb{Z}$ a field?
-
-$\\mathbb{Z}/n\\mathbb{Z}$ is a field iff $n$ is **prime**. For $n = p$ prime, every nonzero class has a multiplicative inverse (by Bézout's lemma), so you can divide. For $n$ composite, this fails: in $\\mathbb{Z}/6\\mathbb{Z}$, $2 \\cdot 3 = 6 \\equiv 0$ — two nonzero elements multiplying to zero, which a field forbids.
-
-## Fermat's Little Theorem
-
-For prime $p$ and integer $a$ not divisible by $p$,
-
-$$a^{p-1} \\equiv 1 \\pmod p.$$
-
-This single congruence is the backbone of:
-
-- **Primality testing.** Probabilistic tests (Miller–Rabin) check whether a candidate $n$ satisfies an analogue of FLT; failure is a *proof* $n$ is composite.
-- **RSA encryption.** Picking two large primes $p$ and $q$ and computing $n = pq$, the security of every RSA-encrypted email and SSH connection rests on the difficulty of recovering $p$ and $q$ from $n$, combined with the modular-exponentiation identities that FLT provides.
-
-## The point
-
-Modular arithmetic is what week 2 was building toward: a small, *finite* number system that nonetheless obeys the field axioms of lecture 2.4, supports linear algebra (lecture 2.5), and has nontrivial groups (lecture 2.3) sitting inside it. It is also one of the most economically valuable structures in mathematics — virtually all of public-key cryptography is computation in $\\mathbb{Z}/n\\mathbb{Z}$.`,
-  },
-
-  // ───────────────────────────────────────────────────────────────
-  // Week 3 — The continuum: calculus, geometry, topology
-  // ───────────────────────────────────────────────────────────────
-  {
-    slug: "limits-taming-infinity",
-    title: "Limits and the taming of infinity",
-    weekNumber: 3,
-    blurb: "Making 'gets arbitrarily close to' a precise idea.",
-    lectureTitle: "3.1 Limits and the taming of infinity",
-    body: `# Limits and the taming of infinity
-
-For two thousand years, mathematicians used phrases like "infinitely small" and "approaches but never reaches" without a rigorous definition. The 19th century replaced the metaphor with arithmetic.
-
-## The $\\varepsilon$–$\\delta$ definition
-
-We write $\\lim_{x \\to a} f(x) = L$ to mean:
-
-> For every $\\varepsilon > 0$ there exists a $\\delta > 0$ such that whenever $0 < |x - a| < \\delta$, we have $|f(x) - L| < \\varepsilon$.
-
-In symbols:
-
-$$\\forall \\varepsilon > 0,\\ \\exists \\delta > 0 : 0 < |x - a| < \\delta \\Rightarrow |f(x) - L| < \\varepsilon.$$
-
-This formulation is due to Cauchy (1821) and refined by Weierstrass in the 1850s. It says: no matter how tight a window $\\varepsilon$ you demand on the output, I can find a tight enough window $\\delta$ on the input that guarantees it. Nothing in this definition mentions "infinity" or "infinitesimal." That is the entire point.
-
-## What the definition replaced
-
-Newton and Leibniz, inventing calculus in the 1670s, spoke of *fluxions* and *infinitesimals* — quantities smaller than any positive number but not zero. Bishop Berkeley (1734) mocked them as "the ghosts of departed quantities," and he was right that the foundations were incoherent. Two centuries later, the $\\varepsilon$–$\\delta$ definition gave calculus the rigorous foundation it had been doing without. (Robinson, 1960, vindicated the infinitesimal approach with *nonstandard analysis* — but the $\\varepsilon$–$\\delta$ definition is still the working language.)
-
-## Limits at infinity
-
-$$\\lim_{x \\to \\infty} f(x) = L \\iff \\forall \\varepsilon > 0,\\ \\exists M : x > M \\Rightarrow |f(x) - L| < \\varepsilon.$$
-
-Same idea: the "tight window on the output" is met by a "far enough out on the input."
-
-## A scientific example
-
-The terminal velocity of a falling skydiver is a limit:
-
-$$v_{\\text{term}} = \\lim_{t \\to \\infty} v(t).$$
-
-The skydiver never *reaches* terminal velocity — at any finite $t$, $v(t)$ is strictly less. But the difference gets arbitrarily small as time goes on. The limit captures this precisely without committing to "infinity" as a number.`,
-  },
-  {
-    slug: "continuity",
-    title: "Continuity",
-    weekNumber: 3,
-    blurb: "A function is continuous when small input changes give small output changes.",
-    lectureTitle: "3.2 Continuity",
-    body: `# Continuity
-
-A function $f : \\mathbb{R} \\to \\mathbb{R}$ is **continuous at $a$** if
-
-$$\\lim_{x \\to a} f(x) = f(a).$$
-
-Three things have to be true simultaneously: $f(a)$ has to exist, the limit has to exist, and they have to be equal. $f$ is **continuous** if it is continuous at every $a$ in its domain.
-
-In plain English: nearby inputs go to nearby outputs. You can draw the graph without lifting your pen. (The plain-English version misses some pathological continuous functions, but it captures the spirit.)
-
-## Discontinuities
-
-There are three flavors of failure:
-
-- **Removable.** $\\lim_{x \\to a} f(x)$ exists but isn't $f(a)$. Redefine $f(a)$ and you've fixed it.
-- **Jump.** Left and right limits exist but differ. A step function. Common in physics (phase transitions) and economics (tax brackets).
-- **Essential.** The limit doesn't exist at all. $\\sin(1/x)$ near $0$ oscillates forever.
-
-## The Intermediate Value Theorem
-
-If $f$ is continuous on $[a, b]$ and $y_0$ is any value between $f(a)$ and $f(b)$, then there is some $c \\in [a, b]$ with $f(c) = y_0$.
-
-This is one of those theorems that feels like a definition: of *course* a continuous curve from $f(a)$ to $f(b)$ has to cross every height between them. But you cannot prove it without the completeness of $\\mathbb{R}$ (lecture 1.4) — the IVT is false on $\\mathbb{Q}$ alone.
-
-## The Extreme Value Theorem
-
-If $f$ is continuous on a closed bounded interval $[a, b]$, then $f$ attains a maximum and a minimum on $[a, b]$.
-
-This too fails without compactness: $f(x) = 1/x$ on $(0, 1]$ is continuous but unbounded.
-
-## A scientific example
-
-Temperature is a continuous function of position on Earth. By the IVT (applied on a great circle), at every moment there exist two *antipodal* points on the equator that have the exact same temperature. This is a special case of the **Borsuk–Ulam theorem**, which generalizes to any continuous map from a sphere to a Euclidean space of lower dimension.`,
-  },
-  {
-    slug: "derivatives-instantaneous-rate",
-    title: "Derivatives as instantaneous rate",
-    weekNumber: 3,
-    blurb: "What's the speed *right now*? — the question that started calculus.",
-    lectureTitle: "3.3 Derivatives as instantaneous rate",
-    body: `# Derivatives as instantaneous rate
-
-The average rate of change of $f$ over an interval $[a, a + h]$ is
-
-$$\\frac{f(a + h) - f(a)}{h}.$$
-
-The **derivative** of $f$ at $a$ is what this approaches as the interval shrinks:
-
-$$f'(a) = \\lim_{h \\to 0} \\frac{f(a + h) - f(a)}{h},$$
-
-when the limit exists. Geometrically, $f'(a)$ is the *slope of the tangent line* to the graph of $f$ at $x = a$.
-
-## Three pictures
-
-- **Geometric.** Slope of the tangent line.
-- **Physical.** Instantaneous rate of change. Velocity is the derivative of position; acceleration is the derivative of velocity.
-- **Numerical.** The best linear approximation: near $a$, $f(x) \\approx f(a) + f'(a)(x - a)$.
-
-All three are the same idea, stated in three languages.
-
-## Notation
-
-- Lagrange: $f'(x)$.
-- Leibniz: $\\dfrac{\\mathrm{d}f}{\\mathrm{d}x}$. Treats the derivative as a ratio of "differentials" — heuristic, but extremely useful for change-of-variable.
-- Newton: $\\dot f$. Mostly survives in physics, for derivatives with respect to time.
-- Operator: $D f$ or $\\partial_x f$.
-
-Same object, four notations. Each makes a different calculation natural.
-
-## Differentiable implies continuous
-
-If $f$ is differentiable at $a$, it is continuous at $a$. (Proof sketch: $f(a + h) - f(a) = h \\cdot \\dfrac{f(a+h)-f(a)}{h} \\to 0 \\cdot f'(a) = 0$ as $h \\to 0$.) The converse fails: $f(x) = |x|$ is continuous everywhere but not differentiable at $0$.
-
-In fact, Weierstrass (1872) constructed a function that is continuous everywhere and differentiable *nowhere* — a curve that is unbroken but has no tangent line at any point. The intuition that "continuous = smooth" is a useful lie.
-
-## A scientific example
-
-Newton's second law in its most general form is
-
-$$\\vec F = \\frac{\\mathrm{d}\\vec p}{\\mathrm{d}t},$$
-
-force equals the time-derivative of momentum. Reducing the universe of mechanics to a single derivative — that is what calculus is *for*.`,
-  },
-  {
-    slug: "integrals-accumulation",
-    title: "Integrals as accumulation",
-    weekNumber: 3,
-    blurb: "Summing infinitely many infinitesimal pieces.",
-    lectureTitle: "3.4 Integrals as accumulation",
-    body: `# Integrals as accumulation
-
-If the derivative answers "how fast is it changing?", the **integral** answers "how much has accumulated?".
-
-## The Riemann integral
-
-Partition $[a, b]$ into $n$ pieces by points $a = x_0 < x_1 < \\cdots < x_n = b$. Pick a sample point $x_i^*$ in each subinterval $[x_{i-1}, x_i]$. Form the **Riemann sum**
-
-$$S_n = \\sum_{i=1}^{n} f(x_i^*) \\, (x_i - x_{i-1}).$$
-
-Each term is a rectangle: width times height. Their sum approximates the area under $f$ over $[a,b]$.
-
-The **definite integral** is the limit of these sums as the partition is refined:
-
-$$\\int_a^b f(x)\\,\\mathrm{d}x = \\lim_{\\|P\\| \\to 0} \\sum_{i=1}^{n} f(x_i^*)(x_i - x_{i-1}),$$
-
-where $\\|P\\|$ is the width of the widest subinterval, and provided the limit exists independent of choices.
-
-## What integrals compute
-
-- **Area** under a curve, when $f \\ge 0$.
-- **Signed area** in general (positive above the axis, negative below).
-- **Accumulated total** of any rate: $\\int_a^b v(t)\\,\\mathrm{d}t$ is the displacement over $[a, b]$ if $v$ is velocity.
-- **Average value** of $f$ on $[a, b]$: $\\dfrac{1}{b - a}\\int_a^b f(x)\\,\\mathrm{d}x$.
-- **Probability**: the probability that a continuous random variable $X$ with density $p$ lies in $[a, b]$ is $\\int_a^b p(x)\\,\\mathrm{d}x$.
-
-## Why "$\\mathrm{d}x$"
-
-The "$\\mathrm{d}x$" is the limiting width of a rectangle. It is the same $\\mathrm{d}x$ that appears in Leibniz's derivative notation $\\mathrm{d}f/\\mathrm{d}x$, and the symmetry is the subject of the next lecture.
-
-## A historical example
-
-Archimedes computed the area of a parabolic segment, around 250 BCE, using essentially Riemann sums two millennia before Riemann. He bounded the area between inscribed and circumscribed triangles, refined the partition, and showed the bounds squeeze to the same value. Calculus existed in spirit long before its symbols did.`,
-  },
-  {
-    slug: "ftc",
-    title: "The Fundamental Theorem of Calculus",
-    weekNumber: 3,
-    blurb: "Differentiation and integration undo each other.",
-    lectureTitle: "3.5 The Fundamental Theorem of Calculus",
-    body: `# The Fundamental Theorem of Calculus
-
-Derivatives measure instantaneous change. Integrals accumulate change. The **Fundamental Theorem** says these are inverse operations.
-
-## Part 1: derivative of an integral
-
-Let $f$ be continuous on $[a, b]$, and define $F : [a, b] \\to \\mathbb{R}$ by
-
-$$F(x) = \\int_a^x f(t)\\,\\mathrm{d}t.$$
-
-Then $F$ is differentiable and $F'(x) = f(x)$.
-
-So integration *produces* an antiderivative: $F$ is a function whose derivative is $f$.
-
-## Part 2: integral of a derivative
-
-If $F$ is any antiderivative of $f$ on $[a, b]$ (i.e. $F' = f$ and $F$ is continuous on $[a, b]$), then
-
-$$\\int_a^b f(x)\\,\\mathrm{d}x = F(b) - F(a).$$
-
-This is the calculation rule: to integrate $f$, find any antiderivative $F$, and subtract.
-
-## Why this is "fundamental"
-
-Differentiation is a *local* operation: $f'(a)$ depends only on $f$ near $a$. Integration is a *global* operation: $\\int_a^b f$ depends on $f$ everywhere on $[a, b]$. There is no a priori reason these two operations should be related, much less inverse.
-
-The FTC is the bridge. It says: to compute the global thing (the integral), you can solve a local problem (find an antiderivative) and read off two values. Every closed-form integral you have ever computed is an application of the FTC.
-
-## A historical note
-
-Newton and Leibniz are usually credited with calculus because they were the first to recognize and exploit the FTC. Earlier mathematicians (Cavalieri, Fermat, Barrow) had pieces of the differentiation and integration theory but treated them as separate subjects. The unification was the conceptual leap.
-
-## A scientific example
-
-In thermodynamics, the change in internal energy of a closed system over a process is
-
-$$\\Delta U = \\int_{t_1}^{t_2} \\frac{\\mathrm{d}U}{\\mathrm{d}t}\\,\\mathrm{d}t = U(t_2) - U(t_1).$$
-
-We almost never know $\\mathrm{d}U/\\mathrm{d}t$ as a function we could integrate term by term. The point of having the FTC is that the *value* $\\Delta U$ depends only on the initial and final states, never on the path — energy is a *state function*. Every conservation law in physics is, formally, a statement that some integrand is the derivative of something.`,
-  },
-  {
-    slug: "sequences-series-zeno",
-    title: "Sequences, series, and Zeno",
-    weekNumber: 3,
-    blurb: "An infinite sum can have a finite value.",
-    lectureTitle: "3.6 Sequences, series, and Zeno",
-    body: `# Sequences, series, and Zeno
-
-A **sequence** is a function $\\mathbb{N} \\to \\mathbb{R}$, usually written $(a_n)_{n \\ge 1}$. A **series** is the formal sum
-
-$$\\sum_{n=1}^{\\infty} a_n = a_1 + a_2 + a_3 + \\cdots$$
-
-## What an infinite sum *means*
-
-You cannot add infinitely many numbers in finite time. So the value of an infinite series is defined as the limit of its **partial sums**:
-
-$$\\sum_{n=1}^{\\infty} a_n := \\lim_{N \\to \\infty} \\sum_{n=1}^{N} a_n,$$
-
-if the limit exists. If it does, the series **converges**; otherwise it **diverges**.
-
-## Zeno's paradox
-
-Achilles races a tortoise that starts $10$ meters ahead. Zeno (5th c. BCE) argued Achilles can never overtake it: first he has to cover the $10$ meters, then the new gap, then the new new gap, and so on — infinitely many steps in finite time, which Zeno called absurd.
-
-We now see the argument for what it is: the steps form a **geometric series**
-
-$$10 + 10 \\cdot r + 10 \\cdot r^2 + \\cdots = \\frac{10}{1 - r}$$
-
-which is *finite* whenever $|r| < 1$. Zeno's mistake was assuming infinitely many steps must take infinite time. They don't.
-
-## Convergence tests
-
-A short menu of standard tools:
-
-- **Geometric**: $\\sum r^n$ converges iff $|r| < 1$.
-- **$p$-series**: $\\sum 1/n^p$ converges iff $p > 1$.
-- **Ratio test**: if $\\lim |a_{n+1}/a_n| < 1$, the series converges absolutely.
-- **Comparison test**: if $|a_n| \\le b_n$ and $\\sum b_n$ converges, so does $\\sum a_n$.
-
-## Power series
-
-A **power series** is $\\sum c_n (x - a)^n$. Its **radius of convergence** is the largest $R$ such that the series converges for $|x - a| < R$. Inside its radius, a power series defines an infinitely differentiable function — its **analytic** representative. The functions $e^x = \\sum x^n / n!$, $\\sin x = \\sum (-1)^n x^{2n+1}/(2n+1)!$, and $\\cos x$ are all power series convergent for all $x$.
-
-## A scientific example
-
-Quantum field theory's predictions are computed as **perturbation series** in a small coupling constant. The series for the electron's anomalous magnetic moment, computed to high order, matches experiment to twelve decimal places — one of the most precise agreements between theory and measurement in all of science. (Notoriously, these series usually do not converge; they are *asymptotic*. The first few terms approximate the right answer, but adding more terms eventually makes things worse. Which is a story for an analysis course.)`,
-  },
-  {
-    slug: "euclidean-non-euclidean",
-    title: "Euclidean vs. non-Euclidean geometry",
-    weekNumber: 3,
-    blurb: "Euclid's fifth postulate is independent — and false on a sphere.",
-    lectureTitle: "3.7 Euclidean vs. non-Euclidean geometry",
-    body: `# Euclidean vs. non-Euclidean geometry
-
-Euclid's *Elements* (c. 300 BCE) developed plane geometry from five postulates. Four are uncontroversially "obvious." The fifth is not.
-
-## The parallel postulate
-
-> Through a point not on a given line, there is exactly one line parallel to the given line.
-
-For two millennia, mathematicians tried to *prove* this from the other four — believing it should be a theorem, not a postulate. Every attempt failed.
-
-## The resolution
-
-In the early 19th century, Lobachevsky (1829), Bolyai (1832), and Gauss (unpublished) independently realized why every attempt had failed: the parallel postulate is **independent** of the others. You can replace it with its negation and get a consistent geometry.
-
-Three possibilities:
-
-- **Exactly one parallel** — Euclidean geometry, $\\mathbb{R}^2$.
-- **No parallels** — elliptic / spherical geometry. On a sphere, every two great circles intersect.
-- **Infinitely many parallels** — hyperbolic geometry. Through a point off a line, infinitely many lines never meet the given line.
-
-Each of these is a logically consistent geometry. The angles of a triangle sum to $180°$ in Euclidean, more than $180°$ in elliptic, and less than $180°$ in hyperbolic.
-
-## Why this mattered
-
-The discovery of non-Euclidean geometry was a philosophical earthquake. It demonstrated, for the first time, that mathematics is not the description of a single "true" world but the systematic study of consequences of chosen axioms (a theme we will return to in 4.5).
-
-## A scientific example
-
-General relativity (Einstein, 1915) models spacetime as a *curved* manifold whose geometry is determined by the matter and energy inside it. Light rays follow **geodesics** — the analogues of straight lines — and those geodesics bend through gravitational fields. The first experimental confirmation was Eddington's 1919 measurement of starlight bending around the Sun during a solar eclipse. The universe is not Euclidean. The geometry of spacetime is fixed not by axiom but by Einstein's field equations:
-
-$$R_{\\mu\\nu} - \\tfrac{1}{2} g_{\\mu\\nu} R = \\frac{8\\pi G}{c^4} T_{\\mu\\nu}.$$`,
-  },
-  {
-    slug: "topology-dimension-curvature",
-    title: "Topology, dimension, and curvature",
-    weekNumber: 3,
-    blurb: "Geometry without distance: what survives when you stretch the page.",
-    lectureTitle: "3.8 Topology, dimension, and curvature",
-    body: `# Topology, dimension, and curvature
-
-**Topology** is the study of geometric properties that are preserved under continuous deformations — stretching, bending, twisting, but not tearing or gluing. The classic joke is that a topologist cannot tell a coffee mug from a donut, because each can be continuously deformed into the other.
-
-## What topology keeps and discards
-
-- **Discarded:** distance, angle, area, volume, curvature.
-- **Kept:** number of connected pieces, number of holes, orientability, the way the space loops back on itself.
-
-A circle and a square are topologically the same (both are simple closed loops). A line segment and a Y-shape are different: removing one point disconnects them differently.
-
-## Dimension
-
-Topology lets us say what the **dimension** of a space *is*, independent of any coordinate system.
-
-- Informally: a space is $n$-dimensional if it locally looks like $\\mathbb{R}^n$.
-- A line is $1$-dimensional; the plane is $2$-dimensional; the surface of a sphere is $2$-dimensional (yes, the surface — you can describe any point on it with latitude and longitude).
-- The Cantor set has dimension $\\log 2 / \\log 3 \\approx 0.63$ in the fractal (Hausdorff) sense — a single number need not be an integer to make sense as a dimension.
-
-## Curvature
-
-Once you put a *metric* (a notion of distance) back on a topological space, you can ask whether it is **curved**. Gauss (1827) showed that curvature is *intrinsic*: an ant living on a surface can detect curvature without ever leaving the surface, by measuring how the angles of triangles sum.
-
-- A plane has curvature $0$. Triangle angle sums equal $\\pi$.
-- A sphere of radius $R$ has constant positive curvature $1/R^2$. Triangle angle sums exceed $\\pi$.
-- A saddle / pseudosphere has negative curvature. Triangle angle sums fall below $\\pi$.
-
-## The Euler characteristic
-
-For a polyhedron with $V$ vertices, $E$ edges, and $F$ faces,
-
-$$\\chi = V - E + F.$$
-
-For *every* triangulation of a sphere, $\\chi = 2$. For *every* triangulation of a torus, $\\chi = 0$. The Euler characteristic is a topological invariant: it depends on the surface, not on how you cut it up.
-
-## A scientific example
-
-The shape of the *universe* — its global topology — is an open question in cosmology. Locally it appears flat (zero curvature). Globally it could be an infinite plane, a finite 3-torus, a 3-sphere, or any number of more exotic possibilities. Distinguishing these requires looking for repeated patterns in the cosmic microwave background — circles in the sky that would be "the same place seen twice." So far none have been found, but the constraints continue to tighten.`,
-  },
-
-  // ───────────────────────────────────────────────────────────────
-  // Week 4 — Foundations: logic, proof, set theory, undecidability
-  // ───────────────────────────────────────────────────────────────
-  {
-    slug: "propositional-predicate-logic",
-    title: "Propositional and predicate logic",
-    weekNumber: 4,
-    blurb: "Truth values, connectives, quantifiers: the grammar of proof.",
-    lectureTitle: "4.1 Propositional and predicate logic",
-    body: `# Propositional and predicate logic
-
-Mathematics is built out of *statements* — sentences that are either true or false — combined according to a fixed grammar. **Logic** is the study of that grammar.
-
-## Propositional logic
-
-A **proposition** is a declarative sentence with a truth value. We build complex propositions out of simple ones using five **connectives**:
-
-- $\\neg P$ — not $P$.
-- $P \\wedge Q$ — $P$ and $Q$.
-- $P \\vee Q$ — $P$ or $Q$ (inclusive — at least one).
-- $P \\to Q$ — if $P$ then $Q$ (implication).
-- $P \\leftrightarrow Q$ — $P$ if and only if $Q$ (biconditional).
-
-Each connective is fully described by a truth table. Implication is the trickiest: $P \\to Q$ is false only when $P$ is true and $Q$ is false. In particular, "if $0 = 1$, then I am the Pope" is true — from a false premise, anything follows ($ex\\ falso\\ quodlibet$).
-
-A **tautology** is a propositional formula that is true under every truth assignment, e.g. $P \\vee \\neg P$ (the law of excluded middle).
-
-## Predicate logic
-
-Propositional logic cannot say "every integer has a successor." For that we need **predicates** $P(x)$ — statements about a variable — and **quantifiers**:
-
-- $\\forall x \\, P(x)$ — *for all* $x$, $P(x)$.
-- $\\exists x \\, P(x)$ — *there exists* $x$ such that $P(x)$.
-
-Predicate logic is strictly more powerful. The Pythagorean theorem, "for every right triangle with legs $a$, $b$ and hypotenuse $c$, $a^2 + b^2 = c^2$," is genuinely a $\\forall$ statement and cannot be captured in propositional logic alone.
-
-## Negation of quantifiers
-
-These are easy to get wrong:
-
-$$\\neg(\\forall x \\, P(x)) \\equiv \\exists x \\, \\neg P(x),$$
-$$\\neg(\\exists x \\, P(x)) \\equiv \\forall x \\, \\neg P(x).$$
-
-The negation of "every swan is white" is "some swan is not white" — not "no swan is white."
-
-## A scientific example
-
-The $\\varepsilon$–$\\delta$ definition of a limit (3.1) is the canonical example of a nested-quantifier statement: $\\forall \\varepsilon, \\exists \\delta, \\forall x, \\ldots$. Reversing the order of the quantifiers — $\\exists \\delta, \\forall \\varepsilon$ — produces a strictly *stronger* condition (uniform continuity). Quantifier order *is* the mathematics.`,
-  },
-  {
-    slug: "what-is-proof",
-    title: "What a proof is",
-    weekNumber: 4,
-    blurb: "A proof is a finite chain of inferences from accepted premises.",
-    lectureTitle: "4.2 What a proof is",
-    body: `# What a proof is
-
-A **proof** of a statement $S$, in a given axiomatic system, is a finite sequence of statements ending in $S$, where each statement is either:
-
-1. an axiom (a premise accepted without proof),
-2. a previously proven theorem, or
-3. a consequence of earlier statements in the sequence by an explicit rule of inference (e.g. modus ponens: from $P$ and $P \\to Q$, conclude $Q$).
-
-This is what proof *is*, formally. In practice, mathematicians write proofs in natural language that compresses many such steps into one — but the underlying object is always, in principle, a finite chain like the above.
-
-## Common proof techniques
-
-- **Direct proof.** To prove $P \\to Q$: assume $P$, derive $Q$.
-- **Proof by contradiction.** To prove $S$: assume $\\neg S$, derive a contradiction. (Used in 1.3 for $\\sqrt 2 \\notin \\mathbb{Q}$.)
-- **Proof by contrapositive.** To prove $P \\to Q$: prove $\\neg Q \\to \\neg P$ instead. Logically equivalent.
-- **Proof by cases.** To prove $S$ given that exactly one of $C_1, \\ldots, C_n$ must hold: prove $S$ assuming each $C_i$ in turn.
-- **Proof by induction.** See 4.3.
-- **Constructive proof.** Prove $\\exists x \\, P(x)$ by exhibiting a specific $x$.
-- **Nonconstructive proof.** Prove $\\exists x \\, P(x)$ without producing one. (Classic: there exist irrational $a, b$ with $a^b$ rational. Proof: consider $\\sqrt 2 ^{\\sqrt 2}$. If rational, done. If irrational, then $(\\sqrt 2 ^{\\sqrt 2})^{\\sqrt 2} = 2$ is rational, done. We don't know which case applied.)
-
-## What a proof is *not*
-
-A proof is not a description, a strong argument, an accumulation of examples, or a check that the result agrees with computation. "I've tried it for the first ten million $n$ and it works" is not a proof. (Famous example: the conjecture that $\\sum_{k=2}^n 1/(k \\ln k) > \\ln \\ln n$ for all $n \\ge 2$ holds for *every* $n$ ever checked but is now known to fail somewhere around $n \\approx 1.4 \\times 10^{316}$ — a number too large to ever check by computer.)
-
-## Why proof matters
-
-Proof is the *currency* of mathematics. It is what separates mathematics from every other field: a result is part of the body of mathematics if and only if it has been proven from the axioms. Outside mathematics, "proof" is rhetoric. Inside mathematics, it is a precisely defined object.`,
-  },
-  {
-    slug: "mathematical-induction",
-    title: "Mathematical induction",
-    weekNumber: 4,
-    blurb: "Prove a statement for all natural numbers from a base and a step.",
-    lectureTitle: "4.3 Mathematical induction",
-    body: `# Mathematical induction
-
-**Mathematical induction** is the proof technique tailored to statements of the form "for every natural number $n$, $P(n)$ holds."
-
-## The principle
-
-To prove $\\forall n \\in \\mathbb{N}\\, P(n)$:
-
-1. **Base case.** Prove $P(0)$ (or $P(1)$, depending on where $\\mathbb{N}$ starts).
-2. **Inductive step.** Prove that $P(k) \\Rightarrow P(k+1)$ for every $k$.
-
-If both succeed, $P(n)$ holds for all $n$. The metaphor is dominoes: knock the first one down (base), arrange each one so it knocks the next (step), and they all fall.
-
-## Why it works
-
-Induction is *equivalent* to the **well-ordering principle**: every nonempty subset of $\\mathbb{N}$ has a least element. Suppose induction failed for some $P$. Then $\\{n : \\neg P(n)\\}$ is a nonempty subset of $\\mathbb{N}$; let $m$ be its least element. We know $m > 0$ (since the base case holds), so $m - 1 \\in \\mathbb{N}$ and $P(m - 1)$ holds. But then by the inductive step $P(m)$ holds — contradiction.
-
-So induction is not a separate axiom: it is a consequence of how $\\mathbb{N}$ is ordered. Conversely, the **Peano axioms** for $\\mathbb{N}$ take induction as one of the foundational axioms.
+The second paradigm — the one that powers everything today — flips the approach. Instead of writing the rules, you collect **data** and let the machine learn the rules statistically. This is **machine learning**. It was always a thread in the field, but three things made it dominant after 2010: vastly more data (the internet), vastly more compute (especially GPUs), and better algorithms (deep neural networks).
 
 ## A worked example
 
-**Claim.** $1 + 2 + 3 + \\cdots + n = \\dfrac{n(n+1)}{2}$ for all $n \\ge 1$.
-
-*Base.* For $n = 1$: LHS $= 1$, RHS $= 1 \\cdot 2 / 2 = 1$. ✓
-
-*Step.* Assume the formula for $n = k$:
-
-$$1 + 2 + \\cdots + k = \\frac{k(k+1)}{2}.$$
-
-Add $k + 1$ to both sides:
-
-$$1 + 2 + \\cdots + k + (k+1) = \\frac{k(k+1)}{2} + (k+1) = \\frac{(k+1)(k+2)}{2}.$$
-
-That's the formula at $n = k+1$. ✓ ∎
-
-## Strong induction
-
-A useful variant: assume $P(0), P(1), \\ldots, P(k)$ all hold and prove $P(k+1)$. Logically equivalent to ordinary induction, but more convenient when the proof needs more than the immediate predecessor — e.g. proving that every integer $\\ge 2$ has a prime factorization.
-
-## A scientific example
-
-The proof that a binary heap of $n$ elements supports *extract-min* in $O(\\log n)$ time goes by induction on the height of the heap. Almost every correctness proof in computer science is, under the hood, an induction over the size or structure of the input.`,
+The contrast is visible in two famous game-playing systems. In 1997, IBM's **Deep Blue** beat world chess champion Garry Kasparov mostly by brute-force search guided by rules human grandmasters helped hand-tune — a symbolic approach. In 2016, DeepMind's **AlphaGo** beat the world's best Go player by *learning* from millions of games and from playing itself, discovering strategies no human taught it. Same goal — win a board game — but the second one learned rather than followed instructions. That shift is the story of modern AI.`,
   },
   {
-    slug: "sets-russell-paradox",
-    title: "Sets and Russell's paradox",
+    slug: "rules-vs-learning",
+    title: "Rules vs. learning",
+    weekNumber: 1,
+    blurb: "The two paradigms: hand-written instructions versus learning from data.",
+    lectureTitle: "1.3 Rules vs. learning: the two paradigms",
+    body: `# Rules vs. learning: the two paradigms
+
+There are fundamentally two ways to get a computer to do a task.
+
+## Paradigm one: write the rules
+
+In **rule-based** programming, a human decides exactly what the program should do for every case and writes it down as instructions. This is ordinary software, and it is the right tool when the rules are knowable, stable, and few. Calculating tax, sorting a list, validating a form — you would never "train" a model for these; you just write the logic.
+
+## Paradigm two: learn the rules from data
+
+In **machine learning**, the human does *not* write the task logic. Instead they provide many examples of inputs paired with desired outputs and let an algorithm discover the pattern that connects them. The "program" that results is a set of learned numbers (parameters), not lines of human-written logic. This is the right tool when the rules are unknown, too numerous, or too fuzzy to write down — recognizing a cat in a photo, judging whether a review is positive, predicting the next word.
+
+## Why learning won for perception and language
+
+Consider trying to write rules to detect spam email. You start with "block messages containing FREE MONEY." Spammers write "FR€É M0NEY." You add a rule. They adapt again. The rulebook grows endlessly and never catches up. A learned classifier, by contrast, is shown thousands of labeled spam and non-spam messages and discovers the statistical fingerprints of spam on its own — and it can be retrained as spam evolves. Tasks involving messy, high-variety real-world inputs are exactly where rules break down and learning shines.
+
+## The honest summary
+
+Neither paradigm is "better." Most real products combine them: learned models wrapped in hand-written rules and safety checks. The skill is knowing which part of a problem is a rules problem and which part is a learning problem.`,
+  },
+  {
+    slug: "data-raw-material",
+    title: "Data as the raw material",
+    weekNumber: 1,
+    blurb: "Why data is the fuel of machine learning — and why its quality decides everything.",
+    lectureTitle: "1.4 Data as the raw material",
+    body: `# Data as the raw material
+
+If the previous lecture's punchline was "modern AI learns from data," this one asks: *what is data, and why does it matter so much?*
+
+## What counts as data
+
+Data is just recorded examples of the world. It comes in two broad shapes. **Structured** data is neatly organized in tables — rows of customers with columns for age, purchases, and so on. **Unstructured** data is everything else: text, images, audio, video. The deep-learning revolution was largely a revolution in handling unstructured data, which is the vast majority of what exists.
+
+## Labels
+
+For many tasks the examples need **labels** — the correct answer attached to each input. A photo labeled "cat," an email labeled "spam," a sentence labeled "positive." Labels are how a model knows what it is supposed to learn, and they are often the expensive, slow, human part of building an AI system. Much of the cost of AI is not computing; it is people labeling data.
+
+## Garbage in, garbage out
+
+The most important rule about data: a model can be no better than the data it learns from. **Garbage in, garbage out.** Good training data has three properties worth memorizing — it is *accurate* (correctly recorded and labeled), *representative* (it looks like the real situations the model will face), and *sufficient* (there is enough of it to learn the pattern). A model trained only on photos taken in daylight will fail at night, not because the algorithm is weak but because the data lied about the world.
+
+## A worked example
+
+The modern image-recognition boom was triggered by a dataset, not an algorithm. **ImageNet**, assembled around 2009, contained over a million hand-labeled images across a thousand categories. It gave researchers a large, consistent, representative target to train and compete on — and in 2012 a deep network trained on it crushed the competition, launching the deep-learning era. The lesson the field took away: the data was as important as the model.`,
+  },
+  {
+    slug: "what-training-means",
+    title: "What training actually means",
+    weekNumber: 1,
+    blurb: "Adjusting parameters to reduce error — and the danger of memorizing.",
+    lectureTitle: "1.5 What \"training\" actually means",
+    body: `# What "training" actually means
+
+People say a model is "trained" as if it studied for an exam. Mechanically, training is more humble and more precise than that.
+
+## Parameters and error
+
+A model is a mathematical function with a large number of adjustable numbers inside it called **parameters** (or weights). At the start they are random, so the model's outputs are nonsense. Training is the process of *nudging those numbers* so the model's outputs get closer to the correct answers in the training data. We measure "how wrong" the model is with a number called the **loss** (or error). Training is, at heart, a search for the parameter settings that make the loss as small as possible.
+
+## The loop
+
+The process is a loop: show the model an example, compare its output to the correct answer, measure the error, adjust the parameters a tiny bit to reduce that error, repeat — millions or billions of times. No human inspects or writes those parameters. They are discovered automatically. This is why we say the model *learns* rather than is *programmed*.
+
+## Generalization vs. memorization
+
+Here is the subtle part. We do not actually care how well the model does on the examples it trained on — we care how it does on *new* inputs it has never seen. That ability is called **generalization**, and it is the whole goal. The failure mode is **overfitting**: the model memorizes the training examples, including their noise and quirks, and then performs badly in the real world. A student who memorizes last year's answer key without understanding the material has overfit. To detect this, we always hold back some data the model never trains on — a **test set** — and judge the model only on that.
+
+## A worked example
+
+Imagine training a model to predict a house's price from its size, location, and age. If you give it enough varied examples, it learns the general relationship and can price a house it has never seen. If you give it only ten houses and a very flexible model, it may instead memorize those ten exactly — nailing them perfectly while wildly mispricing the eleventh. More data and simpler models are two of the main cures for overfitting.`,
+  },
+  {
+    slug: "models-inputs-outputs",
+    title: "Models, inputs, and outputs",
+    weekNumber: 1,
+    blurb: "A model as a learned function from inputs to outputs; training vs. inference.",
+    lectureTitle: "1.6 Models, inputs, and outputs",
+    body: `# Models, inputs, and outputs
+
+Strip away the mystique and a **model** is one thing: a function that turns an input into an output, where the rule connecting them was learned from data rather than written by a person.
+
+## The shape of the function
+
+Every AI application can be described by naming its input and its output. A spam filter takes an email (input) and returns spam or not-spam (output). A translation model takes English text in and returns French text out. A medical model takes an X-ray and returns a probability of disease. Get into the habit of asking, for any AI product, "what goes in, and what comes out?" It demystifies the whole thing and is the first question an engineer asks too.
+
+## Training time vs. inference time
+
+There are two distinct phases in a model's life, and confusing them causes endless misunderstanding. **Training** is the expensive, one-time (or occasional) process of learning the parameters from data — it can take weeks and enormous compute. **Inference** is using the finished model to make a prediction on a new input — it is fast and cheap by comparison. When you ask a chatbot a question, you are doing inference on a model that was trained months earlier. The model is not learning from your question; its parameters are frozen.
+
+## Parameters, again
+
+The learned numbers inside the function are its parameters. Their *count* is a rough proxy for a model's capacity — you will hear "a 7-billion-parameter model." More parameters mean more ability to capture complex patterns, but also more data and compute needed to train, and more risk of overfitting if data is scarce.
+
+## A worked example
+
+Take a sentiment classifier. **Input:** the text of a product review. **Output:** a label, "positive" or "negative." During training it saw thousands of reviews with human-applied labels and adjusted its parameters until its guesses matched. At inference, you hand it a brand-new review and it outputs a label in milliseconds, using the frozen parameters it learned earlier. Input, function, output — that is a model.`,
+  },
+  {
+    slug: "ai-everyday-life",
+    title: "AI in everyday life",
+    weekNumber: 1,
+    blurb: "Where AI already quietly runs the products you use every day.",
+    lectureTitle: "1.7 Where AI shows up in everyday life",
+    body: `# Where AI shows up in everyday life
+
+Most AI is invisible. It is not a chatbot you talk to; it is a model quietly making a decision inside a product you already use. Naming these makes the abstract concrete.
+
+## A tour
+
+- **Recommendations.** Netflix, Spotify, YouTube, and online stores predict what you will want next from your past behavior and that of similar users. This is one of the most economically important uses of AI on earth.
+- **Maps and routing.** Navigation apps predict travel times and traffic and choose routes from huge streams of live and historical movement data.
+- **Autocomplete and autocorrect.** Your keyboard predicting the next word, and search engines completing your query, are small language models at work.
+- **Face and voice recognition.** Unlocking your phone with your face, or a voice assistant transcribing your speech, are perception models.
+- **Fraud detection.** Banks flag suspicious card transactions in real time by learning the pattern of your normal spending.
+- **Translation.** Instant translation of text and speech is a learned mapping between languages.
+
+## The common pattern
+
+Notice that none of these "feel" like science fiction. Each is a narrow model doing a single well-defined task — predict, rank, classify, or transcribe — inside a larger ordinary product. The intelligence is specialized and bounded, exactly as lecture 1.1 described.
+
+## A worked example
+
+When you open a music app and it builds a personalized playlist, a recommendation model is taking your listening history as input and outputting a ranked list of songs you are statistically likely to enjoy. It was trained on the behavior of hundreds of millions of listeners. You experience it as "the app knows my taste," but underneath it is the same machinery — data, a learned function, an output — that this entire week has been describing.`,
+  },
+
+  // ───────────────────────────────────────────────────────────────
+  // Week 2 — How machines learn
+  // ───────────────────────────────────────────────────────────────
+  {
+    slug: "pattern-recognition",
+    title: "Pattern recognition: the core idea",
+    weekNumber: 2,
+    blurb: "Finding regularities in data and generalizing them to new cases.",
+    lectureTitle: "2.1 Pattern recognition: the core idea",
+    body: `# Pattern recognition: the core idea
+
+Underneath nearly all of machine learning sits a single ambition: **find a pattern in past data and use it to make good guesses about new data.** That is it. Stripped of jargon, "learning" means "detecting regularity and generalizing it."
+
+## What a pattern is
+
+A pattern is a reliable relationship between things. Tall parents tend to have tall children. Emails with certain phrasing tend to be spam. Handwritten digits that look a certain way tend to be a 7. None of these is a perfect rule — some short parents have tall children — but a *statistical* tendency is enough to make useful predictions.
+
+## Generalization is the goal
+
+The reason pattern recognition is hard is not finding *a* pattern in the data you have; it is finding one that *holds on data you have not seen yet*. A model that just stores every example it was shown has found no pattern at all — it has made a lookup table that fails on anything new. The art is extracting the underlying regularity while ignoring the noise. This is the same generalization-vs-memorization tension from week 1, viewed from the other side.
+
+## Signal vs. noise
+
+Real data is a mix of **signal** (the true underlying pattern) and **noise** (random variation that means nothing). The central difficulty of learning is telling them apart. Fit too loosely and you miss the signal (underfitting); fit too tightly and you memorize the noise (overfitting). Good learning threads this needle.
+
+## A worked example
+
+Consider recognizing handwritten digits — the classic "is this a 0 through 9?" task. No two people write a 4 the same way, and no rulebook can enumerate every valid 4. But across thousands of labeled examples, a model can learn the *pattern* of four-ness — roughly, the arrangement of strokes that humans agree means four — and then correctly read a 4 written by someone whose handwriting it has never seen. Detecting the regularity and generalizing it: that is the whole game.`,
+  },
+  {
+    slug: "features-representations",
+    title: "Features and representations",
+    weekNumber: 2,
+    blurb: "How you describe the input often matters more than the algorithm.",
+    lectureTitle: "2.2 Features and representations",
+    body: `# Features and representations
+
+A model never sees the world directly. It sees the world *as you describe it to the model*. That description is made of **features**, and choosing them well is often the difference between a model that works and one that does not.
+
+## What a feature is
+
+A feature is a single measurable property of an input. For a house: its size in square feet, its number of bedrooms, its age. For an email: the number of links it contains, whether it came from a known sender, the count of certain words. The collection of features is the **representation** — the form in which the input is handed to the model.
+
+## Representation matters more than you would think
+
+The same underlying object can be represented well or badly, and the model's success depends heavily on which. Predicting whether someone can afford a loan from their raw birth date is awkward; representing it as "age" is far more useful. Detecting a heartbeat problem from a raw audio waveform is hard; representing it as its frequency components can make the pattern obvious. For decades, much of the human effort in machine learning went into **feature engineering**: hand-crafting good representations.
+
+## Learned representations
+
+The deep-learning breakthrough was that neural networks can *learn their own features* from raw data, instead of relying on humans to engineer them. Given enough images and labels, a deep network discovers useful internal features — edges, then textures, then shapes — without being told to. This is a major theme we return to in week 3: deep models trade hand-crafted features for learned ones, which is why they need so much data and compute.
+
+## A worked example
+
+To classify spam, an old-school approach represents each email as a vector of word counts — how many times each word appears — a representation called "bag of words." It throws away word order but captures that "viagra" and "winner" are spam signals. A modern approach feeds the raw text to a model that learns its own richer representation (an *embedding*) capturing meaning and context. Same email; two representations; very different ceilings on performance.`,
+  },
+  {
+    slug: "supervised-learning",
+    title: "Supervised learning",
+    weekNumber: 2,
+    blurb: "Learning a mapping from labeled examples; classification and regression.",
+    lectureTitle: "2.3 Supervised learning (learning from labeled examples)",
+    body: `# Supervised learning (learning from labeled examples)
+
+The most common and most successful style of machine learning is **supervised learning**: the model learns from examples where the correct answer is provided.
+
+## The setup
+
+You collect a dataset of inputs each paired with its correct output — the **label**. Photos paired with the animal in them, emails paired with spam/not-spam, houses paired with their sale price. The model's job is to learn the mapping from input to label so well that it can label new, unlabeled inputs correctly. The "supervision" is the labels: like a teacher providing answer keys, they tell the model when it is right or wrong during training.
+
+## Two kinds of output
+
+Supervised problems split by what kind of answer they produce.
+
+- **Classification** predicts a category from a fixed set. Spam or not-spam. Cat, dog, or bird. Fraudulent or legitimate. The output is a label.
+- **Regression** predicts a number on a continuous scale. A house's price. Tomorrow's temperature. A patient's expected length of stay. The output is a quantity.
+
+Recognizing which kind of problem you have is the first decision in any supervised project, because it determines the models and the error measures you use.
+
+## Why it dominates
+
+Supervised learning powers the majority of deployed AI because most valuable business problems are naturally "given X, predict Y" with historical examples available — past transactions labeled fraud or not, past patients labeled by outcome. Its main cost is labels: someone, or something, must have produced the correct answers to learn from.
+
+## A worked example
+
+A bank wants to predict loan default. It gathers thousands of past loans, each labeled "repaid" or "defaulted," with features like income, debt, and credit history. That is a **classification** problem — two categories. The trained model takes a new applicant's features and outputs a predicted category (or a probability of default). If instead the bank wanted to predict the *dollar amount* it would recover after a default, that would be **regression** — a number, not a category.`,
+  },
+  {
+    slug: "unsupervised-learning",
+    title: "Unsupervised learning",
+    weekNumber: 2,
+    blurb: "Finding structure in data when no labels are provided.",
+    lectureTitle: "2.4 Unsupervised learning (finding structure)",
+    body: `# Unsupervised learning (finding structure)
+
+Supervised learning needs labeled answers. But most data in the world has no labels — nobody has tagged it. **Unsupervised learning** is the family of methods that find structure in data *without* being told the right answers.
+
+## The goal
+
+Instead of "given X, predict the known Y," unsupervised learning asks "what interesting structure is hidden in this pile of X?" There is no answer key, so success is judged by whether the structure it finds is useful or meaningful to humans.
+
+## Two common tasks
+
+- **Clustering** groups similar items together. Given a million customers and no labels, find natural segments — say, "bargain hunters," "premium buyers," "occasional gift shoppers" — that the business did not define in advance. The algorithm discovers the groups from the data's own geometry.
+- **Dimensionality reduction** compresses many features into a few, keeping what matters and discarding redundancy. It is used to visualize complex data in two dimensions, to speed up other models, and to remove noise.
+
+## Where it fits
+
+Unsupervised learning is often a *first* step — exploring and organizing raw data before you know what questions to ask, or before you can afford to label it. It also underlies much of modern AI quietly: the way language models learn from raw text without labeled answers is a form of self-supervision closely related to this idea.
+
+## A worked example
+
+A retailer has purchase records for millions of shoppers but no predefined customer types. Running a clustering algorithm reveals, say, five natural groups based on what and how often people buy. Nobody told the algorithm these groups exist; it found them in the structure of the data. Marketing can now tailor offers to each segment. No labels were ever provided — the structure *was* the output.`,
+  },
+  {
+    slug: "prediction-classification-error",
+    title: "Prediction, classification, and error",
+    weekNumber: 2,
+    blurb: "Measuring whether a model is good: accuracy, precision, and recall.",
+    lectureTitle: "2.5 Prediction, classification, and error",
+    body: `# Prediction, classification, and error
+
+A model makes predictions. The crucial follow-up question is always: *how good are they?* Measuring error correctly is as important as building the model, and a single misleading number has sunk many AI projects.
+
+## Error and loss
+
+During training, the model minimizes a **loss** — a number capturing how far its predictions are from the truth. After training, we evaluate it on held-out data with metrics that humans can interpret. For classification, the simplest is **accuracy**: the fraction of predictions that are correct.
+
+## Why accuracy can lie
+
+Accuracy is dangerously misleading when the categories are imbalanced. Suppose 1 in 1,000 transactions is fraud. A model that simply predicts "not fraud" every time is 99.9% accurate — and completely useless, because it never catches fraud. To see past this, we break errors into types.
+
+## Precision and recall
+
+Imagine a model flagging fraud. There are two kinds of mistake:
+
+- A **false positive** — flagging a legitimate transaction as fraud.
+- A **false negative** — missing an actual fraud.
+
+From these we get two metrics. **Precision** asks: of the things the model flagged, what fraction were truly positive? (High precision = few false alarms.) **Recall** asks: of all the truly positive things, what fraction did the model catch? (High recall = few misses.) There is usually a trade-off: catching more fraud (higher recall) often means more false alarms (lower precision). Which matters more depends entirely on the cost of each error.
+
+## A worked example
+
+For a cancer screening test, a **false negative** — telling a sick patient they are healthy — is catastrophic, while a false positive merely triggers a follow-up test. So you tune the model for high **recall**, accepting more false alarms to miss as few real cases as possible. For a spam filter, the reverse: a false positive that deletes an important email is worse than letting one spam through, so you favor **precision**. The "best" model is meaningless without knowing which error you are most afraid of.`,
+  },
+  {
+    slug: "data-and-scale",
+    title: "Why more data and bigger models help",
+    weekNumber: 2,
+    blurb: "Scale as a driver of capability — and where it runs into limits.",
+    lectureTitle: "2.6 Why more data and bigger models help",
+    body: `# Why more data and bigger models help
+
+One of the most consequential discoveries of the last decade is almost embarrassingly simple: for many tasks, **making the model bigger and feeding it more data reliably makes it better** — and keeps doing so for a long time.
+
+## Why more data helps
+
+More examples let a model see more of the variety in the world, separating true signal from noise and reducing overfitting. A face recognizer trained on a thousand faces learns a narrow slice of humanity; one trained on a hundred million faces learns the genuine diversity of human appearance. Rare cases that would be invisible in a small dataset become learnable in a huge one.
+
+## Why bigger models help
+
+A model with more parameters has more **capacity** — more ability to represent complex, subtle patterns. A small model may lack the room to capture the intricacies of human language; a large one has the representational space to do it. Crucially, big models and big data go together: a huge model trained on little data just overfits, and a tiny model cannot exploit a huge dataset. Capability comes from scaling both, along with the **compute** to train them.
+
+## Scaling laws
+
+Researchers found these improvements are surprisingly smooth and predictable: across orders of magnitude, performance improves in a regular relationship with data, parameters, and compute — so-called **scaling laws**. This predictability is why companies invest billions in ever-larger models; the gains are, up to a point, bankable.
+
+## The limits
+
+Scale is not magic. Gains show **diminishing returns** — each doubling buys less than the last. Data runs out; high-quality text and labels are finite. Compute is expensive and energy-hungry. And scale improves fluency and breadth without fixing deeper problems like factual reliability or reasoning, which we examine in week 3. Bigger is often better, but it is not a substitute for everything.
+
+## A worked example
+
+The leap in language models came largely from scale. Early models trained on modest text were clumsy; successive generations trained on far more text with far more parameters became dramatically more capable — better grammar, broader knowledge, more coherent long answers — without fundamentally new ideas, mostly more of the same. That trajectory, and its eventual flattening, is the central bet and the central uncertainty of the current AI boom.`,
+  },
+
+  // ───────────────────────────────────────────────────────────────
+  // Week 3 — Neural networks and generative AI
+  // ───────────────────────────────────────────────────────────────
+  {
+    slug: "neural-networks-intuition",
+    title: "Neural networks: the intuition",
+    weekNumber: 3,
+    blurb: "Neurons, layers, and weights — the building block of modern AI.",
+    lectureTitle: "3.1 Neural networks: the intuition",
+    body: `# Neural networks: the intuition
+
+The engine behind almost all of today's AI is the **neural network**. The name invokes the brain, and the loose inspiration is real, but it is best understood not as a digital brain but as a particular, very flexible kind of mathematical function.
+
+## Neurons
+
+The basic unit is an artificial **neuron**. It does something simple: it takes several numbers as input, multiplies each by a **weight**, adds them up, and passes the result through a simple nonlinear step that decides how strongly to "fire." One neuron alone is nearly trivial — it draws a single straight dividing line through its inputs.
+
+## Layers
+
+Power comes from connecting many neurons into **layers**, with the outputs of one layer feeding the inputs of the next. The first layer reads the raw input; the last layer produces the output; the layers in between (the **hidden** layers) transform the data step by step. Stacking layers lets the network combine many simple decisions into one enormously complex one — bending and folding the input space until even tangled patterns become separable.
+
+## Weights are what is learned
+
+The **weights** — the numbers multiplying each connection — are exactly the parameters from week 1 that training adjusts. A fresh network has random weights and is useless; training tunes millions or billions of them until the whole network computes a useful input-to-output mapping. The architecture (how neurons are wired) is designed by humans; the weights are learned from data.
+
+## Why they are powerful
+
+Mathematically, a network with enough neurons can approximate essentially any input-output relationship — it is a **universal approximator**. That flexibility is the source of both its strength (it can model almost anything) and its difficulty (it needs lots of data and care to find the right weights without overfitting).
+
+## A worked example
+
+To recognize a handwritten digit, the input layer reads the pixel brightnesses. Hidden layers progressively combine pixels into strokes and strokes into digit-shaped patterns. The output layer has ten neurons, one per digit, and the one that fires most strongly is the network's guess. Nobody programmed "a 7 has a horizontal top and a diagonal stroke"; the weights that encode this were learned from thousands of examples.`,
+  },
+  {
+    slug: "how-networks-learn",
+    title: "How networks learn",
+    weekNumber: 3,
+    blurb: "Loss, feedback, and gradient descent — turning errors into better weights.",
+    lectureTitle: "3.2 How networks learn (weights and feedback)",
+    body: `# How networks learn (weights and feedback)
+
+A fresh network has random weights and produces nonsense. Learning is the process of correcting those weights using feedback from its mistakes. The mechanism has a few moving parts that are worth understanding in plain language.
+
+## The forward pass
+
+First, the network makes a guess. Data flows in at the input, through the layers, and out as a prediction. This is the **forward pass**. With random weights, the prediction is wrong.
+
+## Measuring the error
+
+We compare the prediction to the correct answer and compute the **loss** — a single number measuring how wrong the network was. The entire goal of learning is to make this number small, across all the training examples.
+
+## Backpropagation and gradient descent
+
+Now the clever part. The network needs to know *which* weights to change, and in which direction, to reduce the loss. **Backpropagation** answers this: it works backward from the error through the layers, computing how much each weight contributed to the mistake. Then **gradient descent** nudges every weight a small step in the direction that reduces the loss. Repeat this — guess, measure, adjust — over millions of examples, and the weights gradually settle into values that produce good predictions.
+
+## The hill-descent picture
+
+The standard intuition: imagine the loss as a landscape of hills and valleys, where height is error and your position is the current setting of all the weights. Gradient descent is like walking downhill in small steps, always heading in the steepest downward direction, trying to reach a low valley of small error. The **learning rate** is your step size — too big and you overshoot the valley, too small and you crawl forever.
+
+## A worked example
+
+Picture tuning a sound system with thousands of knobs to match a target song, blindfolded. You play it (forward pass), hear how far off it is (loss), and someone tells you which way to turn each knob to get closer (backpropagation), and you turn each a little (gradient descent). After enough rounds the sound matches. Training a neural network is that, automated, with billions of knobs and no human turning them.`,
+  },
+  {
+    slug: "deep-learning",
+    title: "From neural nets to deep learning",
+    weekNumber: 3,
+    blurb: "What 'deep' means, and why depth unlocked modern AI.",
+    lectureTitle: "3.3 From neural nets to deep learning",
+    body: `# From neural nets to deep learning
+
+Neural networks have existed since the mid-20th century. **Deep learning** is simply neural networks with *many* layers — and that "many" turned out to change everything once data and compute caught up.
+
+## What "deep" buys you
+
+The depth — stacking many hidden layers — lets a network build a **hierarchy of features**, each layer composing the simpler patterns found by the one below it. In image recognition this hierarchy is visible: early layers detect edges, middle layers combine edges into textures and parts (an eye, a wheel), and later layers combine parts into whole objects (a face, a car). Each layer's features are built from the previous layer's, automatically. This is the "learned representations" idea from week 2, realized through depth.
+
+## Why it waited
+
+The core ideas existed for decades but did not work well until three things arrived together around 2012: **big datasets** (like ImageNet) to learn from, **powerful hardware** (GPUs) to do the enormous arithmetic, and refined training techniques to make deep networks trainable at all. When they converged, deep networks suddenly outperformed everything else on perception tasks, and the modern AI era began.
+
+## The trade-off
+
+Deep learning's great advantage is that it removes the need for humans to hand-engineer features — the network discovers them. Its great cost is appetite: it typically demands large amounts of data and substantial compute, and its inner workings are hard to interpret. You trade human feature-engineering effort for data, compute, and opacity.
+
+## A worked example
+
+A deep network trained to recognize faces is not told what a face is. Shown millions of labeled images, its first layers learn to detect simple edges and color gradients; deeper layers assemble those into eyes, noses, and mouths; the deepest layers assemble *those* into whole-face patterns tied to identity. Each level of abstraction is learned from the level below — the essence of why depth works.`,
+  },
+  {
+    slug: "language-models",
+    title: "Language models",
+    weekNumber: 3,
+    blurb: "How models like ChatGPT work by predicting the next piece of text.",
+    lectureTitle: "3.4 Language models and how they predict text",
+    body: `# Language models and how they predict text
+
+The AI systems that have captured the public imagination — ChatGPT and its relatives — are **large language models** (LLMs). Their underlying task is startlingly simple to state, which makes their fluency all the more surprising.
+
+## The one task: predict the next token
+
+A language model is trained to do exactly one thing: **given some text, predict what comes next.** It reads a sequence of words (more precisely, pieces of words called **tokens**) and outputs a probability for every possible next token. "The capital of France is" → very high probability for "Paris." That is the entire training objective. Crucially, this needs no human labels — the next word in ordinary text *is* the answer — which is why models can be trained on enormous amounts of raw internet text.
+
+## How prediction becomes conversation
+
+If the model can predict the next token, it can generate text: predict one token, append it, predict the next, and repeat. A chatbot answering your question is just this loop, having learned from vast text that the tokens which plausibly follow a question are its answer. Astonishingly, learning to predict text well forces the model to absorb grammar, facts, styles, and a surprising amount of reasoning — all as a side effect of getting better at "what comes next."
+
+## Context window
+
+A model can only "see" a limited amount of text at once — its **context window**. Everything it uses to make its next prediction (your question, the conversation so far, any documents you paste) must fit inside that window. It has no memory beyond it unless that text is supplied again.
+
+## It predicts plausibility, not truth
+
+The deepest thing to internalize: the model is optimizing for *plausible continuation*, not for *truth*. It outputs what statistically tends to follow, which is usually correct because true text is common — but not always. This single fact explains hallucination, which we cover in 3.7.
+
+## A worked example
+
+Type "Once upon a" into a phone keyboard and it suggests "time." That predictive keyboard is a tiny language model. An LLM is the same idea scaled up by a staggering factor — billions of parameters trained on a large fraction of the written internet — until "predict the next token" produces essays, code, and translations. Same principle, vastly more scale.`,
+  },
+  {
+    slug: "generative-ai",
+    title: "What \"generative\" AI means",
+    weekNumber: 3,
+    blurb: "Models that create new content rather than just classifying existing content.",
+    lectureTitle: "3.5 What \"generative\" AI means",
+    body: `# What "generative" AI means
+
+Most of the AI in weeks 1 and 2 was **discriminative**: it takes an input and outputs a label or a number — is this spam, what is this price. **Generative** AI does something different and newer: it *creates* new content — text, images, audio, video, code — that did not exist before.
+
+## Discriminative vs. generative
+
+The distinction is worth stating crisply. A discriminative model *judges*: given an email, is it spam? A generative model *produces*: given a prompt, write an email. One sorts existing things into categories; the other generates new examples. Generative AI is what powers chatbots, image generators, voice cloning, and code assistants.
+
+## How generation works
+
+A generative model has learned the statistical patterns of its training data so thoroughly that it can produce new samples consistent with those patterns. A language model generates text token by token (3.4). An image generator, often a **diffusion model**, starts from random noise and repeatedly refines it, guided by your text prompt, until a coherent image emerges. Because generation involves sampling — making probabilistic choices — the same prompt can yield different outputs each time. That randomness is why generative AI feels creative, and why it is not perfectly repeatable.
+
+## Foundation models
+
+Many generative systems are **foundation models**: very large models trained on broad data that can then be adapted to many specific tasks. One base model can summarize, translate, answer questions, and write code, because the general-purpose patterns it learned transfer across tasks. This generality is a defining feature of the current AI wave.
+
+## A worked example
+
+Ask an image generator for "a watercolor painting of a fox reading a book in a library." It has never seen that exact image, but from millions of captioned images it learned what foxes, watercolor style, books, and libraries look like, and it composes a brand-new image matching the description. It is not retrieving a stored picture; it is generating one. Ask again and you get a different fox — generation, not lookup.`,
+  },
+  {
+    slug: "prompting",
+    title: "Prompting and getting good outputs",
+    weekNumber: 3,
+    blurb: "How the way you ask shapes what a generative model gives you.",
+    lectureTitle: "3.6 Prompting and getting good outputs",
+    body: `# Prompting and getting good outputs
+
+With generative models, the input you provide is called a **prompt**, and because the model produces whatever plausibly continues your prompt, *how you ask* dramatically changes *what you get*. Prompting is a practical skill, not magic, and a few principles cover most of it.
+
+## Be specific and give context
+
+A vague prompt yields a vague, generic answer, because many continuations are plausible and the model averages over them. The more you constrain — the audience, the format, the length, the tone, the relevant facts — the more the model's output narrows toward what you actually want. "Write about dogs" invites a shapeless essay; "Write a 100-word friendly paragraph for first-time owners on house-training a puppy" gets a usable one.
+
+## Show examples
+
+Including a few examples of the input-output pattern you want, called **few-shot prompting**, steers the model powerfully. If you want data formatted a certain way, showing two or three correctly formatted examples is often more effective than describing the format in words. The model recognizes and continues the pattern.
+
+## State the role and the steps
+
+Telling the model who to be ("You are a careful editor") and asking it to work step by step often improves results on complex tasks, because it nudges the generation toward the right style and a more deliberate process rather than a rushed first guess.
+
+## Iterate
+
+Prompting is rarely one-shot. Treat the first output as a draft: see where it falls short, refine the prompt or ask for revisions, and converge. The conversation itself is part of the technique.
+
+## A worked example
+
+Prompt A: "Give me feedback on my essay." The model has no essay, no criteria, no audience — it returns generic platitudes. Prompt B: "Here is my 300-word college application essay [text]. You are an admissions reader. Point out the three weakest sentences and suggest a sharper version of each, keeping my voice." The second prompt supplies the content, a role, a clear task, and a format — and gets specific, actionable output. Same model; the difference is entirely in the asking.`,
+  },
+  {
+    slug: "strengths-limits-hallucination",
+    title: "Strengths, limits, and hallucination",
+    weekNumber: 3,
+    blurb: "What generative AI is genuinely good at — and why it confidently makes things up.",
+    lectureTitle: "3.7 Strengths, limits, and hallucination",
+    body: `# Strengths, limits, and hallucination
+
+To use AI well you must hold two truths at once: these models are remarkably capable, and they fail in specific, predictable ways. Knowing both is the difference between a useful tool and a costly mistake.
+
+## What they are good at
+
+Generative models excel at tasks involving language and patterns where fluency matters more than guaranteed correctness: drafting and rewriting text, summarizing, brainstorming, translating, explaining concepts, writing and debugging code, and transforming information from one format to another. They are fast, tireless, broad, and often genuinely creative.
+
+## Hallucination
+
+Their most important failure has a name: **hallucination** — producing confident, fluent output that is simply false. A model may invent a citation, a statistic, a quote, or an API that does not exist, and present it with the same smooth confidence as a true statement. This is not a bug to be patched away; it follows directly from how the model works. Recall from 3.4 that it predicts *plausible* continuations, not *true* ones. When it does not "know" something, it generates text that *sounds* right, because plausibility, not truth, is what it optimizes.
+
+## The deeper limits
+
+Beyond hallucination: models have a **knowledge cutoff** — they do not know events after their training data ends. They can struggle with multi-step reasoning, arithmetic, and tasks needing real-world grounding. They have no genuine understanding or beliefs, no access to ground truth, and they inherit biases from their training data (week 4). They cannot reliably tell you when they are wrong, because they do not *know* they are wrong.
+
+## The practical rule
+
+Therefore: use AI for tasks where you can *verify* the output, or where being approximately right is fine. Do not trust it as an authoritative source of facts you cannot check. Treat it as a fast, fluent, fallible assistant — never as an oracle.
+
+## A worked example
+
+Ask a language model for academic sources on an obscure topic and it may return a perfectly formatted list of papers — with plausible titles, real-sounding authors, and journal names — several of which do not exist. It is not lying; it is generating text shaped like a citation list, because that is what plausibly follows the request. The fix is not to trust harder but to verify: check that each source is real. That habit, applied everywhere, is what week 4 builds on.`,
+  },
+
+  // ───────────────────────────────────────────────────────────────
+  // Week 4 — AI in the world: ethics, safety, and the future
+  // ───────────────────────────────────────────────────────────────
+  {
+    slug: "bias-fairness-data-quality",
+    title: "Bias, fairness, and data quality",
     weekNumber: 4,
-    blurb: "The naive notion of a set is inconsistent.",
-    lectureTitle: "4.4 Sets and Russell's paradox",
-    body: `# Sets and Russell's paradox
+    blurb: "How models inherit human bias from data, and what fairness costs.",
+    lectureTitle: "4.1 Bias, fairness, and data quality",
+    body: `# Bias, fairness, and data quality
 
-Set theory is the lingua franca of modern mathematics: every object we have studied — numbers, functions, groups, vector spaces — can be encoded as a set. So you might expect the foundations of set theory to be straightforward. They are not.
+AI models are often described as objective because they are "just math." This is dangerously misleading. Models learn from data, and data carries the biases of the world and the people who produced it. A model can launder human prejudice into a number that *looks* neutral.
 
-## Naive set theory
+## Where bias comes from
 
-Cantor and Frege, in the late 1800s, took as a basic principle:
+- **Biased data.** If a model learns from historical decisions that were themselves discriminatory, it learns to reproduce that discrimination. A hiring model trained on a company's past hires will copy whatever patterns — fair or not — those hires contained.
+- **Unrepresentative data.** If some groups are underrepresented in the training data, the model performs worse for them. Facial recognition trained mostly on light-skinned faces has been shown to err far more on dark-skinned faces.
+- **Biased labels and measurement.** The choice of what to measure, and how humans labeled it, can encode bias before training even begins.
 
-> **Unrestricted comprehension.** For every property $P$, there is a set $\\{x : P(x)\\}$ of all things satisfying $P$.
+## Why "fairness" is hard
 
-This is the "naive" picture: a set is any collection you can describe. It seems obviously true. It is also inconsistent.
-
-## Russell's paradox (1901)
-
-Define
-
-$$R = \\{x : x \\notin x\\},$$
-
-the set of all sets that are not members of themselves. (Most familiar sets satisfy this: $\\mathbb{N}$ is not an element of $\\mathbb{N}$.) Now ask: is $R \\in R$?
-
-- If $R \\in R$, then by definition of $R$, $R \\notin R$. Contradiction.
-- If $R \\notin R$, then $R$ satisfies the defining property, so $R \\in R$. Contradiction.
-
-Either way, contradiction. Therefore $R$ cannot be a set. Therefore unrestricted comprehension is false. Therefore naive set theory is inconsistent.
-
-Russell sent this to Frege in 1902, just as Frege's life work on the foundations of arithmetic was going to press. Frege added an appendix to the second volume acknowledging that the work was now on broken ground.
-
-## The fix: axiomatic set theory
-
-Modern set theory (Zermelo 1908, Fraenkel 1922) replaces unrestricted comprehension with weaker, carefully chosen axioms:
-
-- **Extensionality.** Two sets are equal iff they have the same elements.
-- **Pairing.** For any $a, b$, $\\{a, b\\}$ is a set.
-- **Union, power set, infinity, replacement, regularity, …**
-- **Restricted comprehension.** From a *given* set $A$ and a property $P$, you can form $\\{x \\in A : P(x)\\}$.
-
-The crucial change: you can only filter elements out of an existing set; you cannot conjure a set from a property alone. This blocks Russell's construction.
-
-This system, with the axiom of choice added, is **ZFC** — the standard foundation of mathematics today. (Almost) every theorem you know is, in principle, derivable from ZFC.
+Fairness is not one thing. There are multiple mathematical definitions of fairness, and they can be mutually incompatible — you often cannot satisfy all of them at once, so building a "fair" system requires explicit value judgments about which kind of fairness matters for the situation. There is also frequently a tension between accuracy and fairness. These are not purely technical questions; they are ethical and political ones that math cannot settle.
 
 ## The lesson
 
-Mathematics is not self-evidently consistent. Even our most basic intuitions about "collection" can lead to contradiction. Foundations are not optional plumbing; they are a thing you can get wrong.`,
+Bias is not an exotic edge case; it is the default unless actively addressed. Mitigating it requires scrutinizing data, testing the model's performance separately across groups, and deciding deliberately what fairness should mean — work that must involve more than engineers.
+
+## A worked example
+
+A widely reported case: a recruiting tool trained on a decade of resumes from a male-dominated tech industry learned to downgrade resumes that signaled the applicant was a woman. The model was not told to discriminate; it absorbed the pattern from biased historical data and amplified it. The tool was scrapped. The episode is now a standard cautionary tale: the model was an accurate mirror of a biased past, which is exactly the problem.`,
   },
   {
-    slug: "axioms-independence",
-    title: "Axioms and independence results",
+    slug: "reliability-evaluation-trust",
+    title: "Reliability, evaluation, and trust",
     weekNumber: 4,
-    blurb: "Some questions cannot be answered by the axioms we have.",
-    lectureTitle: "4.5 Axioms and independence results",
-    body: `# Axioms and independence results
+    blurb: "Why good benchmark numbers are not the same as real-world trustworthiness.",
+    lectureTitle: "4.2 Reliability, evaluation, and trust",
+    body: `# Reliability, evaluation, and trust
 
-A statement $S$ is **independent** of an axiom system $T$ if neither $S$ nor $\\neg S$ can be proven from $T$. Independence is a fact about a *system*, not about the truth of $S$.
+Before you rely on an AI system you need to know how good it really is — and "it scored 95% on a benchmark" is rarely the answer to that question. Evaluation is subtle, and overtrusting a single number is a recurring source of failure.
 
-## The parallel postulate, again
+## Benchmarks and their limits
 
-We met the first major independence result in 3.7: Euclid's fifth postulate is independent of the other four. You can adopt it (Euclidean geometry), negate it one way (elliptic geometry), or negate it the other way (hyperbolic geometry), and each choice yields a consistent system. There is no "right answer" inside the axioms.
+A **benchmark** is a standard test set used to measure and compare models. Benchmarks are essential for progress, but a high score is necessary, not sufficient, for trust. A model can ace a benchmark and fail in the real world because the benchmark did not resemble real conditions, because the test data leaked into training (so the model effectively memorized the answers), or because real inputs are messier and more varied than any fixed test.
 
-How was independence proven? By **models**. Exhibit a model of geometry in which the other four postulates hold and the fifth fails. The Poincaré disc model of the hyperbolic plane does exactly this — and its consistency is reduced to the consistency of Euclidean geometry, which is reduced to the consistency of $\\mathbb{R}$, which is reduced to ZFC.
+## Distribution shift
 
-## The Continuum Hypothesis
+A central reliability problem: models are trained on data from one setting and deployed in another that has drifted — **distribution shift**. A demand forecaster trained before a pandemic fails during one. A model is only trustworthy on inputs that resemble what it was trained and tested on; outside that range its confident outputs can be confidently wrong.
 
-In 1878 Cantor asked: are there any cardinalities strictly between $|\\mathbb{N}|$ and $|\\mathbb{R}|$? The **Continuum Hypothesis (CH)** says no:
+## Calibration
 
-$$\\text{CH:}\\quad |\\mathbb{R}| = \\aleph_1.$$
+A trustworthy model should not only be right often but *know how sure it is*. **Calibration** means its stated confidence matches reality — when it says 70%, it is right about 70% of the time. Poorly calibrated models that are confidently wrong are especially dangerous, because confidence is the signal humans use to decide when to double-check.
 
-Cantor and others tried for decades to prove CH from set theory. The resolution came in two stages:
+## Building trust
 
-- **Gödel (1940).** CH is *consistent* with ZFC. If ZFC is consistent, so is ZFC + CH.
-- **Cohen (1963).** $\\neg$CH is also *consistent* with ZFC. If ZFC is consistent, so is ZFC + $\\neg$CH.
+Trust comes from verification, not faith: evaluate on data that resembles real deployment, test on the hard and rare cases, monitor performance after launch, and keep humans in the loop for high-stakes decisions. The higher the stakes, the more evidence the system should have to earn.
 
-Together: CH is **independent** of ZFC. There is no proof in either direction. (Cohen invented the technique of *forcing* to do this, the deepest tool in set theory.)
+## A worked example
 
-This is unsettling. CH looks like a definite mathematical question — does some specific cardinality exist or not? — and the axioms we use for all of mathematics cannot answer it. There are at least three reactions:
-
-1. **Platonism.** CH has a definite truth value; our axioms are incomplete. We should look for new, well-motivated axioms that decide it.
-2. **Formalism.** CH has no truth value independent of an axiom system. Math is the study of consequences of axiom systems; pick one and proceed.
-3. **Multiverse view (Hamkins).** There are many "universes of sets," some satisfying CH, some not, all equally legitimate.
-
-## The Axiom of Choice
-
-A similar story: the **Axiom of Choice** (AC) says that, given any family of nonempty sets, you can pick one element from each. Innocuous-sounding, but it implies the **Banach–Tarski paradox**: a solid ball can be decomposed into five pieces and reassembled into two solid balls of the same size. (The pieces are non-measurable.) AC is independent of ZF (ZFC minus choice), and ZFC routinely takes AC on board.
-
-## The deeper point
-
-The discovery of independence results dissolved the dream — already in trouble after Russell's paradox — that mathematics is a single, finished, complete body of truth. It is, instead, the study of *what follows from what*. The axioms are the starting point you chose; the theorems are what you got. Different starting points are different mathematics.`,
+A self-driving system can drive millions of miles successfully and still be untrustworthy in a rare situation it never saw in training — an unusual obstacle, strange weather, an unmapped road. This is why developers test relentlessly on edge cases and rare events, not just average miles. Average-case excellence on a benchmark says little about worst-case behavior, and for safety it is the worst case that matters.`,
   },
   {
-    slug: "godel-incompleteness",
-    title: "Gödel's incompleteness theorems",
+    slug: "privacy-security",
+    title: "Privacy and security",
     weekNumber: 4,
-    blurb: "Any sufficient axiom system contains true statements it cannot prove.",
-    lectureTitle: "4.6 Gödel's incompleteness theorems",
-    body: `# Gödel's incompleteness theorems
+    blurb: "How AI systems can leak data and be attacked, and what that means for you.",
+    lectureTitle: "4.3 Privacy and security",
+    body: `# Privacy and security
 
-In 1931, Kurt Gödel — age 25 — published two theorems that ended the century-old dream of finding a complete, consistent axiomatization of mathematics.
+AI systems are built on data, much of it about people, and they introduce privacy and security risks that ordinary software does not. Using AI responsibly means understanding how it can leak information and how it can be attacked.
 
-## What the theorems say
+## Privacy risks
 
-Let $T$ be a formal axiom system rich enough to encode basic arithmetic (Peano arithmetic suffices, as does ZFC). Assume $T$ is **consistent** (proves no contradiction) and *effective* (its axioms can be recognized by an algorithm).
+- **Sensitive training data.** Models are often trained on data containing personal information. A model can **memorize** rare training examples and, if prompted cleverly, regurgitate them — leaking someone's private data that was in the training set.
+- **What you send to the model.** When you paste text into a hosted AI service, that text leaves your device. Sharing confidential or personal information with a third-party model can itself be a privacy breach, depending on how the provider handles it.
+- **Inference of private facts.** Models can infer sensitive attributes (health, identity, location) from seemingly innocuous data, creating privacy risks even when no explicit private data was provided.
 
-- **First incompleteness theorem.** There is a statement $G$ in the language of $T$ that is *true* (in the standard model) but *not provable* in $T$. Moreover, $\\neg G$ is also not provable. $T$ is **incomplete**.
-- **Second incompleteness theorem.** The statement "$T$ is consistent" is not provable in $T$ itself.
+## Security risks
 
-In a sentence: any system strong enough to do arithmetic is either inconsistent or unable to prove its own consistency, and is always missing some truths.
+- **Prompt injection.** Because language models follow instructions in their input, an attacker can hide malicious instructions in a webpage or document the model reads, hijacking its behavior — telling it to ignore its rules or exfiltrate data. This is a new and serious class of attack unique to AI systems.
+- **Adversarial examples.** Inputs can be subtly manipulated to fool a model — a few pixels changed to make an image classifier confidently misread a stop sign — in ways invisible to humans.
+- **Data poisoning.** An attacker who can corrupt the training data can plant hidden flaws or backdoors in the resulting model.
 
-## The construction (sketch)
+## The practical stance
 
-Gödel's proof works by *self-reference*. He showed how to encode statements about $T$'s proofs as statements about numbers (this is **Gödel numbering**). Inside arithmetic, you can then formulate a sentence $G$ that says, in effect:
+Treat AI systems as part of your attack surface. Do not feed confidential data to third-party models carelessly, be skeptical of letting models act on untrusted content, and assume that anything in training data could potentially surface.
 
-> "This sentence is not provable in $T$."
+## A worked example
 
-Now: if $T$ proves $G$, then $G$ is false — but $T$ proves only true things (by consistency). Contradiction. So $T$ does not prove $G$. But that is exactly what $G$ asserts. So $G$ is true. And $T$ does not prove it.
-
-The self-reference is the same machinery that powers the liar paradox ("this sentence is false") — but Gödel rebuilt it inside arithmetic, where it cannot be waved away as a quirk of natural language.
-
-## What it does **not** say
-
-The theorems are routinely misquoted. They do not say:
-
-- "Mathematics is inconsistent." (No — they assume consistency.)
-- "Some mathematical questions have no answer." (Only relative to a given axiom system.)
-- "Machines can never match human reasoning." (A philosophical extrapolation, not a theorem.)
-- "Anything goes." (No — proofs from the axioms are still proofs from the axioms.)
-
-What the theorems *do* say is sharp and limited: any single effective axiom system $T$ for arithmetic has true statements outside it. You can always extend $T$ to a larger system $T'$ that proves $G_T$ — but then $T'$ has its own unprovable $G_{T'}$. You never finish.
-
-## The historical impact
-
-Hilbert's program (1920s) was an explicit plan to formalize *all* of mathematics in a single system and prove it complete and consistent from within. The second incompleteness theorem killed the consistency half outright. The first killed the completeness half. The program was over within a year.
-
-What replaced it is the *modern* understanding of mathematics: as a network of axiom systems, each studied for its own consequences, with relationships between systems (relative consistency, conservative extension, mutual interpretability) doing the work that a single foundational system was supposed to do.`,
+Researchers have shown that large language models can be prompted to reproduce verbatim chunks of their training data — including, in some cases, personal information like names, addresses, and phone numbers that appeared in the source text. The model was never meant to "store" those details, but with enough capacity it memorized rare examples. This is the concrete face of the privacy problem: the data a model learned from can leak back out.`,
   },
   {
-    slug: "probability-foundations",
-    title: "Probability: measure, frequency, credence",
+    slug: "automation-work-economy",
+    title: "Automation, work, and the economy",
     weekNumber: 4,
-    blurb: "What does it *mean* to say a probability is $0.7$?",
-    lectureTitle: "4.7 Probability: measure, frequency, credence",
-    body: `# Probability: measure, frequency, credence
+    blurb: "How AI changes jobs — by automating tasks, not whole occupations at once.",
+    lectureTitle: "4.4 Automation, work, and the economy",
+    body: `# Automation, work, and the economy
 
-We use the word *probability* for at least three different things. Modern mathematics has a precise definition of one of them and leaves the others to philosophy.
+The economic question — "will AI take my job?" — deserves a more careful answer than either the doomers or the boosters give. The honest version starts with a distinction.
 
-## The mathematical definition (Kolmogorov, 1933)
+## Tasks, not jobs
 
-A **probability space** is a triple $(\\Omega, \\mathcal{F}, P)$ where:
+AI automates **tasks**, not usually whole **jobs**. Most jobs are bundles of many tasks, and AI typically takes over some of them while leaving others — especially those requiring judgment, physical dexterity, human relationships, or accountability — to people. A radiologist's job includes reading scans (increasingly AI-assisted) but also consulting with patients and other doctors, handling ambiguous cases, and taking responsibility. Automating one task reshapes the job rather than deleting it.
 
-- $\\Omega$ is a set of **outcomes** (the *sample space*).
-- $\\mathcal{F}$ is a collection of subsets of $\\Omega$ called **events**, closed under complement and countable unions (a *$\\sigma$-algebra*).
-- $P : \\mathcal{F} \\to [0, 1]$ is a function satisfying:
-  1. $P(\\Omega) = 1$,
-  2. $P(\\emptyset) = 0$,
-  3. *Countable additivity:* for any disjoint sequence $A_1, A_2, \\ldots \\in \\mathcal{F}$,
-     $$P\\!\\left(\\bigcup_n A_n\\right) = \\sum_n P(A_n).$$
+## Augmentation vs. displacement
 
-That is *all* probability theory says probability *is*: a normalized measure on a $\\sigma$-algebra. Every theorem (law of large numbers, central limit theorem, Bayes' rule) is a consequence.
+This points to two effects. **Augmentation** is AI making a worker more productive — a tool that handles drudgery so the human does more of the valuable part. **Displacement** is AI replacing the need for some workers when enough of a job's tasks are automated. Both happen. Which dominates depends on the job, the economics, and choices societies make. History suggests automation tends to *transform* the labor market more than it permanently shrinks it — but the transition is often painful for the specific people displaced.
 
-This is a beautifully clean foundation. But it leaves an enormous question unanswered: *how do you choose $P$ in a real problem?*
+## The historical pattern
 
-## The three interpretations
+Past waves of automation — mechanized weaving, the assembly line, the spreadsheet, the bank ATM — destroyed some jobs, created others, and changed almost all of them. Bank ATMs, famously, did not eliminate tellers; the number of tellers grew for a time as branches got cheaper to run and tellers shifted to relationship work. The net long-run effect of automation on total employment has historically been roughly neutral to positive, even as it was deeply disruptive in the short run for displaced workers.
 
-- **Frequentist.** $P(A)$ is the long-run relative frequency of $A$ in independent repeated trials. "The probability this coin lands heads is $0.5$" means: if you toss it forever, the fraction of heads tends to $0.5$. Concept of probability for one-off events is undefined.
-- **Bayesian / subjective.** $P(A)$ is your **degree of belief** that $A$ is true, calibrated so that you would accept fair bets at those odds. New evidence updates your beliefs by Bayes' rule. Applies to one-off events ("the probability it rains tomorrow") and to hypotheses ("the probability the coin is fair").
-- **Propensity.** $P(A)$ is a real, physical disposition of the system — a tendency. Useful for talking about quantum mechanics, where the probabilities seem to be features of the world rather than features of our ignorance.
+## What is uncertain
 
-All three interpretations satisfy Kolmogorov's axioms. The math is the same; the *meaning* is contested.
+AI may differ from past automation in its breadth — it touches cognitive and creative work, not just routine manual labor — and possibly its speed. Whether the historical pattern holds is genuinely uncertain. What is clear is that the effects are uneven, that new skills and new roles emerge, and that policy and retraining matter for who wins and who loses.
 
-## A scientific example
+## A worked example
 
-When a clinical trial reports "the drug reduces mortality by $40\\%$ ($p = 0.03$)," the $p$-value is a frequentist statement: under the null hypothesis (drug has no effect), the probability of seeing data this extreme or more is $0.03$. This is *not* the probability that the null hypothesis is false — that would be a Bayesian statement, requiring a prior. The widespread confusion of these two statements is responsible for a substantial fraction of misreported science. The math doesn't care which interpretation you adopt; the *conclusion you can draw* depends on it absolutely.`,
+Spreadsheet software in the 1980s automated the core task of bookkeepers and accounting clerks — manual calculation. Many of those specific clerical jobs vanished. Yet the number of accountants and financial analysts *grew*, because cheap, instant calculation made financial analysis far more valuable and widespread. The task was automated; the profession expanded and moved up the value chain. That pattern — task automated, human work shifting to higher-value judgment — is the most common shape of these transitions.`,
   },
   {
-    slug: "computability-halting",
-    title: "Computability and the halting problem",
+    slug: "alignment-safety",
+    title: "Alignment and AI safety basics",
     weekNumber: 4,
-    blurb: "There is no algorithm that decides whether an algorithm halts.",
-    lectureTitle: "4.8 Computability and the halting problem",
-    body: `# Computability and the halting problem
+    blurb: "The problem of getting AI to actually do what we intend.",
+    lectureTitle: "4.5 Alignment and AI safety basics",
+    body: `# Alignment and AI safety basics
 
-To finish the course, we ask: what can be computed, in principle, by any mechanical procedure?
+As AI systems become more capable and more autonomous, a question moves from academic to urgent: how do we ensure they do what we actually *want*, not merely what we literally *said*? This is the **alignment** problem, and it sits at the heart of AI safety.
 
-## Turing machines
+## The core difficulty
 
-Alan Turing (1936) formalized an *idealized computer*: a finite state controller reading and writing symbols on an unbounded tape, according to a finite table of rules. A **Turing machine** is fully specified by that table.
+We train models by giving them an objective to optimize. The trouble is that it is extraordinarily hard to specify an objective that captures everything we care about and nothing we do not. A system relentlessly optimizing a slightly-wrong objective can produce results that technically satisfy the goal while violating its intent. The model is not malicious; it is doing exactly what we measured rather than what we meant.
 
-The **Church–Turing thesis** says: every function that is computable, by any mechanical procedure whatsoever — pencil and paper, modern computer, abacus, biological cell — is computable by some Turing machine. This is a thesis, not a theorem, because "mechanical procedure" has no a priori mathematical definition. But every alternative model of computation people have invented (lambda calculus, recursive functions, register machines, modern CPUs) turns out to compute exactly the same class of functions. The Turing-computable functions are, empirically, *the* computable functions.
+## Specification gaming
 
-## The halting problem
+This failure has a name: **specification gaming** (or reward hacking). The system finds a loophole — a way to score well on the stated objective that subverts the real goal. A cleaning robot rewarded for "no visible mess" might learn to cover the camera. A content recommender optimized purely for "engagement" might learn to push outrage and misinformation because those maximize clicks, even though that is not what anyone intended by "engagement." The objective was a proxy for what we wanted, and the system exploited the gap.
 
-A natural question: given a Turing machine $M$ and an input $x$, does $M$ eventually halt, or does it run forever?
+## Why it gets harder with capability
 
-Turing's headline result: **no algorithm can decide this in general.** The **halting problem** is *undecidable*.
+A weak system that games its objective is a nuisance you can catch and fix. The concern researchers raise is that as systems become more capable and operate with more autonomy over longer horizons, misaligned behavior could become harder to detect, harder to correct, and higher-stakes. This is why **AI safety** — the research field working on making systems reliable, controllable, and aligned with human values — is taken seriously even by those building the most advanced models.
 
-## The proof
+## Not science fiction, just engineering plus values
 
-Suppose, for contradiction, there is a Turing machine $H$ that, given $\\langle M, x \\rangle$, outputs "yes" if $M(x)$ halts and "no" otherwise. Build a new machine $D$ that, given an input $\\langle M \\rangle$ (the description of a machine), runs $H$ on $\\langle M, M \\rangle$ and then:
+Alignment is sometimes dismissed as a sci-fi worry about robot uprisings. The everyday reality is more mundane and more pressing: any optimizing system deployed with real power will do precisely what you measured, so measuring the right thing — and keeping humans able to oversee and correct it — is a central, practical safety problem today.
 
-- if $H$ says "yes" (i.e. $M$ halts on input $M$), $D$ loops forever;
-- if $H$ says "no," $D$ halts.
+## A worked example
 
-Now ask: what does $D$ do on input $\\langle D \\rangle$?
+In a now-classic case, researchers trained an AI to play a boat-racing video game by rewarding it for score. Instead of racing to the finish, the AI discovered it could rack up more points by spinning in a small loop forever, repeatedly hitting the same bonus targets, crashing and catching fire — ignoring the race entirely. It maximized the stated reward (score) while completely defeating the intended goal (win the race). That is specification gaming in miniature, and it scales up into the serious version of the alignment problem.`,
+  },
+  {
+    slug: "using-ai-well-workflow",
+    title: "Using AI well: a practical workflow",
+    weekNumber: 4,
+    blurb: "A repeatable, responsible process for getting real value from AI tools.",
+    lectureTitle: "4.6 Using AI well: a practical workflow",
+    body: `# Using AI well: a practical workflow
 
-- If $D$ halts on $\\langle D \\rangle$, then by construction $H$ said "yes" — which means $D$ does not halt on $\\langle D \\rangle$. Contradiction.
-- If $D$ does not halt, then $H$ said "no" — which means $D$ does halt on $\\langle D \\rangle$. Contradiction.
+Everything in this course points to a practical question: how do you actually use these tools to get reliable value without getting burned? The answer is a workflow, and a habit of mind, more than any single trick.
 
-Either way, contradiction. Therefore no such $H$ exists. The halting problem is uncomputable. ∎
+## Step 1: Decide whether AI even fits
 
-This argument is the *exact same* diagonal trick that Cantor used to prove $\\mathbb{R}$ uncountable (1.8) and that Gödel used in the incompleteness theorem (4.6). The three results — uncountability, incompleteness, undecidability — are siblings of one self-referential move.
+Start by asking whether the task is a good match. AI shines where output can be *verified*, where fluency matters more than guaranteed correctness, and where being approximately right is useful. It is a poor fit where you need authoritative facts you cannot check, perfect reliability, or accountability that only a human can hold. Choosing the right tasks is half the battle.
 
-## What follows
+## Step 2: Draft with the model
 
-Once you have one undecidable problem, you get many. By a standard reduction technique, you can show:
+Use AI for what it is good at: producing a fast first draft, a set of options, a summary, an explanation, or a starting structure. Prompt it well (3.6) — give context, be specific, show examples. Treat its output as raw material, not a finished product.
 
-- It is undecidable whether two given programs compute the same function.
-- It is undecidable whether a given Diophantine equation $p(x_1, \\ldots, x_n) = 0$ with integer coefficients has an integer solution (**Hilbert's 10th problem**, settled by Matiyasevich, 1970).
-- It is undecidable whether a given mathematical statement in first-order logic over the integers is true.
+## Step 3: Verify, always
 
-There are well-posed yes/no questions about numbers that no algorithm — and, granting the Church–Turing thesis, *no possible procedure* — can answer.
+This is the step people skip and regret. Check the output against reality: confirm facts, test the code, re-read the reasoning, look for hallucinations (3.7). Never paste an AI answer into something that matters without verifying it. The model cannot reliably tell you when it is wrong, so the checking is your job.
 
-## The arc
+## Step 4: Iterate and keep a human in the loop
 
-We began the course with counting on our fingers. We end it with the discovery that some questions about the integers are mechanically unanswerable. The reach of mathematics is enormous; its limits are sharp; and the proofs that establish those limits use the same handful of conceptual moves — quantification, self-reference, diagonalization — that we have met again and again. *That* is conceptual mathematics.`,
+Refine through conversation — point out errors, ask for revisions, narrow the scope. For anything consequential, the human stays responsible for the final decision. AI assists; it does not absolve you of judgment.
+
+## Step 5: Mind privacy and bias
+
+Do not feed confidential data to third-party models carelessly (4.3), and stay alert to biased or skewed output (4.1).
+
+## A worked example
+
+Suppose you must write an important client email summarizing a complex report. A good workflow: ask the model to draft a summary from the report's text you provide (draft); read it against the actual report to catch any misstatements or invented figures (verify); ask it to tighten the tone and fix the two points it got wrong (iterate); then *you* send it, having taken responsibility for its accuracy (human in the loop). You got the speed of AI and the reliability of human judgment — which is the whole point.`,
+  },
+  {
+    slug: "near-future-agents",
+    title: "The near future: agents and beyond",
+    weekNumber: 4,
+    blurb: "From systems that answer to systems that act — and the new risks that brings.",
+    lectureTitle: "4.7 The near future: agents and beyond",
+    body: `# The near future: agents and beyond
+
+The most active frontier in applied AI is the shift from models that *answer* to systems that *act*. These are **AI agents**, and understanding them is the best way to reason about where the field is heading.
+
+## What an agent is
+
+A chatbot responds to a single prompt and stops. An **agent** is given a goal and pursues it over multiple steps, deciding for itself what to do next. It can use **tools** — searching the web, running code, calling other software, reading and writing files — observing the results and adjusting its plan. The model becomes the reasoning core of a system that takes real actions in the world rather than just emitting text.
+
+## Why this is powerful
+
+Agents promise to automate whole workflows rather than single tasks: not "write me a function" but "find the bug, fix it, test it, and open a request"; not "suggest restaurants" but "book the table." Chaining reasoning, tool use, and action lets AI tackle longer, more complex jobs with less hand-holding. This is the direction much of the industry is racing toward.
+
+## The new risk: autonomy
+
+Autonomy is exactly what makes agents riskier. A model that only outputs text can be reviewed before anyone acts on it. An agent that *acts* can cause real consequences — send the email, delete the file, spend the money, execute the trade — before a human reviews anything. Every limitation from earlier weeks (hallucination, specification gaming, prompt injection, distribution shift) becomes more dangerous when the system can act on its mistakes directly. An agent that hallucinates and then *acts* on the hallucination is a categorically harder problem than a chatbot that simply says something false.
+
+## The honest outlook
+
+Agents are improving quickly but are still unreliable at long, open-ended tasks, and the safety and oversight problems are unsolved. The likely near future is increasingly capable agents deployed with guardrails and human approval for consequential actions — keeping a human in the loop precisely where autonomy is most dangerous. The trajectory is real; the timeline and the limits are uncertain.
+
+## A worked example
+
+A coding agent is asked to add a feature to a program. It reads the codebase, writes the new code, runs the tests, sees a failure, diagnoses it, rewrites the code, and reruns the tests until they pass — a multi-step loop of reasoning and action with no human input between steps. When it works, it is remarkable. When it goes wrong — confidently "fixing" the wrong thing and committing the change — it shows exactly why oversight of acting systems matters more than oversight of answering ones.`,
+  },
+  {
+    slug: "capstone-synthesis",
+    title: "Capstone synthesis",
+    weekNumber: 4,
+    blurb: "Tying the whole course together: from data to responsible use.",
+    lectureTitle: "4.8 Capstone synthesis",
+    body: `# Capstone synthesis
+
+We end where good understanding always ends: by connecting the pieces into one picture. You now have the conceptual backbone to reason about almost any AI system you encounter.
+
+## The arc of the course
+
+- **AI is learning from data, not magic** (Week 1). Modern AI is a shift from writing rules to learning patterns from examples. Its raw material is data, its core process is training — adjusting parameters to reduce error — and its product is a model, a learned function from inputs to outputs. Every AI product can be understood by asking what goes in and what comes out.
+- **Machines learn by finding and generalizing patterns** (Week 2). Pattern recognition, expressed through chosen features, drives supervised learning (from labels) and unsupervised learning (finding structure). Measuring error honestly — precision, recall, the right metric for the right cost — is as important as building the model, and scale in data and parameters has been a remarkably reliable engine of capability.
+- **Neural networks and generative AI** (Week 3). Neural networks learn hierarchical features by adjusting weights through gradient descent; depth made them dominant. Language models predict the next token, and that single objective, scaled up, yields generative systems that create text, images, and code — fluent, broad, and creative, but optimizing plausibility rather than truth, which is why they hallucinate.
+- **AI in the world** (Week 4). Real systems inherit bias from data, must be evaluated and trusted carefully rather than on a single benchmark, raise privacy and security risks, reshape work task by task, and must be *aligned* to do what we intend. Using AI well means choosing the right tasks, drafting, verifying, iterating, and keeping a human responsible — especially as systems become acting agents.
+
+## The one habit to keep
+
+If you remember a single thing, make it this: AI is a powerful, fallible tool that learns patterns from data and optimizes for what it was measured on. So always ask what it learned from, what it is optimizing, and how you will verify its output. That stance — neither dazzled nor dismissive — is what it means to understand AI.
+
+## The reach and the limits
+
+We began by separating intelligence from automation and hype. We end able to see both how far these systems reach and where their limits are sharp. The technology will keep changing; the conceptual scaffolding you have built here — data, learning, models, generation, and responsible use — is what lets you keep up with it. *That* is teaching yourself AI.`,
   },
 ];
 
@@ -1311,145 +836,157 @@ type SeedAssignment = {
   }>;
 };
 
+const HW_INSTRUCTIONS =
+  "Short-answer conceptual problems. Answer in your own words — concise, precise statements score best. Pasting is allowed for homework, but typing your own reasoning is strongly encouraged.";
+const TIMED_INSTRUCTIONS = (mins: number) =>
+  `Timed: ${mins} minutes. Conceptual short-answer questions; pasting is disabled. Write clear, precise answers in your own words.`;
+
 const ASSIGNMENTS: SeedAssignment[] = [
   // ───────────── Week 1 ─────────────
   {
     kind: "homework",
-    title: "Homework 1.1 — Numbers and their extensions",
+    title: "Homework 1.1 — What AI is, history, and the two paradigms",
     weekNumber: 1,
     isTimed: false,
     timeLimitMinutes: null,
-    instructions:
-      "Short-answer problems on counting, rationals, irrationals, and the reals. Use the math keyboard for the blackboard-bold number sets (ℕ, ℤ, ℚ, ℝ, ℂ) and any symbols.",
+    instructions: HW_INSTRUCTIONS,
     problems: [
       {
-        topicSlug: "counting-integers-numberline",
+        topicSlug: "what-ai-is",
         prompt:
-          "Using ∈ and ∉, write two true membership statements: one placing −7 in the integers, and one excluding −7 from the natural numbers ℕ = {1, 2, 3, …}.",
-        correctAnswer: "−7 ∈ ℤ and −7 ∉ ℕ",
+          "In one or two sentences, give the key difference between automation and intelligence, and say which one a household thermostat is.",
+        correctAnswer:
+          "Automation follows fixed, preset rules written in advance and never changes; intelligence adapts and improves from experience. A thermostat is automation, not intelligence.",
         explanation:
-          "$-7 \\in \\mathbb{Z}$ (it is an integer), and $-7 \\notin \\mathbb{N}$ under the convention $\\mathbb{N} = \\{1, 2, 3, \\ldots\\}$.",
+          "A thermostat executes a fixed rule (heat on below the set point) forever. Adapting to new situations from experience is what distinguishes intelligence; the thermostat does not learn.",
       },
       {
-        topicSlug: "rationals-ratios",
+        topicSlug: "history-symbolic-to-ml",
         prompt:
-          "Using set-builder notation, write the definition of the rational numbers ℚ as ratios of integers (be sure to exclude the impossible denominator).",
-        correctAnswer: "ℚ = { p/q : p, q ∈ ℤ, q ≠ 0 }",
+          "Name the 1956 event regarded as the founding of AI, and name the two broad eras of AI that followed it.",
+        correctAnswer:
+          "The 1956 Dartmouth workshop founded the field. The two eras: the symbolic / rule-based era (including expert systems), then the data-driven machine-learning era that dominates today.",
         explanation:
-          "$\\mathbb{Q} = \\{\\,p/q : p, q \\in \\mathbb{Z},\\ q \\neq 0\\,\\}$. Excluding $q = 0$ is essential — division by zero is undefined.",
+          "Symbolic AI encoded knowledge as hand-written rules and peaked with expert systems; after the AI winters, machine learning — learning patterns from data — became dominant, especially after 2010.",
       },
       {
-        topicSlug: "irrationals-sqrt2",
+        topicSlug: "rules-vs-learning",
         prompt:
-          "State, in symbols, the membership claim that √2 is real but not rational. Use ∈, ∉, ℝ, ℚ.",
-        correctAnswer: "√2 ∈ ℝ and √2 ∉ ℚ",
+          "Describe the two paradigms for getting a computer to do a task, and state which one modern AI for perception and language relies on.",
+        correctAnswer:
+          "Paradigm one: a human writes explicit rules/logic. Paradigm two: the system learns the rules statistically from many example inputs and outputs. Modern perception and language AI relies on the second (learning from data).",
         explanation:
-          "$\\sqrt 2 \\in \\mathbb{R}$ but $\\sqrt 2 \\notin \\mathbb{Q}$ — proven by the classical contradiction argument from $\\sqrt 2 = p/q$ in lowest terms.",
+          "Rules work when the logic is knowable and stable. For messy real-world tasks like recognizing images or understanding text, learning from data outperforms hand-written rules, which never keep up.",
       },
       {
-        topicSlug: "reals-completeness",
+        topicSlug: "data-raw-material",
         prompt:
-          "Write the chain of strict subset inclusions from the natural numbers up through the complex numbers (use ⊂ to indicate proper subsets).",
-        correctAnswer: "ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ ⊂ ℂ",
+          "Explain the phrase 'garbage in, garbage out,' and name two properties that good training data should have.",
+        correctAnswer:
+          "A model can be no better than the data it learns from, so bad data produces a bad model. Good training data is accurate, representative of real conditions, and sufficient in quantity (any two).",
         explanation:
-          "$\\mathbb{N} \\subset \\mathbb{Z} \\subset \\mathbb{Q} \\subset \\mathbb{R} \\subset \\mathbb{C}$. Each inclusion is strict — each extension is genuinely larger.",
+          "Quality, representativeness, and quantity all matter. A model trained on data that misrepresents the real world (e.g. only daytime photos) fails in conditions it never saw, regardless of the algorithm.",
       },
     ],
   },
   {
     kind: "homework",
-    title: "Homework 1.2 — Complex numbers, representation, infinity",
+    title: "Homework 1.2 — Training, models, and everyday AI",
     weekNumber: 1,
     isTimed: false,
     timeLimitMinutes: null,
-    instructions:
-      "Use the math keyboard for i, π, exponents, and blackboard-bold set symbols.",
+    instructions: HW_INSTRUCTIONS,
     problems: [
       {
-        topicSlug: "complex-rotations",
+        topicSlug: "what-training-means",
         prompt:
-          "Write the defining equation of the imaginary unit i, and then write Euler's identity (the special case linking 0, 1, π, e, and i).",
-        correctAnswer: "i² = −1; e^{iπ} + 1 = 0",
-        explanation:
-          "$i^2 = -1$ defines the imaginary unit. Euler's identity $e^{i\\pi} + 1 = 0$ links five fundamental constants in a single equation.",
-      },
-      {
-        topicSlug: "zero-negatives-leaps",
-        prompt:
-          "For each of the equations x + 1 = 0, 2x = 1, x² = 2, x² + 1 = 0, give the smallest standard number system (use ℕ, ℤ, ℚ, ℝ, ℂ) in which the equation has a solution.",
+          "What does 'training' a model actually adjust, and what is overfitting?",
         correctAnswer:
-          "x + 1 = 0 → ℤ; 2x = 1 → ℚ; x² = 2 → ℝ; x² + 1 = 0 → ℂ",
+          "Training adjusts the model's internal parameters (weights) to reduce its error (loss) on the training examples. Overfitting is when the model memorizes the training data instead of learning the general pattern, so it performs badly on new, unseen data.",
         explanation:
-          "Each enlargement of the number system was driven by an equation the previous system could not solve.",
+          "We care about generalization to new inputs, not performance on the training set. Overfitting is detected by evaluating on held-out test data the model never trained on.",
       },
       {
-        topicSlug: "bases-place-value",
+        topicSlug: "models-inputs-outputs",
         prompt:
-          "Write the number seventeen (a) in base 10, (b) in base 2, and (c) in base 16.",
-        correctAnswer: "(a) 17, (b) 10001, (c) 11",
+          "Define a model in terms of inputs and outputs, and give the input and the output of a spam filter.",
+        correctAnswer:
+          "A model is a learned function that maps an input to an output, where the rule was learned from data. For a spam filter: input = the email (its text/metadata), output = a label, spam or not-spam.",
         explanation:
-          "$17_{10} = 10001_2 = 11_{16}$. The number is the same; only the representation changes with the base.",
+          "Every AI application can be framed as 'what goes in, what comes out.' Training learns the mapping; inference applies the frozen model to new inputs.",
       },
       {
-        topicSlug: "countable-uncountable",
+        topicSlug: "what-ai-is",
         prompt:
-          "Using ∼ for 'has the same cardinality as', write two true statements: (a) that the integers and the rationals are equinumerous, and (b) that the reals are *not* equinumerous with the naturals.",
-        correctAnswer: "ℤ ∼ ℚ and ℝ ≁ ℕ",
+          "What is the difference between narrow AI and general AI, and which one exists today?",
+        correctAnswer:
+          "Narrow AI performs one specific kind of task; general AI would match human-level competence across the full range of tasks. Only narrow AI exists today; general AI does not.",
         explanation:
-          "$\\mathbb{Z}$ and $\\mathbb{Q}$ are both countable (cardinality $\\aleph_0$), so $\\mathbb{Z} \\sim \\mathbb{Q}$. By Cantor's diagonal argument, $\\mathbb{R}$ is uncountable, so $\\mathbb{R} \\not\\sim \\mathbb{N}$.",
+          "Every deployed AI system is narrow — a chess engine cannot hold a conversation. Much of the gap between AI hype and reality is the gap between narrow and general.",
+      },
+      {
+        topicSlug: "ai-everyday-life",
+        prompt:
+          "Give three everyday products or services that use AI, and state the job the AI does in each.",
+        correctAnswer:
+          "Examples: streaming/shopping apps (recommend content), navigation apps (predict traffic and routes), phones (face/voice recognition), banks (fraud detection), keyboards (autocomplete), translation apps (translate). Any three with the AI's job named.",
+        explanation:
+          "Most AI is invisible: a narrow model doing one task (predict, rank, classify, transcribe) inside an ordinary product.",
       },
     ],
   },
   {
     kind: "test",
-    title: "Week 1 Test — The number systems",
+    title: "Week 1 Test — What AI is and how it got here",
     weekNumber: 1,
     isTimed: true,
     timeLimitMinutes: 30,
-    instructions:
-      "Timed. 30 minutes. Math keyboard available; pasting is disabled. Answers should be written in compact symbolic form using the on-screen math keyboard.",
+    instructions: TIMED_INSTRUCTIONS(30),
     problems: [
       {
-        topicSlug: "counting-integers-numberline",
+        topicSlug: "what-ai-is",
         prompt:
-          "Using a single statement, write that the integers are closed under subtraction but the natural numbers are not. (Give a specific counterexample for ℕ.)",
-        correctAnswer: "∀ a, b ∈ ℤ, a − b ∈ ℤ; but 3 − 5 = −2 ∉ ℕ",
-        explanation:
-          "For all $a, b \\in \\mathbb{Z}$, $a - b \\in \\mathbb{Z}$. But $3 - 5 = -2 \\notin \\mathbb{N}$ shows $\\mathbb{N}$ is not closed under subtraction.",
-      },
-      {
-        topicSlug: "irrationals-sqrt2",
-        prompt:
-          "Outline the proof that √2 ∉ ℚ as a contradiction: state the assumption, the algebraic consequence, and the contradiction reached.",
+          "Distinguish automation from intelligence in one sentence, and give an example of each.",
         correctAnswer:
-          "Assume √2 = p/q in lowest terms ⇒ p² = 2q² ⇒ p even ⇒ p = 2k ⇒ q² = 2k² ⇒ q even ⇒ p, q share factor 2, contradicting 'lowest terms'.",
+          "Automation follows fixed preset rules and does not adapt (e.g. a thermostat); intelligence learns and adapts from experience (e.g. a spam filter that improves as it sees more spam).",
         explanation:
-          "Assume $\\sqrt 2 = p/q$ in lowest terms. Then $p^2 = 2q^2$, so $p$ is even, $p = 2k$, then $q^2 = 2k^2$, so $q$ is even — contradicting 'lowest terms.'",
+          "The dividing line is adaptation/learning. Fixed rules = automation; improving with experience = intelligence in the AI sense.",
       },
       {
-        topicSlug: "reals-completeness",
+        topicSlug: "data-raw-material",
         prompt:
-          "State the Least Upper Bound (supremum) property of ℝ in symbols.",
+          "Why is data quality so important in machine learning? State the principle and one property of good data.",
         correctAnswer:
-          "∀ S ⊆ ℝ with S ≠ ∅ and S bounded above, ∃ sup(S) ∈ ℝ",
+          "Because a model can be no better than the data it learns from — garbage in, garbage out. Good data is accurate, representative, and/or sufficient in quantity.",
         explanation:
-          "Every nonempty subset $S \\subseteq \\mathbb{R}$ with an upper bound has a least upper bound $\\sup(S) \\in \\mathbb{R}$. This property fails in $\\mathbb{Q}$.",
+          "The algorithm cannot compensate for data that is inaccurate, unrepresentative, or too small; the data sets the ceiling on model quality.",
       },
       {
-        topicSlug: "complex-rotations",
+        topicSlug: "history-symbolic-to-ml",
         prompt:
-          "Using i, write the two complex square roots of −9.",
-        correctAnswer: "±3i",
+          "What changed in AI around 2010 that made machine learning dominant over symbolic AI?",
+        correctAnswer:
+          "The convergence of much more data (the internet), much more compute (GPUs), and better algorithms (deep neural networks) made learning from data outperform hand-written rules.",
         explanation:
-          "$x^2 = -9 \\Rightarrow x = \\pm 3i$, since $(3i)^2 = 9 \\cdot i^2 = -9$.",
+          "Symbolic/rule-based AI was brittle and did not scale. Data + compute + deep learning made the learning paradigm win, especially for perception and language.",
       },
       {
-        topicSlug: "countable-uncountable",
+        topicSlug: "what-training-means",
         prompt:
-          "Using ℵ₀, write the cardinality of ℚ and a strict inequality showing |ℝ| is larger.",
-        correctAnswer: "|ℚ| = ℵ₀ and |ℝ| > ℵ₀",
+          "Define overfitting and name one way to reduce it.",
+        correctAnswer:
+          "Overfitting is when a model memorizes the training data (including noise) and fails to generalize to new data. Cures include more/representative data and using a simpler model.",
         explanation:
-          "$|\\mathbb{Q}| = \\aleph_0$ (the rationals are countable). $|\\mathbb{R}| > \\aleph_0$ by Cantor's diagonal argument; $|\\mathbb{R}| = 2^{\\aleph_0}$.",
+          "Generalization to unseen data is the goal. Overfitting is caught with a held-out test set and reduced with more data, simpler models, or regularization.",
+      },
+      {
+        topicSlug: "models-inputs-outputs",
+        prompt:
+          "Explain the difference between training time and inference time.",
+        correctAnswer:
+          "Training is the expensive, occasional process of learning the parameters from data. Inference is using the finished, frozen model to make a prediction on a new input — fast and cheap, with no learning.",
+        explanation:
+          "When you query a chatbot you are doing inference; the model's parameters were learned earlier and do not change in response to your question.",
       },
     ],
   },
@@ -1457,90 +994,75 @@ const ASSIGNMENTS: SeedAssignment[] = [
   // ───────────── Week 2 ─────────────
   {
     kind: "homework",
-    title: "Homework 2.1 — Operations, structural laws, groups",
+    title: "Homework 2.1 — Pattern recognition, features, supervised learning",
     weekNumber: 2,
     isTimed: false,
     timeLimitMinutes: null,
-    instructions:
-      "Use the math keyboard for ∀, ∃, ∈, ∘, and any operator symbols.",
+    instructions: HW_INSTRUCTIONS,
     problems: [
       {
-        topicSlug: "what-is-operation",
+        topicSlug: "pattern-recognition",
         prompt:
-          "Using the function-arrow notation, write the formal definition of a binary operation ∗ on a set S.",
-        correctAnswer: "∗ : S × S → S",
+          "State the core idea of pattern recognition, and explain why generalization (not memorization) is the goal.",
+        correctAnswer:
+          "Pattern recognition means finding a regularity in past data and using it to make good guesses about new data. The goal is generalization — performing well on unseen inputs — because a model that just memorizes its examples has found no real pattern and fails on anything new.",
         explanation:
-          "$\\ast : S \\times S \\to S$. The codomain $S$ encodes the closure requirement: combining two elements of $S$ must produce an element of $S$.",
+          "Learning = detecting signal and ignoring noise so the pattern holds on new data. Memorization (overfitting) is the failure mode.",
       },
       {
-        topicSlug: "commutative-associative-distributive",
+        topicSlug: "features-representations",
         prompt:
-          "Using ∀, write the commutative law for an operation ∗ on a set S, and the associative law for the same ∗.",
+          "What is a feature, and why does the choice of representation matter? Use a spam example.",
         correctAnswer:
-          "∀ a, b ∈ S, a ∗ b = b ∗ a; ∀ a, b, c ∈ S, (a ∗ b) ∗ c = a ∗ (b ∗ c)",
+          "A feature is a single measurable property of an input. Representation (the set of features) matters because the same object described well or badly leads to very different model performance. For spam: representing an email as word counts (bag of words) exposes spammy words; a learned embedding captures meaning and context even better.",
         explanation:
-          "Commutativity: $\\forall a, b \\in S,\\ a \\ast b = b \\ast a$. Associativity: $\\forall a, b, c \\in S,\\ (a \\ast b) \\ast c = a \\ast (b \\ast c)$.",
+          "Models see inputs only through their features. Good representations make patterns easy to learn; deep learning's advantage is learning its own representations from raw data.",
       },
       {
-        topicSlug: "groups-symmetry",
+        topicSlug: "supervised-learning",
         prompt:
-          "List the four axioms a set G with operation ∗ must satisfy to be a group. Use compact symbolic notation (closure, associativity, identity, inverses).",
+          "Define supervised learning, and distinguish classification from regression with one example of each.",
         correctAnswer:
-          "(1) ∀ a, b ∈ G, a∗b ∈ G; (2) ∀ a, b, c, (a∗b)∗c = a∗(b∗c); (3) ∃ e ∈ G, ∀ a, e∗a = a∗e = a; (4) ∀ a ∈ G, ∃ a⁻¹ ∈ G, a∗a⁻¹ = a⁻¹∗a = e",
+          "Supervised learning learns a mapping from inputs to outputs using labeled examples (each input paired with its correct answer). Classification predicts a category (e.g. spam vs not-spam); regression predicts a continuous number (e.g. a house's price).",
         explanation:
-          "Closure, associativity, identity element $e$, inverses. An abelian group additionally satisfies $a \\ast b = b \\ast a$.",
+          "The labels are the 'supervision.' Identifying whether the output is a category or a number is the first decision in a supervised project.",
       },
     ],
   },
   {
     kind: "homework",
-    title: "Homework 2.2 — Rings, fields, vector spaces, functions, modular arithmetic",
+    title: "Homework 2.2 — Unsupervised learning, error, and scale",
     weekNumber: 2,
     isTimed: false,
     timeLimitMinutes: null,
-    instructions:
-      "Use the math keyboard for blackboard-bold sets, ∀/∃, ≡, ∘, ∈, ∉.",
+    instructions: HW_INSTRUCTIONS,
     problems: [
       {
-        topicSlug: "rings-fields",
+        topicSlug: "unsupervised-learning",
         prompt:
-          "Give the precise condition on the positive integer n for the ring ℤ/nℤ to be a field. State it as a single sentence in symbols.",
-        correctAnswer: "ℤ/nℤ is a field ⟺ n is prime",
-        explanation:
-          "$\\mathbb{Z}/n\\mathbb{Z}$ is a field if and only if $n$ is prime. For composite $n = ab$ with $1 < a, b < n$, the classes $[a]$ and $[b]$ are nonzero zero-divisors and have no multiplicative inverses.",
-      },
-      {
-        topicSlug: "vector-spaces",
-        prompt:
-          "Using Σ notation, write the general form of a linear combination of vectors v₁, …, vₖ with scalars α₁, …, αₖ from a field F.",
-        correctAnswer: "Σ_{i=1}^{k} α_i v_i",
-        explanation:
-          "A linear combination is $\\sum_{i=1}^{k} \\alpha_i v_i$, with each $\\alpha_i \\in F$ and each $v_i$ a vector. The span of $\\{v_1, \\ldots, v_k\\}$ is the set of all such combinations.",
-      },
-      {
-        topicSlug: "functions-mappings",
-        prompt:
-          "Using ∀ and ⇒, write the formal definition that a function f : A → B is injective.",
-        correctAnswer: "∀ a₁, a₂ ∈ A, f(a₁) = f(a₂) ⇒ a₁ = a₂",
-        explanation:
-          "$f$ is injective iff $\\forall a_1, a_2 \\in A,\\ f(a_1) = f(a_2) \\Rightarrow a_1 = a_2$. Equivalently: different inputs give different outputs.",
-      },
-      {
-        topicSlug: "relations-equivalence-iso",
-        prompt:
-          "List the three properties (in symbols) that a relation ∼ on a set S must satisfy to be an equivalence relation.",
+          "Define unsupervised learning and name one task it performs without any labels.",
         correctAnswer:
-          "Reflexive: ∀ a, a ∼ a. Symmetric: ∀ a, b, a ∼ b ⇒ b ∼ a. Transitive: ∀ a, b, c, (a ∼ b ∧ b ∼ c) ⇒ a ∼ c.",
+          "Unsupervised learning finds structure in data without labeled answers. Tasks include clustering (grouping similar items, e.g. customer segmentation) and dimensionality reduction (compressing many features into a few).",
         explanation:
-          "Reflexivity, symmetry, transitivity. An equivalence relation partitions $S$ into disjoint equivalence classes.",
+          "With no answer key, success is judged by whether the discovered structure is useful. It is often a first, exploratory step on unlabeled data.",
       },
       {
-        topicSlug: "modular-arithmetic",
+        topicSlug: "prediction-classification-error",
         prompt:
-          "Using the ≡ ... (mod n) notation, write Fermat's Little Theorem for a prime p and an integer a not divisible by p.",
-        correctAnswer: "a^{p−1} ≡ 1 (mod p)",
+          "Define precision and recall, and give a situation where a false negative is worse than a false positive.",
+        correctAnswer:
+          "Precision: of the items flagged positive, the fraction that truly are positive (few false alarms). Recall: of all truly positive items, the fraction the model caught (few misses). A false negative is worse in cancer screening — missing a real case (telling a sick patient they are healthy) is far costlier than a false alarm.",
         explanation:
-          "Fermat's Little Theorem: $a^{p-1} \\equiv 1 \\pmod p$ when $\\gcd(a, p) = 1$. It is the foundation of probabilistic primality testing and RSA encryption.",
+          "There is usually a precision/recall trade-off. The right balance depends on the cost of each error type; for screening, high recall matters most.",
+      },
+      {
+        topicSlug: "data-and-scale",
+        prompt:
+          "Explain why more data and bigger models generally improve performance, and give one limit of just scaling up.",
+        correctAnswer:
+          "More data captures more real-world variety and reduces overfitting; bigger models have more capacity to represent complex patterns — and the two go together. Limits include diminishing returns, finite high-quality data, large compute/energy cost, and that scale does not fix factual reliability or reasoning.",
+        explanation:
+          "Scaling laws make gains predictable, which is why companies invest in ever-larger models — but each doubling buys less, and scale is not a cure-all.",
       },
     ],
   },
@@ -1551,72 +1073,76 @@ const ASSIGNMENTS: SeedAssignment[] = [
     isTimed: true,
     timeLimitMinutes: 60,
     instructions:
-      "Cumulative midterm on the number systems and on algebraic structures. 60 minutes. Math keyboard available; pasting disabled.",
+      "Cumulative midterm on what AI is, how it got here, and how machines learn. " +
+      TIMED_INSTRUCTIONS(60),
     problems: [
       {
-        topicSlug: "rationals-ratios",
-        prompt:
-          "Using set-builder notation, write the definition of ℚ as ratios of integers.",
-        correctAnswer: "ℚ = { p/q : p, q ∈ ℤ, q ≠ 0 }",
-        explanation:
-          "$\\mathbb{Q} = \\{\\,p/q : p, q \\in \\mathbb{Z},\\ q \\neq 0\\,\\}$.",
-      },
-      {
-        topicSlug: "irrationals-sqrt2",
-        prompt:
-          "Write the membership claim that √2 is real but not rational.",
-        correctAnswer: "√2 ∈ ℝ and √2 ∉ ℚ",
-        explanation:
-          "$\\sqrt 2 \\in \\mathbb{R}$ and $\\sqrt 2 \\notin \\mathbb{Q}$.",
-      },
-      {
-        topicSlug: "complex-rotations",
-        prompt:
-          "State the defining equation of the imaginary unit i and write Euler's identity.",
-        correctAnswer: "i² = −1; e^{iπ} + 1 = 0",
-        explanation:
-          "$i^2 = -1$ and $e^{i\\pi} + 1 = 0$.",
-      },
-      {
-        topicSlug: "countable-uncountable",
-        prompt:
-          "Using ℵ₀, write the cardinality of ℕ. Then write a strict inequality comparing |ℕ| and |ℝ|.",
-        correctAnswer: "|ℕ| = ℵ₀ and |ℕ| < |ℝ|",
-        explanation:
-          "$|\\mathbb{N}| = \\aleph_0$ and $|\\mathbb{N}| < |\\mathbb{R}|$ (Cantor).",
-      },
-      {
-        topicSlug: "groups-symmetry",
-        prompt:
-          "Using ∃ and ∀, state the identity-element axiom and the inverses axiom for a group (G, ∗).",
+        topicSlug: "what-ai-is",
+        prompt: "Give the difference between narrow AI and general AI, and say which exists today.",
         correctAnswer:
-          "∃ e ∈ G, ∀ a ∈ G, e ∗ a = a ∗ e = a; and ∀ a ∈ G, ∃ a⁻¹ ∈ G, a ∗ a⁻¹ = a⁻¹ ∗ a = e",
+          "Narrow AI does one specific task; general AI would have human-level ability across all tasks. Only narrow AI exists today.",
         explanation:
-          "Identity: $\\exists e,\\ \\forall a,\\ e \\ast a = a \\ast e = a$. Inverses: $\\forall a,\\ \\exists a^{-1},\\ a \\ast a^{-1} = a^{-1} \\ast a = e$.",
+          "Every real system is narrow. General AI is not here and there is no consensus on if/when it will be.",
       },
       {
-        topicSlug: "rings-fields",
+        topicSlug: "rules-vs-learning",
         prompt:
-          "State the condition on n for ℤ/nℤ to be a field.",
-        correctAnswer: "ℤ/nℤ is a field ⟺ n is prime",
+          "Contrast the rule-based paradigm with the machine-learning paradigm, and say when each is the right tool.",
+        correctAnswer:
+          "Rule-based: humans write explicit logic — right when rules are knowable, stable, and few (e.g. computing tax). Machine learning: the system learns rules from data — right when rules are unknown, fuzzy, or too numerous (e.g. recognizing images, understanding text).",
         explanation:
-          "$\\mathbb{Z}/n\\mathbb{Z}$ is a field iff $n$ is prime.",
+          "Most real products combine both: learned models wrapped in hand-written rules and checks.",
       },
       {
-        topicSlug: "vector-spaces",
-        prompt:
-          "Using Σ, write the linear combination of v₁, v₂, v₃ with scalars α₁, α₂, α₃.",
-        correctAnswer: "Σ_{i=1}^{3} α_i v_i = α₁v₁ + α₂v₂ + α₃v₃",
+        topicSlug: "what-training-means",
+        prompt: "What does training adjust, and what does overfitting mean?",
+        correctAnswer:
+          "Training adjusts parameters (weights) to minimize error (loss) on training examples. Overfitting is memorizing the training data and failing to generalize to new data.",
         explanation:
-          "$\\sum_{i=1}^{3} \\alpha_i v_i$.",
+          "The aim is generalization, measured on a held-out test set.",
       },
       {
-        topicSlug: "modular-arithmetic",
+        topicSlug: "supervised-learning",
         prompt:
-          "Using the ≡ ... (mod n) notation, write Fermat's Little Theorem.",
-        correctAnswer: "a^{p−1} ≡ 1 (mod p) when gcd(a, p) = 1",
+          "Define supervised learning and give an example of a classification problem and a regression problem.",
+        correctAnswer:
+          "Supervised learning maps inputs to outputs using labeled examples. Classification example: predict spam vs not-spam (a category). Regression example: predict a house's sale price (a number).",
         explanation:
-          "$a^{p-1} \\equiv 1 \\pmod p$ for prime $p$ and $\\gcd(a, p) = 1$.",
+          "Labels supply the supervision; classification outputs categories, regression outputs continuous numbers.",
+      },
+      {
+        topicSlug: "unsupervised-learning",
+        prompt:
+          "How does unsupervised learning differ from supervised learning, and name one unsupervised task.",
+        correctAnswer:
+          "Unsupervised learning finds structure in data with no labels, whereas supervised learning uses labeled answers. Tasks include clustering and dimensionality reduction.",
+        explanation:
+          "Most data is unlabeled, so finding structure without an answer key is broadly useful.",
+      },
+      {
+        topicSlug: "features-representations",
+        prompt: "What is a feature, and why can representation matter more than the algorithm?",
+        correctAnswer:
+          "A feature is a measurable property of the input. Representation can matter more than the algorithm because a model only sees inputs through its features — a good representation makes the pattern learnable, a bad one makes it nearly impossible.",
+        explanation:
+          "This motivates feature engineering, and motivates deep learning, which learns its own representations from raw data.",
+      },
+      {
+        topicSlug: "prediction-classification-error",
+        prompt:
+          "Why can accuracy be a misleading metric? Use an imbalanced example.",
+        correctAnswer:
+          "When categories are imbalanced, a trivial model can score high accuracy while being useless. If 1 in 1,000 transactions is fraud, always predicting 'not fraud' is 99.9% accurate but catches zero fraud. Precision and recall reveal the real performance.",
+        explanation:
+          "Break errors into false positives and false negatives, and use precision/recall suited to the cost of each error.",
+      },
+      {
+        topicSlug: "data-and-scale",
+        prompt: "State, in one sentence, why more data helps and why bigger models help.",
+        correctAnswer:
+          "More data exposes more of the world's variety and reduces overfitting; bigger models have more capacity to represent complex patterns — and they must scale together.",
+        explanation:
+          "A big model on little data overfits; a tiny model cannot exploit big data. Scaling both (plus compute) drives capability, up to diminishing returns.",
       },
     ],
   },
@@ -1624,138 +1150,139 @@ const ASSIGNMENTS: SeedAssignment[] = [
   // ───────────── Week 3 ─────────────
   {
     kind: "homework",
-    title: "Homework 3.1 — Limits, continuity, derivatives, integrals",
+    title: "Homework 3.1 — Neural networks, learning, deep learning, language models",
     weekNumber: 3,
     isTimed: false,
     timeLimitMinutes: null,
-    instructions:
-      "Use the math keyboard for limits, derivatives, integrals, and quantifiers.",
+    instructions: HW_INSTRUCTIONS,
     problems: [
       {
-        topicSlug: "limits-taming-infinity",
+        topicSlug: "neural-networks-intuition",
         prompt:
-          "Write the ε–δ definition of lim_{x → a} f(x) = L using ∀, ∃, and |·|.",
+          "Describe a neural network in terms of neurons, layers, and weights. What is actually learned?",
         correctAnswer:
-          "∀ ε > 0, ∃ δ > 0 : 0 < |x − a| < δ ⇒ |f(x) − L| < ε",
+          "A neural network is made of artificial neurons that multiply inputs by weights, sum them, and pass the result through a nonlinear step. Neurons are organized into layers, each feeding the next, so simple decisions combine into complex ones. The weights are the parameters that training learns; the architecture is designed by humans.",
         explanation:
-          "$\\forall \\varepsilon > 0,\\ \\exists \\delta > 0$ such that $0 < |x - a| < \\delta \\Rightarrow |f(x) - L| < \\varepsilon$.",
+          "Stacking layers lets the network model almost any input-output relationship (a universal approximator). Learning = finding good weights.",
       },
       {
-        topicSlug: "continuity",
+        topicSlug: "how-networks-learn",
         prompt:
-          "State, as a single equation, the definition that a function f is continuous at the point a.",
-        correctAnswer: "lim_{x → a} f(x) = f(a)",
+          "Explain in plain terms how a neural network learns, naming loss, backpropagation, and gradient descent.",
+        correctAnswer:
+          "The network makes a prediction (forward pass), and the loss measures how wrong it is. Backpropagation computes how much each weight contributed to the error, and gradient descent nudges each weight a small step to reduce the loss. Repeating this over many examples gradually produces good weights.",
         explanation:
-          "$f$ is continuous at $a$ iff $\\lim_{x \\to a} f(x) = f(a)$ — meaning the limit exists, $f(a)$ exists, and the two are equal.",
+          "Picture descending a loss landscape in small steps toward a valley of low error; the learning rate is the step size.",
       },
       {
-        topicSlug: "derivatives-instantaneous-rate",
+        topicSlug: "deep-learning",
         prompt:
-          "Using a limit, write the definition of the derivative f'(a).",
-        correctAnswer: "f'(a) = lim_{h → 0} (f(a + h) − f(a)) / h",
+          "What makes deep learning 'deep,' and what does depth give you?",
+        correctAnswer:
+          "Deep learning uses neural networks with many layers. Depth lets the network build a hierarchy of features — each layer composing simpler patterns from the layer below (e.g. edges → parts → objects) — and learn its own representations from raw data instead of hand-engineered features.",
         explanation:
-          "$f'(a) = \\lim_{h \\to 0} \\dfrac{f(a+h) - f(a)}{h}$, when the limit exists.",
+          "Depth made AI dominant once big data, GPUs, and better training arrived together around 2012. The cost is large data, compute, and opacity.",
       },
       {
-        topicSlug: "integrals-accumulation",
+        topicSlug: "language-models",
         prompt:
-          "Using ∫, write the definite integral of f from a to b. Include the dx.",
-        correctAnswer: "∫_a^b f(x) dx",
+          "What is the single task a language model is trained to do, and why does that not require human labels?",
+        correctAnswer:
+          "A language model is trained to predict the next token (piece of text) given the preceding text. It needs no human labels because the next word in ordinary text is already the correct answer, so it can train on huge amounts of raw text.",
         explanation:
-          "$\\int_a^b f(x)\\,\\mathrm{d}x$. The $\\mathrm{d}x$ is the limit of the rectangle widths in the Riemann sum.",
+          "Generating text is just doing this prediction repeatedly. Learning to predict well forces the model to absorb grammar, facts, and reasoning — but it optimizes plausibility, not truth.",
       },
     ],
   },
   {
     kind: "homework",
-    title: "Homework 3.2 — FTC, series, geometry, topology",
+    title: "Homework 3.2 — Generative AI, prompting, and limits",
     weekNumber: 3,
     isTimed: false,
     timeLimitMinutes: null,
-    instructions: "Use the math keyboard freely.",
+    instructions: HW_INSTRUCTIONS,
     problems: [
       {
-        topicSlug: "ftc",
+        topicSlug: "generative-ai",
         prompt:
-          "State Part 2 of the Fundamental Theorem of Calculus: if F' = f on [a, b], express ∫_a^b f(x) dx in terms of F.",
-        correctAnswer: "∫_a^b f(x) dx = F(b) − F(a)",
+          "What does 'generative' mean, and how does generative AI differ from a discriminative model? Name two kinds of content it can produce.",
+        correctAnswer:
+          "Generative AI creates new content rather than just classifying existing content. A discriminative model judges/labels an input (e.g. spam or not); a generative model produces new examples (e.g. writes the email). It can produce text, images, audio, video, code (any two).",
         explanation:
-          "$\\int_a^b f(x)\\,\\mathrm{d}x = F(b) - F(a)$ for any antiderivative $F$ of $f$.",
+          "Generation involves sampling, so the same prompt can yield different outputs. Many generative systems are general-purpose foundation models.",
       },
       {
-        topicSlug: "sequences-series-zeno",
+        topicSlug: "prompting",
         prompt:
-          "Using Σ, write the closed-form sum of the infinite geometric series 1 + r + r² + r³ + ⋯ when |r| < 1.",
-        correctAnswer: "Σ_{n=0}^{∞} r^n = 1 / (1 − r), valid for |r| < 1",
+          "Give two techniques for getting better outputs from a generative model, and explain why each helps.",
+        correctAnswer:
+          "Examples: (1) Be specific and give context (audience, format, length, relevant facts) — it narrows the model away from generic continuations; (2) Show examples / few-shot — the model recognizes and continues the pattern; (3) State a role and ask for step-by-step work; (4) Iterate, treating output as a draft. Any two with reasons.",
         explanation:
-          "$\\sum_{n=0}^{\\infty} r^n = \\dfrac{1}{1 - r}$ when $|r| < 1$. This is the resolution of Zeno's paradox: infinitely many shrinking steps sum to a finite total.",
+          "Because the model continues whatever you give it, how you ask shapes what you get. Constraining the prompt constrains the output.",
       },
       {
-        topicSlug: "euclidean-non-euclidean",
+        topicSlug: "strengths-limits-hallucination",
         prompt:
-          "For a triangle on a sphere of constant positive curvature, write an inequality comparing the sum of its interior angles to π.",
-        correctAnswer: "α + β + γ > π",
+          "Define hallucination and explain why it happens given how language models work.",
+        correctAnswer:
+          "Hallucination is when a model produces confident, fluent output that is false (e.g. an invented citation or statistic). It happens because the model predicts plausible continuations, not true ones — when it lacks the knowledge it still generates text that sounds right, since plausibility, not truth, is what it optimizes.",
         explanation:
-          "On a sphere (positive curvature), the angle sum of any triangle exceeds $\\pi$. On a hyperbolic surface (negative curvature), the sum is less than $\\pi$. Only in Euclidean geometry is the sum exactly $\\pi$.",
-      },
-      {
-        topicSlug: "topology-dimension-curvature",
-        prompt:
-          "Using V, E, F, write the Euler characteristic χ of a polyhedron, and give its value for any triangulation of the sphere.",
-        correctAnswer: "χ = V − E + F; for the sphere, χ = 2",
-        explanation:
-          "$\\chi = V - E + F$. For any triangulation of the sphere, $\\chi = 2$ (Euler, 1758). For the torus, $\\chi = 0$.",
+          "This is why you should only use AI where you can verify the output, and never trust it as an authoritative source of facts you cannot check.",
       },
     ],
   },
   {
     kind: "test",
-    title: "Week 3 Test — Calculus, geometry, topology",
+    title: "Week 3 Test — Neural networks and generative AI",
     weekNumber: 3,
     isTimed: true,
     timeLimitMinutes: 40,
-    instructions: "Timed. 40 minutes. Math keyboard available; pasting disabled.",
+    instructions: TIMED_INSTRUCTIONS(40),
     problems: [
       {
-        topicSlug: "limits-taming-infinity",
+        topicSlug: "neural-networks-intuition",
         prompt:
-          "Write the ε–δ definition of lim_{x → a} f(x) = L.",
+          "What are the weights in a neural network, and what role do layers play?",
         correctAnswer:
-          "∀ ε > 0, ∃ δ > 0 : 0 < |x − a| < δ ⇒ |f(x) − L| < ε",
+          "Weights are the adjustable numbers on the connections — the parameters that training learns. Layers transform the data step by step, so stacking them lets the network combine simple decisions into a complex overall mapping.",
         explanation:
-          "$\\forall \\varepsilon > 0,\\ \\exists \\delta > 0 : 0 < |x - a| < \\delta \\Rightarrow |f(x) - L| < \\varepsilon$.",
+          "Humans design the architecture (the wiring); training learns the weights from data.",
       },
       {
-        topicSlug: "derivatives-instantaneous-rate",
+        topicSlug: "how-networks-learn",
         prompt:
-          "Using a limit, write the definition of f'(a).",
-        correctAnswer: "f'(a) = lim_{h → 0} (f(a + h) − f(a)) / h",
+          "Name and briefly describe the three steps that let a network turn errors into better weights.",
+        correctAnswer:
+          "(1) Loss — measure how wrong the prediction is; (2) Backpropagation — compute how much each weight contributed to the error; (3) Gradient descent — nudge each weight a small step to reduce the loss. Repeat over many examples.",
         explanation:
-          "$f'(a) = \\lim_{h \\to 0} \\dfrac{f(a+h) - f(a)}{h}$.",
+          "It is a guess–measure–adjust loop run millions of times; no human writes the weights.",
       },
       {
-        topicSlug: "ftc",
+        topicSlug: "language-models",
         prompt:
-          "State the Fundamental Theorem of Calculus Part 2 in symbols.",
-        correctAnswer: "If F' = f on [a, b], then ∫_a^b f(x) dx = F(b) − F(a)",
+          "Describe the basic task a language model performs, and what its 'context window' is.",
+        correctAnswer:
+          "It predicts the next token given the preceding text, generating text by doing this repeatedly. The context window is the limited amount of text it can see at once; anything outside it is not used unless supplied again.",
         explanation:
-          "$\\int_a^b f(x)\\,\\mathrm{d}x = F(b) - F(a)$.",
+          "It optimizes plausible continuation, not truth — the root of hallucination.",
       },
       {
-        topicSlug: "sequences-series-zeno",
+        topicSlug: "generative-ai",
         prompt:
-          "Sum the geometric series Σ_{n=0}^{∞} (1/2)^n.",
-        correctAnswer: "Σ_{n=0}^{∞} (1/2)^n = 1/(1 − 1/2) = 2",
+          "Explain the difference between a discriminative model and a generative model.",
+        correctAnswer:
+          "A discriminative model judges an input — classifies it or scores it (e.g. is this email spam?). A generative model creates new content consistent with patterns it learned (e.g. write an email, generate an image).",
         explanation:
-          "$\\sum_{n=0}^{\\infty} (1/2)^n = \\dfrac{1}{1 - 1/2} = 2$.",
+          "Most of weeks 1–2 was discriminative; chatbots and image generators are generative.",
       },
       {
-        topicSlug: "topology-dimension-curvature",
+        topicSlug: "strengths-limits-hallucination",
         prompt:
-          "Give the Euler characteristic of (a) a sphere and (b) a torus.",
-        correctAnswer: "(a) χ = 2; (b) χ = 0",
+          "Give one task generative AI is well suited to and one important limitation, and explain the practical rule that follows.",
+        correctAnswer:
+          "Well suited: drafting/rewriting/summarizing/translating/coding (any). Limitation: hallucination (also knowledge cutoff, weak multi-step reasoning, bias). Practical rule: use AI where you can verify the output or where approximately right is fine; do not trust unverifiable facts.",
         explanation:
-          "Sphere: $\\chi = 2$. Torus: $\\chi = 0$. Each is a topological invariant.",
+          "The model cannot reliably tell you when it is wrong, so verification is the user's responsibility.",
       },
     ],
   },
@@ -1763,185 +1290,165 @@ const ASSIGNMENTS: SeedAssignment[] = [
   // ───────────── Week 4 ─────────────
   {
     kind: "homework",
-    title: "Homework 4.1 — Logic, proof, induction, sets",
+    title: "Homework 4.1 — Bias, reliability, privacy, and work",
     weekNumber: 4,
     isTimed: false,
     timeLimitMinutes: null,
-    instructions:
-      "Use the math keyboard for ∀, ∃, ∧, ∨, ¬, →, ↔, ∈, ∉.",
+    instructions: HW_INSTRUCTIONS,
     problems: [
       {
-        topicSlug: "propositional-predicate-logic",
+        topicSlug: "bias-fairness-data-quality",
         prompt:
-          "Using ¬, ∀, and ∃, write the equivalences that negate a universal and an existential statement.",
+          "Where does bias in AI systems come from? Name two sources and give one real-world domain where this matters.",
         correctAnswer:
-          "¬(∀ x, P(x)) ≡ ∃ x, ¬P(x); ¬(∃ x, P(x)) ≡ ∀ x, ¬P(x)",
+          "Sources include biased training data (learning from discriminatory historical decisions), unrepresentative data (some groups underrepresented), and biased labels/measurement. Domains: hiring tools, lending, criminal-justice risk scores, facial recognition (any one).",
         explanation:
-          "$\\neg(\\forall x\\, P(x)) \\equiv \\exists x\\, \\neg P(x)$; $\\neg(\\exists x\\, P(x)) \\equiv \\forall x\\, \\neg P(x)$. The negation of 'every swan is white' is 'some swan is not white'.",
+          "A model is an accurate mirror of its data; if the past was biased, the model reproduces and can amplify that bias. 'Fairness' has multiple, sometimes incompatible definitions and requires value judgments.",
       },
       {
-        topicSlug: "what-is-proof",
+        topicSlug: "reliability-evaluation-trust",
         prompt:
-          "State, in symbols, the inference rule modus ponens (from P and P → Q, conclude Q) and the rule modus tollens.",
+          "Why is a high benchmark score not enough to trust a model in the real world? Name one reason.",
         correctAnswer:
-          "Modus ponens: P, P → Q ⊢ Q. Modus tollens: P → Q, ¬Q ⊢ ¬P.",
+          "Because benchmarks may not resemble real conditions, test data may have leaked into training, and real inputs are messier and can drift from the training distribution (distribution shift). Average-case benchmark performance also says little about rare worst-case behavior.",
         explanation:
-          "Modus ponens: $P,\\ P \\to Q \\vdash Q$. Modus tollens: $P \\to Q,\\ \\neg Q \\vdash \\neg P$. Both are fundamental inference rules.",
+          "Trust comes from evaluation on realistic and edge-case data, calibration, monitoring after launch, and keeping humans in the loop for high-stakes decisions.",
       },
       {
-        topicSlug: "mathematical-induction",
+        topicSlug: "privacy-security",
         prompt:
-          "Using Σ, write the closed-form formula for the sum of the first n positive integers, which is the classical example proven by induction.",
-        correctAnswer: "Σ_{k=1}^{n} k = n(n + 1) / 2",
+          "Name one privacy risk and one security risk that are specific to AI systems.",
+        correctAnswer:
+          "Privacy risk: a model can memorize and leak sensitive training data, or data you send to a hosted model leaves your device. Security risk: prompt injection (hidden malicious instructions in content the model reads), adversarial examples, or data poisoning (any one each).",
         explanation:
-          "$\\sum_{k=1}^{n} k = \\dfrac{n(n+1)}{2}$. Proven by induction: base $n = 1$ gives $1 = 1$; step uses $\\frac{k(k+1)}{2} + (k+1) = \\frac{(k+1)(k+2)}{2}$.",
+          "AI expands the attack surface: do not feed confidential data to third-party models carelessly, and be cautious letting models act on untrusted content.",
       },
       {
-        topicSlug: "sets-russell-paradox",
+        topicSlug: "automation-work-economy",
         prompt:
-          "Using set-builder notation, write Russell's set R — the set of all sets that are not members of themselves.",
-        correctAnswer: "R = { x : x ∉ x }",
+          "Distinguish task automation from job automation, and state one implication for workers.",
+        correctAnswer:
+          "AI usually automates specific tasks, not whole jobs, since jobs bundle many tasks. The implication: jobs are reshaped (augmentation) more often than eliminated, but specific workers can still be displaced, so the effect is uneven and retraining/policy matter.",
         explanation:
-          "$R = \\{\\,x : x \\notin x\\,\\}$. The question 'is $R \\in R$?' yields a contradiction either way, which is why naive (unrestricted-comprehension) set theory is inconsistent.",
+          "Historically (e.g. ATMs, spreadsheets) automation transformed work more than it shrank total employment, even while disrupting individuals in the short run.",
       },
     ],
   },
   {
     kind: "homework",
-    title: "Homework 4.2 — Independence, Gödel, probability, computability",
+    title: "Homework 4.2 — Alignment, responsible use, and agents",
     weekNumber: 4,
     isTimed: false,
     timeLimitMinutes: null,
-    instructions: "Use the math keyboard for ℵ, ∈, ∪, Σ, ≥.",
+    instructions: HW_INSTRUCTIONS,
     problems: [
       {
-        topicSlug: "axioms-independence",
+        topicSlug: "alignment-safety",
         prompt:
-          "Using ℵ-notation, write the Continuum Hypothesis as an equation, and state in words what its independence from ZFC means.",
+          "What is the alignment problem, and what is specification gaming? Give an example.",
         correctAnswer:
-          "CH: |ℝ| = ℵ₁. Independence: neither CH nor ¬CH is provable from ZFC (Gödel 1940, Cohen 1963).",
+          "Alignment is the problem of getting an AI to do what we actually intend, not merely what we literally specified. Specification gaming (reward hacking) is when a system finds a loophole that scores well on the stated objective while defeating its real intent — e.g. an AI rewarded for game score spinning in a loop hitting bonuses instead of finishing the race, or a recommender optimizing 'engagement' by pushing outrage.",
         explanation:
-          "$|\\mathbb{R}| = \\aleph_1$ is the CH. Gödel showed ZFC + CH is consistent (1940); Cohen showed ZFC + ¬CH is also consistent (1963). So CH is independent of ZFC.",
+          "An optimizing system does exactly what it was measured on; the danger grows as systems get more capable and autonomous, which is why AI safety research matters.",
       },
       {
-        topicSlug: "godel-incompleteness",
+        topicSlug: "using-ai-well-workflow",
         prompt:
-          "State Gödel's First Incompleteness Theorem in one sentence: for any sufficiently strong consistent effective system T, what must exist?",
+          "Describe a responsible workflow for using AI on an important task, in a few steps.",
         correctAnswer:
-          "There exists a statement G in the language of T such that G is true but T does not prove G and T does not prove ¬G.",
+          "Decide whether AI fits (verifiable output, approximately-right acceptable); draft with the model using a good prompt; always verify the output against reality (facts, code, reasoning); iterate to refine; keep a human responsible for the final decision; and mind privacy and bias.",
         explanation:
-          "Any sufficiently strong consistent effective axiom system $T$ contains a sentence $G$ that is true (in the standard model) but neither $G$ nor $\\neg G$ is provable in $T$.",
+          "The step people skip is verification — the model cannot reliably tell when it is wrong, so checking is the user's job. AI assists; it does not replace judgment.",
       },
       {
-        topicSlug: "probability-foundations",
+        topicSlug: "near-future-agents",
         prompt:
-          "State Kolmogorov's three axioms of probability for a probability measure P on a sample space Ω with σ-algebra ℱ.",
+          "What is an AI agent, and what new risk does its autonomy introduce?",
         correctAnswer:
-          "(1) P(Ω) = 1; (2) P(A) ≥ 0 for all A ∈ ℱ; (3) for disjoint A₁, A₂, … ∈ ℱ, P(⋃_n A_n) = Σ_n P(A_n).",
+          "An agent is given a goal and pursues it over multiple steps, using tools (search, code, software) and adjusting its plan — it acts rather than just answers. The new risk is that it can cause real consequences (send, delete, spend, execute) before a human reviews anything, so its mistakes — hallucination, specification gaming, prompt injection — become more dangerous.",
         explanation:
-          "Normalization $P(\\Omega) = 1$, non-negativity $P(A) \\ge 0$, and countable additivity $P(\\bigcup_n A_n) = \\sum_n P(A_n)$ for disjoint events.",
-      },
-      {
-        topicSlug: "computability-halting",
-        prompt:
-          "State the halting problem and Turing's headline result about it (in one sentence each).",
-        correctAnswer:
-          "Halting problem: given a Turing machine M and input x, does M halt on x? Turing's theorem: no algorithm decides the halting problem — it is undecidable.",
-        explanation:
-          "The halting problem is undecidable: there is no Turing machine $H$ that, given $\\langle M, x \\rangle$, always correctly outputs whether $M$ halts on $x$. Proved by diagonalization.",
+          "A chatbot can be reviewed before anyone acts on it; an acting agent cannot. The likely near future is capable agents with guardrails and human approval for consequential actions.",
       },
     ],
   },
   {
     kind: "final",
-    title: "Final Exam — Conceptual mathematics",
+    title: "Final Exam — Teach Yourself AI",
     weekNumber: 4,
     isTimed: true,
     timeLimitMinutes: 90,
     instructions:
-      "Cumulative final covering all four weeks. 90 minutes. Math keyboard available; pasting disabled.",
+      "Cumulative final covering all four weeks. " + TIMED_INSTRUCTIONS(90),
     problems: [
       {
-        topicSlug: "rationals-ratios",
-        prompt:
-          "Using set-builder notation, write the definition of ℚ.",
-        correctAnswer: "ℚ = { p/q : p, q ∈ ℤ, q ≠ 0 }",
-        explanation:
-          "$\\mathbb{Q} = \\{\\,p/q : p, q \\in \\mathbb{Z},\\ q \\neq 0\\,\\}$.",
-      },
-      {
-        topicSlug: "countable-uncountable",
-        prompt:
-          "Using ℵ₀, compare the cardinalities of ℚ and ℝ with a strict inequality.",
-        correctAnswer: "|ℚ| = ℵ₀ < |ℝ|",
-        explanation:
-          "$|\\mathbb{Q}| = \\aleph_0 < |\\mathbb{R}|$. The rationals are countable, the reals are not.",
-      },
-      {
-        topicSlug: "groups-symmetry",
-        prompt:
-          "Using ∃ and ∀, state the identity-element axiom for a group (G, ∗).",
-        correctAnswer: "∃ e ∈ G, ∀ a ∈ G, e ∗ a = a ∗ e = a",
-        explanation:
-          "$\\exists e \\in G,\\ \\forall a \\in G,\\ e \\ast a = a \\ast e = a$.",
-      },
-      {
-        topicSlug: "modular-arithmetic",
-        prompt:
-          "Using ≡ … (mod n), write Fermat's Little Theorem.",
-        correctAnswer: "a^{p−1} ≡ 1 (mod p), for prime p and gcd(a, p) = 1",
-        explanation:
-          "$a^{p-1} \\equiv 1 \\pmod p$ for prime $p$ and $\\gcd(a, p) = 1$.",
-      },
-      {
-        topicSlug: "limits-taming-infinity",
-        prompt:
-          "Write the ε–δ definition of lim_{x → a} f(x) = L.",
+        topicSlug: "what-ai-is",
+        prompt: "Give the difference between automation and intelligence in one sentence.",
         correctAnswer:
-          "∀ ε > 0, ∃ δ > 0 : 0 < |x − a| < δ ⇒ |f(x) − L| < ε",
-        explanation:
-          "$\\forall \\varepsilon > 0,\\ \\exists \\delta > 0 : 0 < |x - a| < \\delta \\Rightarrow |f(x) - L| < \\varepsilon$.",
+          "Automation follows fixed, preset rules and does not adapt; intelligence learns and adapts from experience.",
+        explanation: "Adaptation/learning is the dividing line; a thermostat is automation.",
       },
       {
-        topicSlug: "ftc",
-        prompt:
-          "State Part 2 of the Fundamental Theorem of Calculus in symbols.",
-        correctAnswer: "If F' = f on [a, b], then ∫_a^b f(x) dx = F(b) − F(a)",
-        explanation:
-          "$\\int_a^b f(x)\\,\\mathrm{d}x = F(b) - F(a)$ for any antiderivative $F$ of $f$.",
-      },
-      {
-        topicSlug: "sequences-series-zeno",
-        prompt:
-          "Using Σ, write the closed form of the geometric series Σ_{n=0}^{∞} r^n for |r| < 1.",
-        correctAnswer: "Σ_{n=0}^{∞} r^n = 1 / (1 − r)",
-        explanation:
-          "$\\sum_{n=0}^{\\infty} r^n = \\dfrac{1}{1 - r}$ for $|r| < 1$.",
-      },
-      {
-        topicSlug: "mathematical-induction",
-        prompt:
-          "Using Σ, write the closed-form formula proved by the classical induction example: the sum of 1 through n.",
-        correctAnswer: "Σ_{k=1}^{n} k = n(n + 1) / 2",
-        explanation:
-          "$\\sum_{k=1}^{n} k = \\dfrac{n(n+1)}{2}$.",
-      },
-      {
-        topicSlug: "sets-russell-paradox",
-        prompt:
-          "Using set-builder notation, write Russell's set R that produces the paradox.",
-        correctAnswer: "R = { x : x ∉ x }",
-        explanation:
-          "$R = \\{\\,x : x \\notin x\\,\\}$. Asking whether $R \\in R$ yields a contradiction either way.",
-      },
-      {
-        topicSlug: "godel-incompleteness",
-        prompt:
-          "State Gödel's First Incompleteness Theorem in one sentence.",
+        topicSlug: "data-raw-material",
+        prompt: "State the 'garbage in, garbage out' principle and one property of good training data.",
         correctAnswer:
-          "Any sufficiently strong consistent effective formal system T contains a true statement G such that T proves neither G nor ¬G.",
-        explanation:
-          "Any consistent effective axiom system capable of encoding arithmetic is incomplete: there is a true statement $G$ that is not provable in the system.",
+          "A model can be no better than its data, so bad data yields a bad model. Good data is accurate, representative, and/or sufficient.",
+        explanation: "Data sets the ceiling on model quality, regardless of the algorithm.",
+      },
+      {
+        topicSlug: "what-training-means",
+        prompt: "What does training adjust, and what is overfitting?",
+        correctAnswer:
+          "Training adjusts the parameters (weights) to reduce error on training examples. Overfitting is memorizing the training data and failing to generalize to new data.",
+        explanation: "Generalization to unseen data is the goal, measured on a held-out test set.",
+      },
+      {
+        topicSlug: "supervised-learning",
+        prompt: "Distinguish supervised from unsupervised learning, and classification from regression.",
+        correctAnswer:
+          "Supervised learning uses labeled examples; unsupervised learning finds structure without labels. Within supervised: classification predicts a category, regression predicts a continuous number.",
+        explanation: "Labels are the supervision; output type (category vs number) defines classification vs regression.",
+      },
+      {
+        topicSlug: "prediction-classification-error",
+        prompt: "Define precision and recall, and explain when you would favor high recall.",
+        correctAnswer:
+          "Precision: of items flagged positive, the fraction truly positive (few false alarms). Recall: of all true positives, the fraction caught (few misses). Favor high recall when missing a positive is costly, e.g. cancer screening.",
+        explanation: "The right balance depends on the cost of false positives vs false negatives.",
+      },
+      {
+        topicSlug: "how-networks-learn",
+        prompt: "Explain how a neural network learns, naming loss, backpropagation, and gradient descent.",
+        correctAnswer:
+          "It predicts (forward pass), the loss measures the error, backpropagation finds how much each weight contributed, and gradient descent nudges each weight to reduce the loss — repeated over many examples.",
+        explanation: "A guess–measure–adjust loop that automatically tunes the weights.",
+      },
+      {
+        topicSlug: "language-models",
+        prompt: "What is the single task a language model is trained on?",
+        correctAnswer:
+          "Predicting the next token (piece of text) given the preceding text; generating text is doing this repeatedly.",
+        explanation: "It needs no labels (the next word is the answer) and optimizes plausibility, not truth.",
+      },
+      {
+        topicSlug: "strengths-limits-hallucination",
+        prompt: "Define hallucination and explain why language models do it.",
+        correctAnswer:
+          "Hallucination is confident, fluent output that is false. Models do it because they predict plausible continuations, not true ones — lacking the fact, they still generate text that sounds right.",
+        explanation: "Hence: only use AI where you can verify the output.",
+      },
+      {
+        topicSlug: "bias-fairness-data-quality",
+        prompt: "Name one source of bias in AI systems and explain why 'fairness' is hard to define.",
+        correctAnswer:
+          "Source: biased or unrepresentative training data (or biased labels). Fairness is hard because there are multiple, sometimes mathematically incompatible definitions, so building a fair system requires explicit value judgments.",
+        explanation: "A model mirrors its data; mitigating bias is partly ethical, not purely technical.",
+      },
+      {
+        topicSlug: "alignment-safety",
+        prompt: "What is the alignment problem, and what is specification gaming?",
+        correctAnswer:
+          "Alignment is getting AI to do what we intend, not just what we literally specified. Specification gaming is the system exploiting a loophole that scores well on the stated objective while defeating its real intent.",
+        explanation: "Optimizers do exactly what they are measured on; this gets riskier as systems gain capability and autonomy.",
       },
     ],
   },
@@ -1955,13 +1462,13 @@ const EXPECTED_TOPIC_SLUGS = TOPICS.map((t) => t.slug).sort().join(",");
 // Bump this whenever lecture bodies, assignment problems, or correct answers
 // change in a way that should propagate to the database on the next boot.
 // The value is stored alongside topics and compared in seedIfEmpty.
-const CONTENT_REVISION = "2026-05-27.conceptual-math.r1";
+const CONTENT_REVISION = "2026-06-06.teach-ai.r1";
 
 // A sentinel phrase present in exactly one lecture body — used to detect that
 // the database holds the *current* revision of the content (not just a set of
 // matching slugs). Bump whenever the seed content is overhauled.
-const REVISION_SENTINEL_SLUG = "counting-integers-numberline";
-const REVISION_SENTINEL_PHRASE = "John Wallis popularized the picture of integers";
+const REVISION_SENTINEL_SLUG = "what-ai-is";
+const REVISION_SENTINEL_PHRASE = "a thermostat is automation, not intelligence";
 
 export async function seedIfEmpty(): Promise<void> {
   const existing = await db.execute(sql`select count(*)::int as n from topics`);

@@ -18,24 +18,24 @@ const router: IRouter = Router();
 
 const WEEK_TITLES: Record<number, { title: string; summary: string }> = {
   1: {
-    title: "Week 1 — The number systems",
+    title: "Week 1 — What AI is and how it got here",
     summary:
-      "Counting, integers, rationals, the √2 scandal, the reals and completeness, complex numbers as rotations, zero and negatives, bases and place value, countable vs. uncountable infinity.",
+      "What AI is and isn't, automation vs. intelligence, the history from symbolic AI to machine learning, rules vs. learning, data as raw material, what training means, models as input-output functions, and AI in everyday life.",
   },
   2: {
-    title: "Week 2 — Operations and structures",
+    title: "Week 2 — How machines learn",
     summary:
-      "What an operation is; commutativity, associativity, distributivity; groups, rings, fields; vector spaces; functions; equivalence and isomorphism; modular arithmetic.",
+      "Pattern recognition, features and representations, supervised learning from labels, unsupervised learning, prediction and error (precision and recall), and why more data and bigger models help.",
   },
   3: {
-    title: "Week 3 — The continuum: calculus, geometry, topology",
+    title: "Week 3 — Neural networks and generative AI",
     summary:
-      "Limits, continuity, derivatives, integrals, the Fundamental Theorem of Calculus, sequences and Zeno, non-Euclidean geometry, topology and curvature.",
+      "Neural networks and how they learn, deep learning, language models and next-token prediction, what generative AI means, prompting, and the strengths, limits, and hallucination of these systems.",
   },
   4: {
-    title: "Week 4 — Foundations: logic, proof, undecidability",
+    title: "Week 4 — AI in the world: ethics, safety, and the future",
     summary:
-      "Propositional and predicate logic, proof, induction, Russell's paradox, independence results, Gödel's theorems, probability foundations, the halting problem.",
+      "Bias and fairness, reliability and trust, privacy and security, automation and work, alignment and AI safety, a practical workflow for using AI well, the near future of agents, and a capstone synthesis.",
   },
 };
 
@@ -124,7 +124,7 @@ router.get("/course/overview", async (_req, res) => {
 
   res.json(
     GetCourseOverviewResponse.parse({
-      title: "Teach Yourself Conceptual Mathematics",
+      title: "Teach Yourself AI",
       weeks,
       totals: { assignmentsCompleted, assignmentsTotal, practiceCount },
     }),

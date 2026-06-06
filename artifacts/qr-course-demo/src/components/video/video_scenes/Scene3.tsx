@@ -8,11 +8,11 @@ export function Scene3({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
   const [phase, setPhase] = useState(0);
 
   useEffect(() => {
-    // 0-2.0s Cursor into textarea, types "Why is dividing by zero undefined?"
+    // 0-2.0s Cursor into textarea, types "What's the difference between AI and automation?"
     // 2.0-2.5s Cursor to send button, clicks.
     // 2.5-3.5s Pulsing dots.
     // 3.5-10s AI response streams.
-    // 10-12s Cursor types "What about limits?"
+    // 10-12s Cursor types "So is a spam filter AI?"
 
     setCursorPos({ x: '60vw', y: '16vh' }); // Start at Tutor tab
     
@@ -57,11 +57,11 @@ export function Scene3({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
     >
       {/* Left Pane (Static from previous) */}
       <div className="w-1/2 h-full border-r border-border p-12 overflow-hidden flex flex-col relative opacity-50">
-        <div className="text-xs font-bold tracking-widest text-muted-foreground mb-4">WEEK 1 — THE NUMBER SYSTEMS</div>
-        <h1 className="text-3xl font-serif text-primary mb-8">1.1 Counting, the integers, and the number line</h1>
+        <div className="text-xs font-bold tracking-widest text-muted-foreground mb-4">WEEK 1 — WHAT AI IS AND HOW IT GOT HERE</div>
+        <h1 className="text-3xl font-serif text-primary mb-8">1.1 What AI is (and isn't)</h1>
         <div className="prose prose-sm max-w-none text-foreground/80 space-y-6">
-          <h2 className="font-serif text-2xl text-primary">What is a number?</h2>
-          <p>Conceptual mathematics asks the question math classes usually skip: what are these things, really? What is a number, an operation, a proof, an axiom? This course teaches the ideas behind the symbols, from the integers to Gödel and the halting problem.</p>
+          <h2 className="font-serif text-2xl text-primary">What is AI?</h2>
+          <p>This course asks the question the hype usually skips: what is artificial intelligence, really? What is a model, what does "training" mean, how does a neural network learn? It teaches the ideas behind the buzzwords — in plain English, from data and learning to language models, agents, and AI safety.</p>
         </div>
       </div>
 
@@ -79,7 +79,7 @@ export function Scene3({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
               <motion.div exit={{ opacity: 0, y: -20 }} className="mt-auto">
                 <div className="mb-4 text-xs font-semibold text-muted-foreground uppercase tracking-widest">Starter questions for this section</div>
                 <div className="flex flex-wrap gap-2 mb-6">
-                  <div className="px-3 py-1.5 rounded-full border border-border text-sm text-primary bg-muted/30">Why are the rationals countable but the reals are not?</div>
+                  <div className="px-3 py-1.5 rounded-full border border-border text-sm text-primary bg-muted/30">What's the difference between AI and automation?</div>
                 </div>
               </motion.div>
             )}
@@ -90,7 +90,7 @@ export function Scene3({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
                 animate={{ opacity: 1, y: 0, scale: 1 }} 
                 className="self-end max-w-[85%] bg-primary text-white p-4 rounded-2xl rounded-tr-sm shadow-sm mt-auto"
               >
-                Why are the rationals countable but the reals are not?
+                What's the difference between AI and automation?
               </motion.div>
             )}
 
@@ -110,7 +110,7 @@ export function Scene3({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
                 animate={{ opacity: 1, y: 0 }} 
                 className="self-start w-[85%] bg-muted/30 border border-border p-5 rounded-2xl rounded-tl-sm text-[15px] leading-relaxed shadow-sm"
               >
-                <StreamingText text="Great question. The rationals ℚ can be listed in a single infinite sequence — Cantor's diagonal enumeration walks the grid of (numerator, denominator) pairs. The reals ℝ can't: Cantor's diagonal argument constructs a real not in any proposed list. So |ℕ| = |ℚ| &lt; |ℝ| — two different sizes of infinity." delay={0} />
+                <StreamingText text="Great question. Automation follows fixed rules a person wrote in advance — a thermostat switching on at a set temperature does the same thing forever. AI instead learns its behavior from patterns in data, so it can handle inputs no one explicitly programmed for. The line blurs, but the key test is: did a human write the rules, or did the system infer them from examples?" delay={0} />
               </motion.div>
             )}
           </div>
@@ -118,9 +118,9 @@ export function Scene3({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
           <div className="mt-6 w-full min-h-24 border border-border rounded-xl bg-background p-3 flex items-end shadow-inner relative z-10">
             <div className="w-full flex justify-between items-center pr-2">
               <div className="text-foreground text-[15px] font-medium pl-2 relative w-full h-full flex items-center">
-                {phase === 1 && <TypewriterText text="Why are the rationals countable but the reals are not?" speed={25} />}
-                {phase >= 2 && phase < 4 && <span className="text-muted-foreground font-normal">Ask a question about counting and the number line...</span>}
-                {phase >= 4 && <TypewriterText text="So how big is |ℝ|?" speed={20} />}
+                {phase === 1 && <TypewriterText text="What's the difference between AI and automation?" speed={25} />}
+                {phase >= 2 && phase < 4 && <span className="text-muted-foreground font-normal">Ask a question about what AI is...</span>}
+                {phase >= 4 && <TypewriterText text="So is a spam filter AI?" speed={20} />}
                 {((phase >= 1 && phase < 2) || phase >= 4) && (
                   <motion.div className="w-0.5 h-5 bg-primary ml-1" animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }} />
                 )}

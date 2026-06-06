@@ -401,7 +401,7 @@ router.post("/diagnostics/synthetic-run", async (_req, res) => {
   steps.push(
     await run("AI detection scan (pasted-style text should flag)", async () => {
       const r = await detect(
-        "In conclusion, the multifaceted tapestry of conceptual mathematics is paramount to navigating the landscape of modern academic discourse.",
+        "In conclusion, the multifaceted tapestry of artificial intelligence is paramount to navigating the landscape of modern technological discourse.",
         {
           keystrokeCount: 8,
           eraseCount: 0,
@@ -483,19 +483,19 @@ router.post("/diagnostics/expand-lectures", async (req, res) => {
   const ratio = level === "long" ? "roughly 2x to 3x the length of the SHORT version" : "roughly 1.5x to 2x the length of the SHORT version";
   const moreExamples =
     level === "long"
-      ? "At least TWO additional fully worked examples for every concept beyond what the short version has — pick contrasting cases (edge cases, common mistakes, larger numbers, real-world framings)."
-      : "At least ONE additional fully worked example for every concept beyond what the short version has.";
+      ? "At least TWO additional concrete real-world examples for every concept beyond what the short version has — pick contrasting cases (edge cases, common misconceptions, everyday analogies, real-world framings)."
+      : "At least ONE additional concrete real-world example for every concept beyond what the short version has.";
   const moreExplanation =
     level === "long"
-      ? "Considerably more explanation: motivate every rule, explain WHY it works, name common pitfalls, and add brief 'sanity check' notes after computations."
-      : "Noticeably more explanation: clarify each definition, motivate each rule, and add a short 'why this works' note where useful.";
+      ? "Considerably more explanation: motivate every idea, explain WHY it works, name common misconceptions, and add brief 'in plain terms' notes that restate the key point."
+      : "Noticeably more explanation: clarify each definition, motivate each idea, and add a short 'why this matters' note where useful.";
 
   const sys =
-    `You are a college quantitative-reasoning lecturer producing the ${level.toUpperCase()} version of a lecture. ` +
+    `You are a lecturer for an introductory, conceptual AI course producing the ${level.toUpperCase()} version of a lecture. ` +
     "You are given the SHORT version of the lecture. Rewrite it as a longer teaching version. RULES, no exceptions:\n" +
     "1. KEEP every heading and every concept from the SHORT version, in the same order, with the same names. You may add new sub-sections only when needed to introduce additional examples — but no new top-level topics.\n" +
     `2. ${moreExplanation}\n` +
-    `3. ${moreExamples} Use \`## Example\` / \`### Example 1\`, \`### Example 2\` headings, with numbered steps. Inline math \`$...$\`, display math \`$$...$$\` (escape backslashes in LaTeX commands).\n` +
+    `3. ${moreExamples} Use \`## Example\` / \`### Example 1\`, \`### Example 2\` headings. Explain each example in plain English prose — this is a conceptual course with no math or code, so do NOT use mathematical notation, formulas, or LaTeX.\n` +
     `4. Length target: ${ratio}.\n` +
     "5. Friendly, plain English. No filler, no hedging, no 'in conclusion'. Examples carry the load.\n" +
     "6. Return ONLY the rewritten Markdown lecture body. No preface, no commentary, no code fences around the whole thing.";
@@ -555,8 +555,8 @@ async function auditLecture(
 ): Promise<LectureAuditRow> {
   try {
     const out = await chatJson<{ issues?: LectureIssue[] }>(
-      "You are a rigorous mathematics and physics fact-checker for a college-level course on conceptual mathematics. " +
-        "You scrutinize a single lecture body for FACTUAL ERRORS only — wrong definitions, wrong formulas, wrong physical laws, wrong worked examples, misuse of notation (e.g. calling an equation an identity when it isn't), incorrect numerical claims, or self-contradictions. " +
+      "You are a rigorous fact-checker for a college-level introductory course on artificial intelligence. " +
+        "You scrutinize a single lecture body for FACTUAL ERRORS only — wrong definitions, wrong technical claims, wrong history, wrong worked examples, misuse of terminology, incorrect numerical claims, or self-contradictions. " +
         "Style, tone, completeness, and pedagogy are OUT OF SCOPE — do NOT flag them. " +
         'Respond as strict JSON: {"issues": [{"quote": string, "problem": string, "fix": string}]}. ' +
         '"quote" must be a short verbatim snippet from the lecture (<= 160 chars). "problem" states the error in one sentence. "fix" proposes the correction in one sentence. ' +
@@ -596,10 +596,10 @@ async function auditProblem(p: {
       issue?: string;
       betterAnswer?: string;
     }>(
-      "You are a rigorous grader for a college-level conceptual-mathematics course. " +
+      "You are a rigorous grader for a college-level introductory artificial-intelligence course. " +
         "You are given a problem PROMPT and the STATED CORRECT ANSWER stored in the course database. " +
         "Decide whether the stated answer is genuinely correct, fully sufficient, and notationally appropriate for the prompt. " +
-        "Minor stylistic differences (LaTeX vs unicode, spacing, equivalent algebraic forms) are NOT issues. Flag only true errors: wrong value, wrong formula, wrong symbol, wrong physics, missing a required part of the answer, or an answer that does not actually satisfy the prompt. " +
+        "Minor wording differences and equivalent phrasings are NOT issues. Flag only true errors: a factually wrong claim, a wrong definition, missing a required part of the answer, or an answer that does not actually satisfy the prompt. " +
         'Respond as strict JSON: {"verdict": "correct" | "incorrect" | "ambiguous", "issue": string, "betterAnswer": string}. ' +
         'If verdict is "correct", issue and betterAnswer may be empty strings. ' +
         'If verdict is "incorrect" or "ambiguous", "issue" must explain the problem in one sentence and "betterAnswer" must give the answer you would store instead.',
