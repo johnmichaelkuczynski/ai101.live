@@ -1,1 +1,2 @@
 - [qr-course-demo audio](qr-course-demo-audio.md) — demo video is background music ONLY; narration/TTS was removed by user. Don't re-add voice without confirming.
+- [Clerk auth wiring](clerk-auth-wiring.md) — Clerk wiring is copied verbatim from the skill; do NOT "fix" cors origin:true or add PROD gates/Bearer tokens, it breaks sign-in.
