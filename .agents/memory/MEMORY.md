@@ -1,0 +1,1 @@
+- [qr-course-demo audio](qr-course-demo-audio.md) — scene-synced narration must key its effect on scene only, not `muted`, or unmute restarts the voiceover.

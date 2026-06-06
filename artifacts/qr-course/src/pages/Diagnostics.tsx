@@ -261,7 +261,7 @@ export default function Diagnostics() {
         <div>
           <h1 className="font-serif text-3xl mb-1">Diagnostics</h1>
           <p className="text-muted-foreground">
-            Two self-tests to verify the course app is healthy end-to-end.
+            Three self-tests to verify the course app is healthy end-to-end.
           </p>
         </div>
 
@@ -329,11 +329,10 @@ export default function Diagnostics() {
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
                 Sends every lecture body and every stored "correct answer" to OpenAI and asks for
-                an independent verdict on whether each is actually correct. Flags wrong physics,
-                misuse of notation (e.g. calling an equation an identity), wrong formulas, and
-                answers that don't actually satisfy their prompt. This is the audit you run before
-                shipping; it takes several minutes because every lecture and every problem is an
-                LLM call.
+                an independent verdict on whether each is actually correct. Flags wrong definitions,
+                inaccurate claims about how AI works, misused terminology, and conceptual answers
+                that don't actually satisfy their prompt. This is the audit you run before shipping;
+                it takes several minutes because every lecture and every problem is an LLM call.
               </p>
             </div>
             <button

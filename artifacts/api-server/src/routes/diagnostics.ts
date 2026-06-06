@@ -352,7 +352,7 @@ router.post("/diagnostics/synthetic-run", async (_req, res) => {
           correctAnswer: string;
           explanation: string;
         }>(
-          `You generate a single quantitative-reasoning practice problem on "${topic.title}" at easy difficulty. Respond as strict JSON: {"prompt": string, "correctAnswer": string, "explanation": string}.`,
+          `You generate a single short-answer conceptual practice question about AI on "${topic.title}" at easy difficulty, answerable in plain English with no math or code. Respond as strict JSON: {"prompt": string, "correctAnswer": string, "explanation": string}.`,
           `New problem on ${topic.title}.`,
         );
         const [stored] = await db
