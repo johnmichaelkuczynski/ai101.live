@@ -1,1 +1,1 @@
-- [qr-course-demo audio](qr-course-demo-audio.md) — scene-synced narration must key its effect on scene only, not `muted`, or unmute restarts the voiceover.
+- [qr-course-demo audio](qr-course-demo-audio.md) — demo video is background music ONLY; narration/TTS was removed by user. Don't re-add voice without confirming.

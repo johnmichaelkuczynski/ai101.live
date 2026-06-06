@@ -60,7 +60,6 @@ export default function VideoTemplate({
   const [cursorPos, setCursorPos] = useState({ x: '50vw', y: '50vh' });
   const [isClicking, setIsClicking] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const narrationRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     onSceneChange?.(currentSceneKey);
@@ -72,26 +71,12 @@ export default function VideoTemplate({
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.volume = 0.16;
+    audio.volume = 0.55;
     const targetTime = SCENE_START_SEC[baseSceneKey] ?? 0;
     if (Math.abs(audio.currentTime - targetTime) > AUDIO_SEEK_EPSILON_SEC) {
       audio.currentTime = targetTime;
     }
     audio.play().catch(() => {});
-  }, [currentSceneKey, baseSceneKey]);
-
-  // Scene-synced narration: each scene has its own voiceover clip that
-  // restarts from the top whenever the scene becomes active (jump/loop safe).
-  // Intentionally does NOT depend on `muted` so toggling mute mid-scene does
-  // not restart the narration — mute is handled declaratively on the element.
-  useEffect(() => {
-    const narration = narrationRef.current;
-    if (!narration) return;
-    narration.volume = 1;
-    narration.src = `${import.meta.env.BASE_URL}audio/narration_${baseSceneKey}.mp3`;
-    narration.currentTime = 0;
-    narration.play().catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSceneKey, baseSceneKey]);
 
   let activeNav = 'Dashboard';
@@ -149,8 +134,6 @@ export default function VideoTemplate({
         autoPlay
         muted={muted}
       />
-
-      <audio ref={narrationRef} preload="auto" muted={muted} />
     </div>
   );
 }
