@@ -47,3 +47,6 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Stale video exports (demo is rendered from React, not committed as mp4)
+*.mp4
