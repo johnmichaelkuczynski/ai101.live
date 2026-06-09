@@ -16,14 +16,16 @@ import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { AnswerInput } from "@/components/AnswerInput";
 import { StarterQuestionCard } from "@/components/StarterQuestionCard";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MessageSquare, Sparkles, Send, X, RefreshCw, CheckCircle2, XCircle } from "lucide-react";
+import { ArrowLeft, MessageSquare, Sparkles, Send, X, RefreshCw, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+
+const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
 
 type ChatMsg = { role: "user" | "tutor"; text: string };
 
 export default function LectureView() {
   const params = useParams();
   const lectureId = Number(params.lectureId);
-  const { data: lecture, isLoading } = useGetLecture(lectureId);
+  const { data: lecture, isLoading, refetch } = useGetLecture(lectureId);
 
   // shared selected-text state (used by both Tutor and Practice)
   const [selectedText, setSelectedText] = useState("");
@@ -52,15 +54,67 @@ export default function LectureView() {
 
   const [tab, setTab] = useState<"tutor" | "practice">("tutor");
   const [level, setLevel] = useState<"short" | "medium" | "long">("short");
+  const [generating, setGenerating] = useState<null | "medium" | "long">(null);
+  const [genError, setGenError] = useState<string | null>(null);
+  // synchronous reentrancy lock + token to ignore stale async completions
+  const genLockRef = useRef(false);
+  const genReqRef = useRef(0);
 
-  const availableLevels = useMemo(() => {
-    const out: Array<"short" | "medium" | "long"> = ["short"];
-    if (lecture?.bodyMedium) out.push("medium");
-    if (lecture?.bodyLong) out.push("long");
-    return out;
-  }, [lecture?.bodyMedium, lecture?.bodyLong]);
+  // reset depth selection + cancel any in-flight generation when the lecture changes
+  useEffect(() => {
+    genReqRef.current += 1; // invalidate any in-flight request
+    genLockRef.current = false;
+    setLevel("short");
+    setGenError(null);
+    setGenerating(null);
+  }, [lectureId]);
 
-  const activeBody =
+  function levelExists(lvl: "short" | "medium" | "long") {
+    if (lvl === "short") return true;
+    if (lvl === "medium") return !!lecture?.bodyMedium;
+    return !!lecture?.bodyLong;
+  }
+
+  async function selectLevel(lvl: "short" | "medium" | "long") {
+    if (genLockRef.current) return; // synchronous guard against double-clicks
+    setGenError(null);
+    // already generated (or always-present short): just switch
+    if (levelExists(lvl)) {
+      setLevel(lvl);
+      return;
+    }
+    // generate this depth for THIS lecture only, on the spot
+    const target = lvl as "medium" | "long";
+    const reqId = ++genReqRef.current;
+    const startLectureId = lectureId;
+    genLockRef.current = true;
+    setGenerating(target);
+    try {
+      const res = await fetch(
+        `/api/diagnostics/expand-lectures?level=${target}&id=${startLectureId}`,
+        { method: "POST" },
+      );
+      if (!res.ok) throw new Error(`Server returned ${res.status}`);
+      const data = (await res.json()) as { ok?: boolean; updated?: number };
+      if (!data.ok || !data.updated) {
+        throw new Error("The generator couldn't produce this version — please try again.");
+      }
+      await refetch();
+      // ignore if the user navigated away or started another request meanwhile
+      if (reqId !== genReqRef.current) return;
+      setLevel(target);
+    } catch (e) {
+      if (reqId !== genReqRef.current) return;
+      setGenError((e as Error).message);
+    } finally {
+      if (reqId === genReqRef.current) {
+        genLockRef.current = false;
+        setGenerating(null);
+      }
+    }
+  }
+
+  const activeBody: string =
     level === "long" && lecture?.bodyLong
       ? lecture.bodyLong
       : level === "medium" && lecture?.bodyMedium
@@ -99,33 +153,55 @@ export default function LectureView() {
                   <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                     Week {lecture.weekNumber}
                   </div>
-                  <div className="inline-flex rounded-md border border-border overflow-hidden text-xs">
-                    {(["short", "medium", "long"] as const).map((lvl) => {
-                      const enabled = availableLevels.includes(lvl);
-                      const active = level === lvl;
-                      return (
-                        <button
-                          key={lvl}
-                          onClick={() => enabled && setLevel(lvl)}
-                          disabled={!enabled}
-                          title={
-                            enabled
-                              ? `${lvl[0].toUpperCase() + lvl.slice(1)} version`
-                              : `${lvl[0].toUpperCase() + lvl.slice(1)} version not generated yet — click "Generate medium + long lectures" in the top bar`
-                          }
-                          className={`px-3 py-1.5 font-medium uppercase tracking-wider transition-colors ${
-                            active
-                              ? "bg-primary text-primary-foreground"
-                              : enabled
-                                ? "bg-background hover:bg-secondary text-foreground"
-                                : "bg-background/50 text-muted-foreground/50 cursor-not-allowed"
-                          }`}
-                          data-testid={`button-level-${lvl}`}
-                        >
-                          {lvl}
-                        </button>
-                      );
-                    })}
+                  <div className="flex flex-col items-end gap-1">
+                    <div className="inline-flex rounded-md border border-border overflow-hidden text-xs">
+                      {(["short", "medium", "long"] as const).map((lvl) => {
+                        const exists = levelExists(lvl);
+                        const active = level === lvl;
+                        const isGenerating = generating === lvl;
+                        return (
+                          <button
+                            key={lvl}
+                            onClick={() => selectLevel(lvl)}
+                            disabled={generating !== null}
+                            title={
+                              exists
+                                ? `${cap(lvl)} version`
+                                : `Generate the ${cap(lvl)} version of this lecture`
+                            }
+                            className={`px-3 py-1.5 font-medium uppercase tracking-wider transition-colors inline-flex items-center gap-1 ${
+                              active
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-background hover:bg-secondary text-foreground"
+                            } ${generating !== null && !isGenerating ? "opacity-50" : ""}`}
+                            data-testid={`button-level-${lvl}`}
+                          >
+                            {isGenerating ? (
+                              <>
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                                Writing…
+                              </>
+                            ) : (
+                              <>
+                                {lvl}
+                                {!exists && <Sparkles className="w-3 h-3 opacity-70" />}
+                              </>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {generating ? (
+                      <span className="text-[11px] text-muted-foreground normal-case">
+                        Writing the {generating} version of this lecture…
+                      </span>
+                    ) : genError ? (
+                      <span className="text-[11px] text-red-600 normal-case">{genError}</span>
+                    ) : (
+                      <span className="text-[11px] text-muted-foreground normal-case">
+                        Pick a depth · ✨ generates it for this lecture
+                      </span>
+                    )}
                   </div>
                 </div>
               </header>
