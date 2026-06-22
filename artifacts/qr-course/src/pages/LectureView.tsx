@@ -249,6 +249,26 @@ export default function LectureView() {
                   Tip: highlight any passage above to ask the tutor about it, or to generate practice problems specifically on what you selected.
                 </div>
               </div>
+              <div className="flex items-center justify-between gap-3 mt-6">
+                <Button
+                  variant="outline"
+                  disabled={prevLectureId == null}
+                  onClick={() => prevLectureId != null && setLocation(`/lectures/${prevLectureId}`)}
+                  data-testid="button-prev-lecture-bottom"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-1" />
+                  Previous lecture
+                </Button>
+                <Button
+                  variant="outline"
+                  disabled={nextLectureId == null}
+                  onClick={() => nextLectureId != null && setLocation(`/lectures/${nextLectureId}`)}
+                  data-testid="button-next-lecture-bottom"
+                >
+                  Next lecture
+                  <ArrowRight className="w-4 h-4 ml-1" />
+                </Button>
+              </div>
             </article>
           ) : (
             <div className="mt-8">Lecture not found.</div>
