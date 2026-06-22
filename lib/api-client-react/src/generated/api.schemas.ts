@@ -339,6 +339,206 @@ export interface AnalyticsReport {
   recommendations: string[];
 }
 
+export type DiagnosticFormatStatusFormat = typeof DiagnosticFormatStatusFormat[keyof typeof DiagnosticFormatStatusFormat];
+
+
+export const DiagnosticFormatStatusFormat = {
+  mc: 'mc',
+  written: 'written',
+  hybrid: 'hybrid',
+  official: 'official',
+} as const;
+
+export interface DiagnosticFormatStatus {
+  format: DiagnosticFormatStatusFormat;
+  label: string;
+  required: boolean;
+  questionCount: number;
+  attemptsCount: number;
+  /** @nullable */
+  bestScore?: number | null;
+  /** @nullable */
+  lastAttemptId?: number | null;
+  /** @nullable */
+  lastPercent?: number | null;
+  completed: boolean;
+}
+
+export interface DiagnosticSlot {
+  key: string;
+  title: string;
+  when: string;
+  aptitude: boolean;
+  weeks: number[];
+  formats: DiagnosticFormatStatus[];
+}
+
+export interface DiagnosticOverview {
+  slots: DiagnosticSlot[];
+  officialRequired: number;
+  officialCompleted: number;
+  creditPercent: number;
+  creditMax: number;
+}
+
+export type StartDiagnosticInputFormat = typeof StartDiagnosticInputFormat[keyof typeof StartDiagnosticInputFormat];
+
+
+export const StartDiagnosticInputFormat = {
+  mc: 'mc',
+  written: 'written',
+  hybrid: 'hybrid',
+  official: 'official',
+} as const;
+
+export interface StartDiagnosticInput {
+  slotKey: string;
+  format: StartDiagnosticInputFormat;
+}
+
+export interface CustomDiagnosticInput {
+  /** Free-form description of what to assess, e.g. "only Week 2". */
+  scopeText: string;
+}
+
+export type DiagnosticQuestionViewType = typeof DiagnosticQuestionViewType[keyof typeof DiagnosticQuestionViewType];
+
+
+export const DiagnosticQuestionViewType = {
+  mc: 'mc',
+  written: 'written',
+} as const;
+
+export interface DiagnosticQuestionView {
+  id: number;
+  position: number;
+  type: DiagnosticQuestionViewType;
+  prompt: string;
+  /** @nullable */
+  options?: string[] | null;
+}
+
+export interface DiagnosticSavedResponse {
+  questionId: number;
+  answer: string;
+}
+
+export type DiagnosticAttemptStateFormat = typeof DiagnosticAttemptStateFormat[keyof typeof DiagnosticAttemptStateFormat];
+
+
+export const DiagnosticAttemptStateFormat = {
+  mc: 'mc',
+  written: 'written',
+  hybrid: 'hybrid',
+  official: 'official',
+} as const;
+
+export type DiagnosticAttemptStateStatus = typeof DiagnosticAttemptStateStatus[keyof typeof DiagnosticAttemptStateStatus];
+
+
+export const DiagnosticAttemptStateStatus = {
+  in_progress: 'in_progress',
+  submitted: 'submitted',
+} as const;
+
+export interface DiagnosticAttemptState {
+  id: number;
+  slotKey: string;
+  title: string;
+  format: DiagnosticAttemptStateFormat;
+  isOfficial: boolean;
+  isCustom: boolean;
+  /** @nullable */
+  scopeDescription?: string | null;
+  weeksCovered: number[];
+  status: DiagnosticAttemptStateStatus;
+  questions: DiagnosticQuestionView[];
+  responses: DiagnosticSavedResponse[];
+}
+
+export interface DiagnosticAnswerInput {
+  questionId: number;
+  answer: string;
+  trace?: KeystrokeTrace;
+}
+
+export type DiagnosticQuestionResultType = typeof DiagnosticQuestionResultType[keyof typeof DiagnosticQuestionResultType];
+
+
+export const DiagnosticQuestionResultType = {
+  mc: 'mc',
+  written: 'written',
+} as const;
+
+export interface DiagnosticQuestionResult {
+  questionId: number;
+  position: number;
+  type: DiagnosticQuestionResultType;
+  prompt: string;
+  /** @nullable */
+  options?: string[] | null;
+  yourAnswer: string;
+  correctAnswer: string;
+  correct: boolean;
+  explanation: string;
+}
+
+export type DiagnosticResultFormat = typeof DiagnosticResultFormat[keyof typeof DiagnosticResultFormat];
+
+
+export const DiagnosticResultFormat = {
+  mc: 'mc',
+  written: 'written',
+  hybrid: 'hybrid',
+  official: 'official',
+} as const;
+
+export interface DiagnosticResult {
+  attemptId: number;
+  slotKey: string;
+  title: string;
+  format: DiagnosticResultFormat;
+  score: number;
+  total: number;
+  percent: number;
+  completed: boolean;
+  creditPercent: number;
+  perQuestion: DiagnosticQuestionResult[];
+}
+
+export interface DiagnosticWeekPerformance {
+  weekNumber: number;
+  attempts: number;
+  accuracy: number;
+}
+
+export interface DiagnosticSlotPerformance {
+  slotKey: string;
+  title: string;
+  attempts: number;
+  /** @nullable */
+  bestScore?: number | null;
+  completed: boolean;
+}
+
+export interface DiagnosticRecentItem {
+  attemptId: number;
+  label: string;
+  format: string;
+  percent: number;
+  at: string;
+}
+
+export interface DiagnosticPerformance {
+  officialCompleted: number;
+  officialRequired: number;
+  creditPercent: number;
+  creditMax: number;
+  perWeek: DiagnosticWeekPerformance[];
+  perSlot: DiagnosticSlotPerformance[];
+  recent: DiagnosticRecentItem[];
+}
+
 export type CourseOverviewTotals = {
   assignmentsCompleted: number;
   assignmentsTotal: number;

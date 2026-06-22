@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   useGetLecture,
+  useGetCourseOverview,
   useAskTutor,
   useStartPracticeSession,
   useNextPracticeProblem,
@@ -10,13 +11,13 @@ import {
   type KeystrokeTrace,
 } from "@workspace/api-client-react";
 import { Layout } from "@/components/layout/Layout";
-import { useParams, Link } from "wouter";
+import { useParams, Link, useLocation } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { AnswerInput } from "@/components/AnswerInput";
 import { StarterQuestionCard } from "@/components/StarterQuestionCard";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MessageSquare, Sparkles, Send, X, RefreshCw, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, MessageSquare, Sparkles, Send, X, RefreshCw, CheckCircle2, XCircle, Loader2 } from "lucide-react";
 
 const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
 
@@ -25,7 +26,22 @@ type ChatMsg = { role: "user" | "tutor"; text: string };
 export default function LectureView() {
   const params = useParams();
   const lectureId = Number(params.lectureId);
+  const [, setLocation] = useLocation();
   const { data: lecture, isLoading, refetch } = useGetLecture(lectureId);
+  const { data: course } = useGetCourseOverview();
+
+  // Flat, course-ordered list of lecture ids for prev/next navigation.
+  const orderedLectureIds = useMemo(
+    () => (course?.weeks ?? []).flatMap((w) => w.lectures.map((l) => l.id)),
+    [course],
+  );
+  const currentIndex = orderedLectureIds.indexOf(lectureId);
+  const prevLectureId =
+    currentIndex > 0 ? orderedLectureIds[currentIndex - 1] : null;
+  const nextLectureId =
+    currentIndex >= 0 && currentIndex < orderedLectureIds.length - 1
+      ? orderedLectureIds[currentIndex + 1]
+      : null;
 
   // shared selected-text state (used by both Tutor and Practice)
   const [selectedText, setSelectedText] = useState("");
@@ -123,13 +139,35 @@ export default function LectureView() {
 
   return (
     <Layout>
-      <div className="px-6 pt-4 pb-2">
+      <div className="px-6 pt-4 pb-2 flex items-center justify-between gap-2">
         <Link href={lecture ? `/weeks/${lecture.weekNumber}` : "/"}>
           <Button variant="ghost" className="-ml-2 text-muted-foreground hover:text-foreground">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Week {lecture?.weekNumber ?? ""}
           </Button>
         </Link>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={prevLectureId == null}
+            onClick={() => prevLectureId != null && setLocation(`/lectures/${prevLectureId}`)}
+            data-testid="button-prev-lecture"
+          >
+            <ArrowLeft className="w-4 h-4 mr-1" />
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={nextLectureId == null}
+            onClick={() => nextLectureId != null && setLocation(`/lectures/${nextLectureId}`)}
+            data-testid="button-next-lecture"
+          >
+            Next
+            <ArrowRight className="w-4 h-4 ml-1" />
+          </Button>
+        </div>
       </div>
 
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-0">

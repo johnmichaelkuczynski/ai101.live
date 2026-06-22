@@ -22,6 +22,8 @@ tags:
     description: AI-generation and diachronic detection
   - name: analytics
     description: User performance analytics and reports
+  - name: assessments
+    description: Diagnostic assessments (completion-credit, repeatable, multi-format)
 paths:
   /healthz:
     get:
@@ -372,6 +374,130 @@ paths:
               schema:
                 $ref: "#/components/schemas/AnalyticsReport"
 
+  /assessments/overview:
+    get:
+      operationId: getDiagnosticOverview
+      tags: [assessments]
+      summary: List all diagnostic slots with per-format status and earned credit
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticOverview"
+
+  /assessments/start:
+    post:
+      operationId: startDiagnostic
+      tags: [assessments]
+      summary: Start a fixed-slot diagnostic; generates fresh questions each time
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StartDiagnosticInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticAttemptState"
+
+  /assessments/custom:
+    post:
+      operationId: startCustomDiagnostic
+      tags: [assessments]
+      summary: Build a custom assessment scoped to the learner's needs (skips mastered material)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomDiagnosticInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticAttemptState"
+
+  /assessments/attempts/{attemptId}:
+    get:
+      operationId: getDiagnosticAttempt
+      tags: [assessments]
+      summary: Get a diagnostic attempt with its questions and saved responses
+      parameters:
+        - name: attemptId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticAttemptState"
+
+  /assessments/attempts/{attemptId}/answer:
+    put:
+      operationId: saveDiagnosticAnswer
+      tags: [assessments]
+      summary: Save (or update) a single diagnostic response
+      parameters:
+        - name: attemptId
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiagnosticAnswerInput"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnswerSaved"
+
+  /assessments/attempts/{attemptId}/submit:
+    post:
+      operationId: submitDiagnostic
+      tags: [assessments]
+      summary: Submit a diagnostic; completion earns full credit, score is recorded
+      parameters:
+        - name: attemptId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticResult"
+
+  /assessments/performance:
+    get:
+      operationId: getDiagnosticPerformance
+      tags: [assessments]
+      summary: Aggregated diagnostic performance profile
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticPerformance"
+
 components:
   schemas:
     HealthStatus:
@@ -713,6 +839,213 @@ components:
         recommendations:
           type: array
           items: { type: string }
+
+    DiagnosticFormatStatus:
+      type: object
+      required: [format, label, required, questionCount, attemptsCount, completed]
+      properties:
+        format:
+          type: string
+          enum: [mc, written, hybrid, official]
+        label: { type: string }
+        required: { type: boolean }
+        questionCount: { type: integer }
+        attemptsCount: { type: integer }
+        bestScore: { type: ["number", "null"] }
+        lastAttemptId: { type: ["integer", "null"] }
+        lastPercent: { type: ["number", "null"] }
+        completed: { type: boolean }
+
+    DiagnosticSlot:
+      type: object
+      required: [key, title, when, aptitude, weeks, formats]
+      properties:
+        key: { type: string }
+        title: { type: string }
+        when: { type: string }
+        aptitude: { type: boolean }
+        weeks:
+          type: array
+          items: { type: integer }
+        formats:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiagnosticFormatStatus"
+
+    DiagnosticOverview:
+      type: object
+      required: [slots, officialRequired, officialCompleted, creditPercent, creditMax]
+      properties:
+        slots:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiagnosticSlot"
+        officialRequired: { type: integer }
+        officialCompleted: { type: integer }
+        creditPercent: { type: number }
+        creditMax: { type: number }
+
+    StartDiagnosticInput:
+      type: object
+      required: [slotKey, format]
+      properties:
+        slotKey: { type: string }
+        format:
+          type: string
+          enum: [mc, written, hybrid, official]
+
+    CustomDiagnosticInput:
+      type: object
+      required: [scopeText]
+      properties:
+        scopeText:
+          type: string
+          description: Free-form description of what to assess, e.g. "only Week 2".
+
+    DiagnosticQuestionView:
+      type: object
+      required: [id, position, type, prompt]
+      properties:
+        id: { type: integer }
+        position: { type: integer }
+        type:
+          type: string
+          enum: [mc, written]
+        prompt: { type: string }
+        options:
+          type: ["array", "null"]
+          items: { type: string }
+
+    DiagnosticSavedResponse:
+      type: object
+      required: [questionId, answer]
+      properties:
+        questionId: { type: integer }
+        answer: { type: string }
+
+    DiagnosticAttemptState:
+      type: object
+      required: [id, slotKey, title, format, isOfficial, isCustom, weeksCovered, status, questions, responses]
+      properties:
+        id: { type: integer }
+        slotKey: { type: string }
+        title: { type: string }
+        format:
+          type: string
+          enum: [mc, written, hybrid, official]
+        isOfficial: { type: boolean }
+        isCustom: { type: boolean }
+        scopeDescription: { type: ["string", "null"] }
+        weeksCovered:
+          type: array
+          items: { type: integer }
+        status:
+          type: string
+          enum: [in_progress, submitted]
+        questions:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiagnosticQuestionView"
+        responses:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiagnosticSavedResponse"
+
+    DiagnosticAnswerInput:
+      type: object
+      required: [questionId, answer]
+      properties:
+        questionId: { type: integer }
+        answer: { type: string }
+        trace:
+          $ref: "#/components/schemas/KeystrokeTrace"
+
+    DiagnosticQuestionResult:
+      type: object
+      required: [questionId, position, type, prompt, yourAnswer, correctAnswer, correct, explanation]
+      properties:
+        questionId: { type: integer }
+        position: { type: integer }
+        type:
+          type: string
+          enum: [mc, written]
+        prompt: { type: string }
+        options:
+          type: ["array", "null"]
+          items: { type: string }
+        yourAnswer: { type: string }
+        correctAnswer: { type: string }
+        correct: { type: boolean }
+        explanation: { type: string }
+
+    DiagnosticResult:
+      type: object
+      required: [attemptId, slotKey, title, format, score, total, percent, completed, creditPercent, perQuestion]
+      properties:
+        attemptId: { type: integer }
+        slotKey: { type: string }
+        title: { type: string }
+        format:
+          type: string
+          enum: [mc, written, hybrid, official]
+        score: { type: number }
+        total: { type: number }
+        percent: { type: number }
+        completed: { type: boolean }
+        creditPercent: { type: number }
+        perQuestion:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiagnosticQuestionResult"
+
+    DiagnosticWeekPerformance:
+      type: object
+      required: [weekNumber, attempts, accuracy]
+      properties:
+        weekNumber: { type: integer }
+        attempts: { type: integer }
+        accuracy: { type: number }
+
+    DiagnosticSlotPerformance:
+      type: object
+      required: [slotKey, title, attempts, completed]
+      properties:
+        slotKey: { type: string }
+        title: { type: string }
+        attempts: { type: integer }
+        bestScore: { type: ["number", "null"] }
+        completed: { type: boolean }
+
+    DiagnosticRecentItem:
+      type: object
+      required: [attemptId, label, format, percent, at]
+      properties:
+        attemptId: { type: integer }
+        label: { type: string }
+        format: { type: string }
+        percent: { type: number }
+        at: { type: string, format: date-time }
+
+    DiagnosticPerformance:
+      type: object
+      required: [officialCompleted, officialRequired, creditPercent, creditMax, perWeek, perSlot, recent]
+      properties:
+        officialCompleted: { type: integer }
+        officialRequired: { type: integer }
+        creditPercent: { type: number }
+        creditMax: { type: number }
+        perWeek:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiagnosticWeekPerformance"
+        perSlot:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiagnosticSlotPerformance"
+        recent:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiagnosticRecentItem"
 
     CourseOverview:
       type: object

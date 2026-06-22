@@ -444,3 +444,216 @@ export const GenerateReportResponse = zod.object({
 })
 
 
+/**
+ * @summary List all diagnostic slots with per-format status and earned credit
+ */
+export const GetDiagnosticOverviewResponse = zod.object({
+  "slots": zod.array(zod.object({
+  "key": zod.string(),
+  "title": zod.string(),
+  "when": zod.string(),
+  "aptitude": zod.boolean(),
+  "weeks": zod.array(zod.number()),
+  "formats": zod.array(zod.object({
+  "format": zod.enum(['mc', 'written', 'hybrid', 'official']),
+  "label": zod.string(),
+  "required": zod.boolean(),
+  "questionCount": zod.number(),
+  "attemptsCount": zod.number(),
+  "bestScore": zod.number().nullish(),
+  "lastAttemptId": zod.number().nullish(),
+  "lastPercent": zod.number().nullish(),
+  "completed": zod.boolean()
+}))
+})),
+  "officialRequired": zod.number(),
+  "officialCompleted": zod.number(),
+  "creditPercent": zod.number(),
+  "creditMax": zod.number()
+})
+
+
+/**
+ * @summary Start a fixed-slot diagnostic; generates fresh questions each time
+ */
+export const StartDiagnosticBody = zod.object({
+  "slotKey": zod.string(),
+  "format": zod.enum(['mc', 'written', 'hybrid', 'official'])
+})
+
+export const StartDiagnosticResponse = zod.object({
+  "id": zod.number(),
+  "slotKey": zod.string(),
+  "title": zod.string(),
+  "format": zod.enum(['mc', 'written', 'hybrid', 'official']),
+  "isOfficial": zod.boolean(),
+  "isCustom": zod.boolean(),
+  "scopeDescription": zod.string().nullish(),
+  "weeksCovered": zod.array(zod.number()),
+  "status": zod.enum(['in_progress', 'submitted']),
+  "questions": zod.array(zod.object({
+  "id": zod.number(),
+  "position": zod.number(),
+  "type": zod.enum(['mc', 'written']),
+  "prompt": zod.string(),
+  "options": zod.array(zod.string()).nullish()
+})),
+  "responses": zod.array(zod.object({
+  "questionId": zod.number(),
+  "answer": zod.string()
+}))
+})
+
+
+/**
+ * @summary Build a custom assessment scoped to the learner's needs (skips mastered material)
+ */
+export const StartCustomDiagnosticBody = zod.object({
+  "scopeText": zod.string().describe('Free-form description of what to assess, e.g. \"only Week 2\".')
+})
+
+export const StartCustomDiagnosticResponse = zod.object({
+  "id": zod.number(),
+  "slotKey": zod.string(),
+  "title": zod.string(),
+  "format": zod.enum(['mc', 'written', 'hybrid', 'official']),
+  "isOfficial": zod.boolean(),
+  "isCustom": zod.boolean(),
+  "scopeDescription": zod.string().nullish(),
+  "weeksCovered": zod.array(zod.number()),
+  "status": zod.enum(['in_progress', 'submitted']),
+  "questions": zod.array(zod.object({
+  "id": zod.number(),
+  "position": zod.number(),
+  "type": zod.enum(['mc', 'written']),
+  "prompt": zod.string(),
+  "options": zod.array(zod.string()).nullish()
+})),
+  "responses": zod.array(zod.object({
+  "questionId": zod.number(),
+  "answer": zod.string()
+}))
+})
+
+
+/**
+ * @summary Get a diagnostic attempt with its questions and saved responses
+ */
+export const GetDiagnosticAttemptParams = zod.object({
+  "attemptId": zod.coerce.number()
+})
+
+export const GetDiagnosticAttemptResponse = zod.object({
+  "id": zod.number(),
+  "slotKey": zod.string(),
+  "title": zod.string(),
+  "format": zod.enum(['mc', 'written', 'hybrid', 'official']),
+  "isOfficial": zod.boolean(),
+  "isCustom": zod.boolean(),
+  "scopeDescription": zod.string().nullish(),
+  "weeksCovered": zod.array(zod.number()),
+  "status": zod.enum(['in_progress', 'submitted']),
+  "questions": zod.array(zod.object({
+  "id": zod.number(),
+  "position": zod.number(),
+  "type": zod.enum(['mc', 'written']),
+  "prompt": zod.string(),
+  "options": zod.array(zod.string()).nullish()
+})),
+  "responses": zod.array(zod.object({
+  "questionId": zod.number(),
+  "answer": zod.string()
+}))
+})
+
+
+/**
+ * @summary Save (or update) a single diagnostic response
+ */
+export const SaveDiagnosticAnswerParams = zod.object({
+  "attemptId": zod.coerce.number()
+})
+
+export const saveDiagnosticAnswerBodyTraceBulkInsertCountDefault = 0;
+export const saveDiagnosticAnswerBodyTraceLongestBulkInsertCharsDefault = 0;
+export const saveDiagnosticAnswerBodyTraceRewriteSegmentsDefault = 0;
+
+export const SaveDiagnosticAnswerBody = zod.object({
+  "questionId": zod.number(),
+  "answer": zod.string(),
+  "trace": zod.object({
+  "keystrokeCount": zod.number(),
+  "eraseCount": zod.number(),
+  "bulkInsertCount": zod.number().default(saveDiagnosticAnswerBodyTraceBulkInsertCountDefault),
+  "longestBulkInsertChars": zod.number().default(saveDiagnosticAnswerBodyTraceLongestBulkInsertCharsDefault),
+  "rewriteSegments": zod.number().default(saveDiagnosticAnswerBodyTraceRewriteSegmentsDefault),
+  "durationMs": zod.number()
+}).optional()
+})
+
+export const SaveDiagnosticAnswerResponse = zod.object({
+  "ok": zod.boolean()
+})
+
+
+/**
+ * @summary Submit a diagnostic; completion earns full credit, score is recorded
+ */
+export const SubmitDiagnosticParams = zod.object({
+  "attemptId": zod.coerce.number()
+})
+
+export const SubmitDiagnosticResponse = zod.object({
+  "attemptId": zod.number(),
+  "slotKey": zod.string(),
+  "title": zod.string(),
+  "format": zod.enum(['mc', 'written', 'hybrid', 'official']),
+  "score": zod.number(),
+  "total": zod.number(),
+  "percent": zod.number(),
+  "completed": zod.boolean(),
+  "creditPercent": zod.number(),
+  "perQuestion": zod.array(zod.object({
+  "questionId": zod.number(),
+  "position": zod.number(),
+  "type": zod.enum(['mc', 'written']),
+  "prompt": zod.string(),
+  "options": zod.array(zod.string()).nullish(),
+  "yourAnswer": zod.string(),
+  "correctAnswer": zod.string(),
+  "correct": zod.boolean(),
+  "explanation": zod.string()
+}))
+})
+
+
+/**
+ * @summary Aggregated diagnostic performance profile
+ */
+export const GetDiagnosticPerformanceResponse = zod.object({
+  "officialCompleted": zod.number(),
+  "officialRequired": zod.number(),
+  "creditPercent": zod.number(),
+  "creditMax": zod.number(),
+  "perWeek": zod.array(zod.object({
+  "weekNumber": zod.number(),
+  "attempts": zod.number(),
+  "accuracy": zod.number()
+})),
+  "perSlot": zod.array(zod.object({
+  "slotKey": zod.string(),
+  "title": zod.string(),
+  "attempts": zod.number(),
+  "bestScore": zod.number().nullish(),
+  "completed": zod.boolean()
+})),
+  "recent": zod.array(zod.object({
+  "attemptId": zod.number(),
+  "label": zod.string(),
+  "format": zod.string(),
+  "percent": zod.number(),
+  "at": zod.coerce.date()
+}))
+})
+
+
