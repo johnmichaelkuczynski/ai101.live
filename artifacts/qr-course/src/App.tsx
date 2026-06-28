@@ -201,7 +201,7 @@ function ClerkProviderWithRoutes() {
         signUp: {
           start: {
             title: "Create your account",
-            subtitle: "Start learning the ideas behind AI",
+            subtitle: "Start learning the logic behind AI",
           },
         },
       }}

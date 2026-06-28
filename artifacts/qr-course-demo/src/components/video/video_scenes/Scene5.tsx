@@ -16,7 +16,7 @@ export function Scene5({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
     }, 2000);
 
     const t3 = setTimeout(() => {
-      setTypedAnswer("Because it has a sensor.");
+      setTypedAnswer("It's when the model gives an output.");
     }, 3000);
 
     const t4 = setTimeout(() => {
@@ -39,10 +39,10 @@ export function Scene5({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
     }, 7000);
 
     // Type a strong conceptual answer, in chunks.
-    const t9 = setTimeout(() => setTypedAnswer("A thermostat follows a fixed rule a"), 8200);
-    const t10 = setTimeout(() => setTypedAnswer("A thermostat follows a fixed rule a human wrote — it just"), 8900);
-    const t11 = setTimeout(() => setTypedAnswer("A thermostat follows a fixed rule a human wrote — it just compares the temperature to a threshold."), 9700);
-    const t12 = setTimeout(() => setTypedAnswer("A thermostat follows a fixed rule a human wrote — it just compares the temperature to a threshold. It never learns from data, so it's automation, not intelligence."), 10600);
+    const t9 = setTimeout(() => setTypedAnswer("The model still reached a new conclusion"), 8200);
+    const t10 = setTimeout(() => setTypedAnswer("The model still reached a new conclusion — \u201Csuspicious\u201D — on the basis of"), 8900);
+    const t11 = setTimeout(() => setTypedAnswer("The model still reached a new conclusion — \u201Csuspicious\u201D — on the basis of patterns it learned from past data."), 9700);
+    const t12 = setTimeout(() => setTypedAnswer("The model still reached a new conclusion — \u201Csuspicious\u201D — on the basis of patterns it learned from past data. That's inference; it just runs through pattern activation, not an explicit logical step."), 10600);
 
     const t13 = setTimeout(() => {
       setCursorPos({ x: '70vw', y: '60vh' }); // Move to Submit
@@ -97,8 +97,8 @@ export function Scene5({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
         <div className="text-xs font-bold text-muted-foreground tracking-widest uppercase mb-4">Topic Practice</div>
         <div className="flex justify-between items-end mb-8">
           <div>
-            <h1 className="text-4xl font-serif text-primary mb-2">What AI is (and isn't)</h1>
-            <div className="text-sm text-muted-foreground">Week 1 · 1 prior attempt · 100% accuracy · <span className="text-emerald-600 font-semibold">STRONG</span></div>
+            <h1 className="text-4xl font-serif text-primary mb-2">The Concept of Inference</h1>
+            <div className="text-sm text-muted-foreground">Unit 1 · 1 prior attempt · 100% accuracy · <span className="text-emerald-600 font-semibold">STRONG</span></div>
           </div>
           <div className="text-sm font-medium border border-border px-3 py-1 rounded-md bg-white">
             Session score: {phase < 2 ? '0/0' : phase < 5 ? '0/1' : '1/2'}
@@ -108,10 +108,10 @@ export function Scene5({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
         <div className="bg-white border border-border rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[400px]">
           <div className="p-8 flex-1 border-b border-border text-lg text-primary font-medium leading-relaxed">
             {phase >= 1 && phase < 4 && (
-              <StreamingText text="In your own words, what is the core difference between automation and artificial intelligence?" delay={0} />
+              <StreamingText text="In your own words, what is the core idea of inference?" delay={0} />
             )}
             {phase >= 4 && (
-              <StreamingText text="A thermostat switches the heat on at a set temperature. Explain why that makes it automation rather than artificial intelligence." delay={0} />
+              <StreamingText text="A fraud model flags a transaction as suspicious. Explain why this still counts as inference, even though the model never reasoned 'two cities in an hour, therefore fraud.'" delay={0} />
             )}
           </div>
           
@@ -141,7 +141,7 @@ export function Scene5({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
                     <span>Not quite</span>
                   </div>
                   <div className="text-sm text-red-900 leading-relaxed">
-                    <StreamingText text="Having a sensor isn't what makes something intelligent — automation can use sensors too. The real distinction is whether the behavior was learned from data or written as a fixed rule by a human. Try framing it that way." delay={0} />
+                    <StreamingText text="An output by itself isn't an inference. Inference is forming a new belief on the basis of an old one — reaching a conclusion on the strength of something you already accept. Try framing your answer around that move." delay={0} />
                   </div>
                 </motion.div>
               )}
@@ -156,7 +156,7 @@ export function Scene5({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
                     <span>Correct!</span>
                   </div>
                   <div className="text-sm text-emerald-900 leading-relaxed">
-                    <StreamingText text="Exactly. A thermostat applies a fixed, human-written rule and never changes its behavior based on experience. Intelligence, by contrast, learns its behavior from patterns in data — that's the line you drew." delay={0} />
+                    <StreamingText text="Exactly. It's still inference — a new belief, 'suspicious,' reached on the basis of what the system already 'knows' — but the mechanism is pattern activation across learned weights, not a chain of explicit propositions. That's the AI-logic reframing." delay={0} />
                   </div>
                 </motion.div>
               )}

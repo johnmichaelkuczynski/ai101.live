@@ -18,24 +18,24 @@ const router: IRouter = Router();
 
 const WEEK_TITLES: Record<number, { title: string; summary: string }> = {
   1: {
-    title: "Week 1 — What AI is and how it got here",
+    title: "Unit 1 — Fundamental Concepts: Inference, Entailment, Confirmation, Knowledge",
     summary:
-      "What AI is and isn't, automation vs. intelligence, the history from symbolic AI to machine learning, rules vs. learning, data as raw material, what training means, models as input-output functions, and AI in everyday life.",
+      "Inference as forming a new belief from an old one; deductive, inductive, and abductive types; entailment vs. pattern activation; the over-valuation of model-theoretic entailment; confirmation vs. confidence scores; the ampliative thesis; knowledge in an AI system; and why AI vindicates anti-skeptical epistemology.",
   },
   2: {
-    title: "Week 2 — How machines learn",
+    title: "Unit 2 — Notational Conventions for AI Logic",
     summary:
-      "Pattern recognition, features and representations, supervised learning from labels, unsupervised learning, prediction and error (precision and recall), and why more data and bigger models help.",
+      "Why AI logic needs its own notation; representing defeasible inference; encoding non-monotonic reasoning; notation for semantic networks and embedding-space relationships; marking confidence and strength; the syntax/semantics collapse; distinguishing transformative from ampliative steps; and the limits of formalization.",
   },
   3: {
-    title: "Week 3 — Neural networks and generative AI",
+    title: "Unit 3 — Meta-Logical Principles",
     summary:
-      "Neural networks and how they learn, deep learning, language models and next-token prediction, what generative AI means, prompting, and the strengths, limits, and hallucination of these systems.",
+      "What a meta-logical principle is; soundness and completeness reconceived for ampliative systems; defeasibility as a governing principle; consistency under revision; pattern recognition as an inferential primitive; screening, defeat, and override; why classical logic is merely transformative; and the meta-logic of learning.",
   },
   4: {
-    title: "Week 4 — AI in the world: ethics, safety, and the future",
+    title: "Unit 4 — Models",
     summary:
-      "Bias and fairness, reliability and trust, privacy and security, automation and work, alignment and AI safety, a practical workflow for using AI well, the near future of agents, and a capstone synthesis.",
+      "What a model is in AI logic; neural networks as models; embedding spaces as semantic models; how a model binds data through explanatory yield; model selection and parsimony; testing and revising a model from within; the hybrid frontier; and a synthesis of AI logic as a complete ampliative system.",
   },
 };
 
@@ -124,7 +124,7 @@ router.get("/course/overview", async (_req, res) => {
 
   res.json(
     GetCourseOverviewResponse.parse({
-      title: "Teach Yourself AI",
+      title: "AI Logic",
       weeks,
       totals: { assignmentsCompleted, assignmentsTotal, practiceCount },
     }),

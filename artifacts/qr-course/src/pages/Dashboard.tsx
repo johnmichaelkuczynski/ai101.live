@@ -17,7 +17,7 @@ export default function Dashboard() {
           <h1 className="text-3xl font-serif font-bold text-primary mb-2">
             {overview ? overview.title : <Skeleton className="h-9 w-64" />}
           </h1>
-          <p className="text-muted-foreground">Welcome to Teach Yourself AI.</p>
+          <p className="text-muted-foreground">Welcome to AI Logic by Zhi Systems.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

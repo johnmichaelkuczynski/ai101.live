@@ -1,0 +1,62 @@
+UNIT 1 — FUNDAMENTAL CONCEPTS: INFERENCE, ENTAILMENT, CONFIRMATION, KNOWLEDGE
+
+The Concept of Inference: Forming a New Belief on the Basis of an Old One
+Types of Inference: Deductive, Inductive, and Abductive
+Entailment vs. Pattern Activation: Logical Necessity Against Learned Association
+The Over-Valuation of Model-Theoretic Entailment
+Confirmation vs. Confidence Scores: Evidential Support Against Numerical Weighting
+The Ampliative Thesis: Inference That Adds Content, Not Merely Reshuffles It
+Knowledge in an AI System: What Counts as Knowing Versus Merely Outputting
+Why AI Vindicates Anti-Skeptical Epistemology Rather Than Threatening It
+
+UNIT 2 — NOTATIONAL CONVENTIONS FOR AI LOGIC
+
+9. Why AI Logic Needs Its Own Notation
+
+10. Representing Defeasible Inference: Conclusions That Can Be Withdrawn
+
+11. Encoding Non-Monotonic Reasoning: When Adding Premises Subtracts Conclusions
+
+12. Notation for Semantic Networks and Embedding-Space Relationships
+
+13. Marking Confidence and Strength of Support Within an Inference
+
+14. The Syntax/Semantics Collapse: Where the Classical Divide Breaks Down
+
+15. Distinguishing Transformative From Ampliative Steps in Notation
+
+16. The Limits of Formalization: What the Notation Can and Cannot Capture
+UNIT 3 — META-LOGICAL PRINCIPLES
+
+17. What a Meta-Logical Principle Is and Why AI Logic Has Its Own
+
+18. Soundness and Completeness Reconceived for Ampliative Systems
+
+19. Defeasibility as a Governing Principle, Not an Exception
+
+20. Consistency Under Revision: Holding a System Together as Beliefs Change
+
+21. The Role of Pattern Recognition as an Inferential Primitive
+
+22. Screening, Defeat, and Override Among Competing Inferences
+
+23. Why Classical Logic Is Merely Transformative — And What Follows
+
+24. The Meta-Logic of Learning: Inference Rules That Themselves Update
+UNIT 4 — MODELS
+
+25. What a Model Is in AI Logic
+
+26. Neural Networks as Models: The Network-as-Model Reconception
+
+27. Embedding Spaces as Semantic Models
+
+28. How a Model Binds Data: Explanatory Yield Inside the System
+
+29. Model Selection and Parsimony Under AI Conditions
+
+30. Testing and Revising a Model From Within
+
+31. The Hybrid Frontier: Combining Classical and Ampliative Models
+
+32. Synthesis: AI Logic as a Complete Ampliative System

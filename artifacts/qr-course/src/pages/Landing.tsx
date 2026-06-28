@@ -4,34 +4,34 @@ import { BookOpen, Bot, ShieldCheck, Sparkles, ArrowRight } from "lucide-react";
 const weeks = [
   {
     n: 1,
-    title: "What AI is and how it got here",
+    title: "Fundamental Concepts",
     blurb:
-      "Automation vs. intelligence, a brief history from symbolic AI to machine learning, and what \u201Ctraining\u201D actually means.",
+      "Inference, entailment vs. pattern activation, confirmation vs. confidence, the ampliative thesis, knowledge in an AI system, and anti-skeptical epistemology.",
   },
   {
     n: 2,
-    title: "How machines learn",
+    title: "Notational Conventions",
     blurb:
-      "Pattern recognition, features and representations, supervised vs. unsupervised learning, and why more data helps.",
+      "Why AI logic needs new notation, defeasible inference, non-monotonic reasoning, embedding-space relationships, marking confidence, and the limits of formalization.",
   },
   {
     n: 3,
-    title: "Neural networks & generative AI",
+    title: "Meta-Logical Principles",
     blurb:
-      "From neurons to deep learning, language models and next-token prediction, prompting, and why models hallucinate.",
+      "Reconceived soundness and completeness, defeasibility as a governing principle, consistency under revision, pattern recognition as a primitive, and the meta-logic of learning.",
   },
   {
     n: 4,
-    title: "AI in the world",
+    title: "Models",
     blurb:
-      "Bias and fairness, reliability and trust, privacy, alignment and safety, and a practical workflow for using AI well.",
+      "What a model is in AI logic, neural networks and embedding spaces as models, binding data, parsimony, testing and revising, and the hybrid frontier.",
   },
 ];
 
 const features = [
   {
     icon: BookOpen,
-    title: "28 micro-lectures",
+    title: "32 micro-lectures",
     text: "Short, connected ideas at three depths \u2014 read it briefly or go deep on any concept.",
   },
   {
@@ -56,7 +56,7 @@ export default function Landing() {
               AI
             </div>
             <span className="font-serif font-semibold text-lg tracking-tight">
-              Teach Yourself AI
+              AI Logic
             </span>
           </div>
           <Link href="/sign-in">
@@ -71,15 +71,16 @@ export default function Landing() {
         <section className="max-w-6xl mx-auto w-full px-6 pt-20 pb-16 text-center flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-medium mb-6">
             <Sparkles className="w-3.5 h-3.5" />
-            A four-week introduction to the ideas behind AI
+            A four-unit course on how AI actually reasons
           </div>
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary max-w-3xl leading-tight">
-            Understand artificial intelligence — the concepts, not the hype.
+            AI Logic — how machines reason, not how textbooks say they should.
           </h1>
           <p className="mt-6 text-lg text-muted-foreground max-w-2xl">
-            What is a model? What does “training” really mean? Why do language
-            models make things up? Learn the real ideas behind modern AI in
-            plain English — no math or coding required.
+            What is inference when there are no rules? How does entailment become
+            pattern activation? Why is AI ampliative — and fallible — by nature?
+            Learn the logic behind modern AI in plain English — no math or coding
+            required.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Link href="/sign-up">
@@ -122,7 +123,7 @@ export default function Landing() {
                 className="rounded-lg border border-card-border bg-card p-6"
               >
                 <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">
-                  Week {w.n}
+                  Unit {w.n}
                 </div>
                 <h3 className="text-lg font-serif font-semibold mb-2">
                   {w.title}
@@ -144,7 +145,7 @@ export default function Landing() {
 
       <footer className="border-t border-border">
         <div className="max-w-6xl mx-auto w-full px-6 py-6 text-sm text-muted-foreground text-center">
-          Teach Yourself AI — read the idea, ground the idea, explain the idea.
+          AI Logic by Zhi Systems — read the idea, ground the idea, explain the idea.
         </div>
       </footer>
     </div>

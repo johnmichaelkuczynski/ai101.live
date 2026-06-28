@@ -126,7 +126,7 @@ function CustomBuilder({
         <textarea
           value={scope}
           onChange={(e) => setScope(e.target.value)}
-          placeholder='e.g. "Just Week 2 — supervised vs unsupervised learning" or "everything I struggle with"'
+          placeholder='e.g. "Just Unit 2 — defeasible and non-monotonic inference" or "everything I struggle with"'
           className="w-full min-h-[90px] p-3 bg-card border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-y"
           data-testid="input-custom-scope"
         />
@@ -247,7 +247,7 @@ export default function Assessments() {
               {performance.perWeek.map((w) => (
                 <div key={w.weekNumber} className="rounded-md border border-border p-4">
                   <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                    Week {w.weekNumber}
+                    Unit {w.weekNumber}
                   </div>
                   <div className="text-2xl font-serif font-bold">
                     {Math.round(w.accuracy * 100)}%

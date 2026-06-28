@@ -63,8 +63,8 @@ export function Scene2({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
     >
       {/* Left Pane: Lecture Content */}
       <div className="w-1/2 h-full border-r border-border p-12 overflow-hidden flex flex-col relative">
-        <div className="text-xs font-bold tracking-widest text-muted-foreground mb-4">WEEK 1 — WHAT AI IS AND HOW IT GOT HERE</div>
-        <h1 className="text-3xl font-serif text-primary mb-8">1.1 What AI is (and isn't)</h1>
+        <div className="text-xs font-bold tracking-widest text-muted-foreground mb-4">UNIT 1 — FUNDAMENTAL CONCEPTS</div>
+        <h1 className="text-3xl font-serif text-primary mb-8">1.1 The Concept of Inference</h1>
         
         <div className="flex bg-muted/50 rounded-lg p-1 w-fit mb-10 border border-border">
           <div className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${phase < 1 ? 'bg-white shadow-sm text-primary' : 'text-muted-foreground'}`}>Short</div>
@@ -73,12 +73,12 @@ export function Scene2({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
         </div>
 
         <div className="prose prose-sm max-w-none text-foreground/80 space-y-6">
-          <h2 className="font-serif text-2xl text-primary">What is AI?</h2>
+          <h2 className="font-serif text-2xl text-primary">The Concept of Inference</h2>
           <p>
-            We start with the word everyone uses and almost no one defines: <em>artificial intelligence</em>. Before any neural network, model, or chatbot, there is a simpler question — what makes something "intelligent" rather than just automatic?
+            At its root, <em>inference is forming a new belief on the basis of an old one</em>. You believe one thing; on the strength of it you come to believe another. This single idea is the foundation of all logic — and it is where the classical and the AI views first part company.
           </p>
           <p>
-            A useful first cut: <em>automation</em> follows fixed rules a human wrote in advance, while <em>intelligence</em> adapts its behavior based on patterns in data. A thermostat is automation, not intelligence — it just compares a number to a threshold.
+            Traditional logic divides knowledge into two kinds: <em>direct</em> (non-inferential) knowledge, like the immediate report of your senses, and <em>indirect</em> (inferential) knowledge, reached by reasoning from something else.
           </p>
           
           <AnimatePresence>
@@ -90,10 +90,10 @@ export function Scene2({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
                 className="space-y-6"
               >
                 <p>
-                  The term "artificial intelligence" was coined at the 1956 Dartmouth workshop, when researchers believed reasoning could be captured in explicit logical rules. That hand-written-rules approach is now called <em>symbolic AI</em>, and it powered everything from chess engines to early expert systems.
+                  An AI system transforms this picture. Rather than holding discrete beliefs and stepping from one to the next, it makes inferences by <em>activating patterns in a neural network</em> according to learned associations. There is no clean line between "direct" and "indirect" knowledge — everything it knows lives as weighted connections.
                 </p>
                 <p>
-                  Modern AI works the other way around: instead of a human writing the rules, the system <em>learns</em> them from examples. Being precise about that distinction — rules a person wrote versus patterns a machine inferred — is half of understanding what today's AI can and cannot do.
+                  It does not take a single logical step; it lets many partial patterns light up <em>in parallel</em>, producing an output from statistical regularities rather than a chain of explicit propositions. Its inferences are fuzzy and probabilistic, not binary true-or-false moves.
                 </p>
               </motion.div>
             )}
@@ -120,13 +120,13 @@ export function Scene2({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
               >
                 <div className="mb-4 text-xs font-semibold text-muted-foreground uppercase tracking-widest">Starter questions for this section</div>
                 <div className="flex flex-wrap gap-2 mb-6">
-                  <div className="px-3 py-1.5 rounded-full border border-border text-sm text-primary bg-muted/30">What's the difference between AI and automation?</div>
-                  <div className="px-3 py-1.5 rounded-full border border-border text-sm text-primary bg-muted/30">Why is a thermostat not "intelligent"?</div>
-                  <div className="px-3 py-1.5 rounded-full border border-border text-sm text-primary bg-muted/30">What was symbolic AI, and why did it fade?</div>
+                  <div className="px-3 py-1.5 rounded-full border border-border text-sm text-primary bg-muted/30">What does it mean to form a belief on the basis of another?</div>
+                  <div className="px-3 py-1.5 rounded-full border border-border text-sm text-primary bg-muted/30">How is pattern activation different from a logical step?</div>
+                  <div className="px-3 py-1.5 rounded-full border border-border text-sm text-primary bg-muted/30">Why is there no "direct vs. indirect" knowledge in a neural net?</div>
                 </div>
                 <div className="w-full h-24 border border-border rounded-lg bg-muted/20 p-3 text-muted-foreground text-sm flex items-end shadow-inner">
                   <div className="w-full flex justify-between">
-                    <span>Ask a question about what AI is...</span>
+                    <span>Ask a question about inference...</span>
                     <div className="w-8 h-8 rounded bg-primary text-white flex items-center justify-center cursor-pointer opacity-50">↑</div>
                   </div>
                 </div>
@@ -157,7 +157,7 @@ export function Scene2({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
                     className="p-6 border border-border rounded-xl shadow-sm bg-white"
                   >
                     <p className="text-foreground font-medium mb-6">
-                      In one or two sentences, explain why a thermostat is an example of automation rather than artificial intelligence.
+                      In one or two sentences, explain what it means to say that "inference is forming a new belief on the basis of an old one."
                     </p>
                     <div className="w-full h-12 border border-border rounded-md bg-muted/10 mb-4 px-3 flex items-center text-muted-foreground">Type your answer...</div>
                     <div className="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium w-fit ml-auto">Submit</div>

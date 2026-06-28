@@ -82,7 +82,7 @@ export function Scene6({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
             <h1 className="text-4xl font-serif text-primary mb-2 tracking-tight">Assignments</h1>
             <p className="text-muted-foreground mb-12">Complete your homework, tests, midterm, and final exams.</p>
             
-            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-4">Week 1</h3>
+            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-4">Unit 1</h3>
             
             <div className="space-y-4">
               {/* Card 1 */}
@@ -94,7 +94,7 @@ export function Scene6({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
               >
                 <div>
                   <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Homework</div>
-                  <h4 className="font-serif text-lg text-primary mb-1">Homework 1.1 — What AI is, history, rules vs. learning</h4>
+                  <h4 className="font-serif text-lg text-primary mb-1">Homework 1.1 — Inference, types, entailment vs. pattern activation</h4>
                   <div className="text-sm text-muted-foreground">4 problems</div>
                 </div>
                 <div className="flex items-center space-x-6">
@@ -117,7 +117,7 @@ export function Scene6({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
               >
                 <div>
                   <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Homework</div>
-                  <h4 className="font-serif text-lg text-primary mb-1">Homework 1.2 — Data, training, models, everyday AI</h4>
+                  <h4 className="font-serif text-lg text-primary mb-1">Homework 1.2 — Confidence, the ampliative thesis, knowledge, anti-skepticism</h4>
                   <div className="text-sm text-muted-foreground">4 problems</div>
                 </div>
                 <div className="flex items-center space-x-6">
@@ -140,7 +140,7 @@ export function Scene6({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
               >
                 <div>
                   <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Test</div>
-                  <h4 className="font-serif text-lg text-primary mb-1">Week 1 Test</h4>
+                  <h4 className="font-serif text-lg text-primary mb-1">Unit 1 Test</h4>
                   <div className="text-sm text-muted-foreground">5 problems · 30 min</div>
                 </div>
                 <div className="flex items-center space-x-6">
@@ -174,11 +174,11 @@ export function Scene6({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
             <div className="bg-white border border-border rounded-xl shadow-sm p-8 mb-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 bg-emerald-100 text-emerald-700 px-4 py-1.5 text-xs font-bold tracking-widest rounded-bl-xl border-b border-l border-emerald-200">GRADED</div>
               
-              <h3 className="font-medium text-lg mb-6 max-w-2xl text-foreground">Q1. A thermostat switches the heat on at a set temperature. Explain why that makes it automation rather than artificial intelligence.</h3>
+              <h3 className="font-medium text-lg mb-6 max-w-2xl text-foreground">Q1. A fraud model flags a transaction as suspicious. Explain why this still counts as inference, even though the model never reasoned "two cities in an hour, therefore fraud."</h3>
               
               <div className="mb-6 max-w-2xl">
                 <div className="text-xs text-muted-foreground mb-2">Your answer:</div>
-                <div className="px-6 py-3 bg-muted/30 border border-border rounded-lg text-base leading-relaxed">A thermostat follows a fixed rule a human wrote — it just compares the temperature to a threshold. It never learns from data, so it's automation, not intelligence.</div>
+                <div className="px-6 py-3 bg-muted/30 border border-border rounded-lg text-base leading-relaxed">The model still reached a new conclusion — "suspicious" — on the basis of patterns it learned from past data. That's inference; it just runs through pattern activation, not an explicit logical step.</div>
               </div>
 
               <AnimatePresence>
@@ -193,7 +193,7 @@ export function Scene6({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
                       <span>AI Tutor Feedback</span>
                     </div>
                     <div className="text-sm text-blue-900 leading-relaxed">
-                      <StreamingText text="Correct. You nailed the key distinction: the thermostat runs a fixed, human-written rule and never learns from data, which is exactly what makes it automation rather than intelligence. Clear, concise, and in your own words." delay={0} />
+                      <StreamingText text="Correct. You nailed the key idea: the model still forms a new belief on the basis of what it has learned, so it is genuinely inference — it just arrives there by pattern activation across learned weights rather than an explicit logical step. Clear, concise, and in your own words." delay={0} />
                     </div>
                   </motion.div>
                 )}
@@ -219,7 +219,7 @@ export function Scene6({ setCursorPos, setIsClicking }: { setCursorPos: (pos: {x
             </div>
             
             <div className="bg-white border border-border rounded-xl shadow-sm p-8 opacity-50">
-              <h3 className="font-medium text-lg mb-6 max-w-2xl text-foreground">Q2. In one sentence, explain what it means for a system to "learn" from data rather than follow hand-written rules.</h3>
+              <h3 className="font-medium text-lg mb-6 max-w-2xl text-foreground">Q2. In one sentence, explain how an AI system's "entailment" differs from logical entailment in classical logic.</h3>
               <div className="text-sm text-muted-foreground">Problem content hidden...</div>
             </div>
           </motion.div>

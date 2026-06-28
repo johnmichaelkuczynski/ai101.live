@@ -107,7 +107,7 @@ export default function VideoTemplate({
         </nav>
 
         <div className="px-6 mt-auto">
-          <div className="text-xs text-muted-foreground uppercase font-semibold">Teach Yourself AI</div>
+          <div className="text-xs text-muted-foreground uppercase font-semibold">AI Logic</div>
         </div>
       </div>
 
