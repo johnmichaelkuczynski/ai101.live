@@ -1,3 +1,4 @@
 - [qr-course-demo audio](qr-course-demo-audio.md) — demo video is background music ONLY; narration/TTS was removed by user. Don't re-add voice without confirming.
 - [Clerk auth wiring](clerk-auth-wiring.md) — Clerk wiring is copied verbatim from the skill; do NOT "fix" cors origin:true or add PROD gates/Bearer tokens, it breaks sign-in.
 - [Diagnostic Assessments](diagnostics-assessments.md) — completion (all answered) = 20% credit not correctness; retakes regenerate; generator enforces exact MC/written counts; single-user (no userId).
+- [Week/Unit reskin labeling](quantreason-reskin-units.md) — runtime models groups as weekNumber 1-4; unit label lives in WEEK_TITLES; render week.title as-is, never double-prefix "Week/Unit {n}".

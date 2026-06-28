@@ -88,7 +88,7 @@ export default function Analytics() {
                       <thead className="bg-secondary/50 text-muted-foreground text-left">
                         <tr>
                           <th className="p-3 font-medium">Topic</th>
-                          <th className="p-3 font-medium">Week</th>
+                          <th className="p-3 font-medium">Unit</th>
                           <th className="p-3 font-medium text-right">Attempts</th>
                           <th className="p-3 font-medium text-right">Accuracy</th>
                           <th className="p-3 font-medium text-center">Status</th>
