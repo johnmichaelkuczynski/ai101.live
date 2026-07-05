@@ -1,4 +1,4 @@
 - [qr-course-demo audio](qr-course-demo-audio.md) — demo video is background music ONLY; narration/TTS was removed by user. Don't re-add voice without confirming.
-- [Auth removed](auth-removed.md) — all Clerk login was ripped out on user's order (2026-07-05); app is fully open, single-user. Don't re-add auth without asking.
 - [Diagnostic Assessments](diagnostics-assessments.md) — completion (all answered) = 20% credit not correctness; retakes regenerate; generator enforces exact MC/written counts; single-user (no userId).
+- [Auth approach](auth-removed.md) — user's canonical Passport/Google OAuth auth.ts installed VERBATIM; never rewrite it; login optional, app stays open; no Clerk.
 - [Week/Unit reskin labeling](quantreason-reskin-units.md) — runtime models groups as weekNumber 1-4; unit label lives in WEEK_TITLES; render week.title as-is, never double-prefix "Week/Unit {n}".
