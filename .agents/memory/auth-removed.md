@@ -15,3 +15,5 @@ description: History of auth in this app and the strict rules around the current
 **Why:** the user maintains one canonical auth file across all their apps and wants byte-level consistency; unrequested "improvements" to auth wiring have broken sign-in before.
 
 **How to apply:** any future auth change must be a minimal diff against the canonical file, with every changed line reported to the user. Secrets: GOOGLE_LOGIN_CLIENT_ID / GOOGLE_LOGIN_CLIENT_SECRET. The api-server proxy paths include `/auth` so `/auth/google/callback` reaches it. Admin email johnmichaelkuczynski@gmail.com gates /api/admin/visits.
+
+**Production notes (confirmed working 2026-07-05):** prod domain is `ailogiccourse.xyz` (custom domain); its redirect URI `https://ailogiccourse.xyz/auth/google/callback` is registered in the user's Google Cloud OAuth client. If the domain ever changes, the new `/auth/google/callback` URI must be added there too — redirect_uri_mismatch means it's missing, not a code bug. The bundled server build must ship connect-pg-simple's `table.sql` into dist/ or session-table auto-creation fails silently (ENOENT in logs).
