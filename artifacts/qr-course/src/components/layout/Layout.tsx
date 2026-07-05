@@ -1,57 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, LogOut, ClipboardCheck } from "lucide-react";
+import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, ClipboardCheck } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useClerk, useUser } from "@clerk/react";
-
-const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-
-function UserFooter() {
-  const { user } = useUser();
-  const { signOut } = useClerk();
-
-  const initial = (
-    user?.firstName?.[0] ??
-    user?.primaryEmailAddress?.emailAddress?.[0] ??
-    "?"
-  ).toUpperCase();
-
-  return (
-    <div className="p-4 border-t border-border flex flex-col gap-3">
-      {user && (
-        <div className="flex items-center gap-2 min-w-0">
-          {user.imageUrl ? (
-            <img
-              src={user.imageUrl}
-              alt=""
-              className="w-8 h-8 rounded-full shrink-0"
-            />
-          ) : (
-            <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-semibold shrink-0">
-              {initial}
-            </div>
-          )}
-          <div className="min-w-0">
-            <div className="text-sm font-medium truncate">
-              {user.fullName ?? "Account"}
-            </div>
-            <div className="text-xs text-muted-foreground truncate">
-              {user.primaryEmailAddress?.emailAddress}
-            </div>
-          </div>
-        </div>
-      )}
-      <button
-        onClick={() => signOut({ redirectUrl: basePath || "/" })}
-        className="inline-flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium border border-border hover:bg-secondary"
-        data-testid="button-logout"
-      >
-        <LogOut className="w-4 h-4" />
-        Log out
-      </button>
-    </div>
-  );
-}
 
 export function Sidebar() {
   const [location] = useLocation();
@@ -96,7 +46,11 @@ export function Sidebar() {
         })}
       </div>
 
-      <UserFooter />
+      <div className="p-4 border-t border-border">
+        <span className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+          AI Logic
+        </span>
+      </div>
     </div>
   );
 }

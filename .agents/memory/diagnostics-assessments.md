@@ -20,7 +20,7 @@ A separate assessment system layered on the QuantReason runtime. 7 fixed slots �
 - **Why:** the LLM does not reliably return the exact requested split; without enforcement, a persisted Official could have the wrong number/mix of questions.
 
 ## Single-user
-- Attempts have NO userId — consistent with the rest of this app (single-user, all routes behind Clerk requireAuth). Don't add per-user scoping unless the whole app moves to multi-user.
+- Attempts have NO userId — consistent with the rest of this app (single-user, no auth). Don't add per-user scoping unless the whole app moves to multi-user.
 
 ## Answer state non-leak
 - The in-progress attempt payload excludes correctAnswer/explanation; those only appear in the submit result. Keep it that way.
