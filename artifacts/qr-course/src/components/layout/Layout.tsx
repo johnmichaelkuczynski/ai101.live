@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, ClipboardCheck, LogIn, LogOut } from "lucide-react";
+import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, ClipboardCheck, LogIn, LogOut, ShieldCheck } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-type AuthUser = {
+export type AuthUser = {
   id: number;
   username: string;
   email: string | null;
   displayName: string | null;
 };
 
-function useAuthUser() {
+export const ADMIN_EMAIL = "johnmichaelkuczynski@gmail.com";
+
+export function useAuthUser() {
   return useQuery<{ authenticated: boolean; user: AuthUser | null }>({
     queryKey: ["auth-user"],
     queryFn: async () => {
@@ -77,12 +79,19 @@ function UserFooter() {
 
 export function Sidebar() {
   const [location] = useLocation();
+  const { data: auth } = useAuthUser();
+
+  const isAdmin =
+    auth?.authenticated && auth.user?.email?.toLowerCase() === ADMIN_EMAIL;
 
   const navItems = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
     { href: "/assignments", label: "Assignments", icon: PenTool },
     { href: "/assessments", label: "Assessments", icon: ClipboardCheck },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },
+    ...(isAdmin
+      ? [{ href: "/administrative", label: "Administrative", icon: ShieldCheck }]
+      : []),
   ];
 
   return (
