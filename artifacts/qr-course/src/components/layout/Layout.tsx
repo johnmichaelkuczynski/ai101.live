@@ -1,7 +1,79 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, ClipboardCheck } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
+import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, ClipboardCheck, LogIn, LogOut } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+
+type AuthUser = {
+  id: number;
+  username: string;
+  email: string | null;
+  displayName: string | null;
+};
+
+function useAuthUser() {
+  return useQuery<{ authenticated: boolean; user: AuthUser | null }>({
+    queryKey: ["auth-user"],
+    queryFn: async () => {
+      const res = await fetch("/api/auth/user", { credentials: "include" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    },
+    staleTime: 60_000,
+  });
+}
+
+function UserFooter() {
+  const { data } = useAuthUser();
+  const qc = useQueryClient();
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  async function handleLogout() {
+    setLoggingOut(true);
+    try {
+      await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+      await qc.invalidateQueries({ queryKey: ["auth-user"] });
+    } finally {
+      setLoggingOut(false);
+    }
+  }
+
+  if (data?.authenticated && data.user) {
+    return (
+      <div className="flex flex-col gap-2">
+        <div className="min-w-0">
+          <div className="text-sm font-medium truncate" data-testid="text-user-name">
+            {data.user.displayName || data.user.username}
+          </div>
+          {data.user.email && (
+            <div className="text-xs text-muted-foreground truncate" data-testid="text-user-email">
+              {data.user.email}
+            </div>
+          )}
+        </div>
+        <button
+          onClick={handleLogout}
+          disabled={loggingOut}
+          className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium border border-border hover:bg-secondary disabled:opacity-50 w-full justify-center"
+          data-testid="button-logout"
+        >
+          <LogOut className="w-4 h-4" />
+          {loggingOut ? "Signing out…" : "Sign out"}
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <a
+      href="/api/auth/google"
+      data-testid="link-login"
+      className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 w-full justify-center"
+    >
+      <LogIn className="w-4 h-4" />
+      Sign in with Google
+    </a>
+  );
+}
 
 export function Sidebar() {
   const [location] = useLocation();
@@ -47,9 +119,7 @@ export function Sidebar() {
       </div>
 
       <div className="p-4 border-t border-border">
-        <span className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-          AI Logic
-        </span>
+        <UserFooter />
       </div>
     </div>
   );
