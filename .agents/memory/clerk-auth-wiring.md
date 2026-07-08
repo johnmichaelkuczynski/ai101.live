@@ -1,28 +1,20 @@
 ---
-name: Clerk auth wiring (qr-course + api-server)
-description: Why the Clerk integration is wired the way it is; what NOT to "fix".
+name: Auth status (login removed)
+description: This app has NO login system — Clerk was ripped out at the user's request
 ---
 
-# Clerk-managed auth for Teach Yourself AI
+# Auth: none
 
-Auth is Replit-managed Clerk (clerk-auth skill), added to the previously single-user app.
+The user explicitly asked to rip out all login. Clerk was fully removed from both
+artifacts (frontend `@clerk/react`/`@clerk/themes` + ClerkProvider/SignIn/SignUp/Show
+gating, backend `@clerk/express`/`@clerk/shared` + clerkMiddleware + the FAPI proxy
+middleware). The app is single-user with all API routes public.
 
-## Canonical wiring is copied VERBATIM from the clerk-auth skill — do not "harden" it
-- `app.use(cors({ credentials: true, origin: true }))` in api-server `app.ts` is the skill's
-  prescribed config (setup-and-customization.md). A code review will flag it as permissive CORS.
-  **Leave it.** The web app is same-origin through the Replit proxy (localhost:80 in dev, the
-  .replit.app/custom domain in prod); origin:true is needed for the Clerk cross-origin proxy auth
-  flow. Diverging risks breaking sign-in.
-- Do NOT add NODE_ENV / PROD gates around the Clerk middleware or proxy.
-- Web auth is cookie-based, same-origin. Do NOT add getToken/Bearer headers to web fetches.
+**Why:** the user said they had a plan that required removing any existing login system.
 
-## Structure
-- Server gate: `clerkMiddleware` mounted before `/api`; `requireAuth` in routes/index.ts is global
-  AFTER healthRouter, so `/api/healthz` is public and every data router returns 401 without a userId.
-  `requireAuth` uses `getAuth(req).userId` only (sessionClaims?.userId is typed `{}` → TS error).
-- Client: ClerkProvider in App.tsx; signed-out → public Landing page; signed-in → AppRoutes.
-  sign-in/sign-up use wildcard routes (`/sign-in/*?`, `/sign-up/*?`) for the OAuth callback.
-- DB data is intentionally NOT user-scoped (out of scope for the "add Google login" task).
-
-**Why:** the skill is the authoritative source for this exact integration; a generic code review
-does not know about the proxy/cookie architecture the skill is designed around.
+**How to apply:**
+- Do NOT re-add auth, ClerkProvider, requireAuth, or sign-in gating unless the user
+  explicitly asks. The frontend now renders the app directly at `/` (Dashboard).
+- Leftover `VITE_CLERK_*` / `CLERK_*` secrets may still exist in the environment; they
+  are unused and harmless — do not wire them back in.
+- If auth is ever requested again, use the `clerk-auth` skill from scratch.
