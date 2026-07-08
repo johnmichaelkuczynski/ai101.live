@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, ClipboardCheck, LogOut } from "lucide-react";
+import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, ClipboardCheck, LogOut, ShieldCheck } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -74,12 +74,16 @@ function AuthFooter() {
 
 export function Sidebar() {
   const [location] = useLocation();
+  const { isAdmin } = useAuth();
 
   const navItems = [
     { href: "/", label: "Dashboard", icon: LayoutDashboard },
     { href: "/assignments", label: "Assignments", icon: PenTool },
     { href: "/assessments", label: "Assessments", icon: ClipboardCheck },
     { href: "/analytics", label: "Analytics", icon: BarChart3 },
+    ...(isAdmin
+      ? [{ href: "/administrative", label: "Administrative", icon: ShieldCheck }]
+      : []),
   ];
 
   return (

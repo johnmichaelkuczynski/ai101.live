@@ -5,6 +5,7 @@ export interface AuthUser {
   username: string;
   email: string | null;
   displayName: string | null;
+  isAdmin: boolean;
 }
 
 interface AuthResponse {
@@ -39,6 +40,7 @@ export function useAuth() {
     isLoading: query.isLoading,
     isAuthenticated: query.data?.authenticated ?? false,
     user: query.data?.user ?? null,
+    isAdmin: query.data?.user?.isAdmin ?? false,
     logout,
   };
 }

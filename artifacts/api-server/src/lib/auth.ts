@@ -2,9 +2,15 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
-import type { Express, Request } from "express";
-import { eq } from "drizzle-orm";
-import { db, pool, usersTable, type User } from "@workspace/db";
+import type { Express, Request, Response, NextFunction } from "express";
+import { eq, asc } from "drizzle-orm";
+import {
+  db,
+  pool,
+  usersTable,
+  loginEventsTable,
+  type User,
+} from "@workspace/db";
 import { logger } from "./logger";
 
 declare global {
@@ -64,6 +70,68 @@ async function updateUserGoogle(
   return user;
 }
 
+async function recordLoginEvent(
+  userId: number,
+  email: string | null,
+): Promise<void> {
+  await db.insert(loginEventsTable).values({ userId, email });
+}
+
+// --- Admin (site owner) detection ----------------------------------------
+// The owner is either the account whose email matches ADMIN_EMAIL, or — when
+// ADMIN_EMAIL is unset — the first account that ever signed in (lowest id).
+async function getIsAdmin(user: Express.User): Promise<boolean> {
+  const adminEmail = (process.env.ADMIN_EMAIL || "")
+    .replace(/[\u00A0\u200B\u200C\u200D\uFEFF]/g, "")
+    .trim()
+    .toLowerCase();
+  if (adminEmail) {
+    return !!user.email && user.email.toLowerCase() === adminEmail;
+  }
+  const [first] = await db
+    .select({ id: usersTable.id })
+    .from(usersTable)
+    .orderBy(asc(usersTable.id))
+    .limit(1);
+  return !!first && first.id === user.id;
+}
+
+// --- Route guards ---------------------------------------------------------
+export function requireAuth(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
+  if (req.isAuthenticated() && req.user) {
+    next();
+    return;
+  }
+  res.status(401).json({ error: "Authentication required" });
+}
+
+export function requireAdmin(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void {
+  if (!req.isAuthenticated() || !req.user) {
+    res.status(401).json({ error: "Authentication required" });
+    return;
+  }
+  getIsAdmin(req.user)
+    .then((ok) => {
+      if (ok) {
+        next();
+      } else {
+        res.status(403).json({ error: "Forbidden" });
+      }
+    })
+    .catch((err) => {
+      logger.error({ err }, "Admin check failed");
+      res.status(500).json({ error: "Admin check failed" });
+    });
+}
+
 export function setupAuth(app: Express): void {
   // Strip invisible characters (non-breaking spaces, zero-width chars, BOM) and
   // surrounding whitespace that often sneak in when secrets are copy-pasted.
@@ -94,10 +162,14 @@ export function setupAuth(app: Express): void {
 
   // Database-backed session store (reuses the shared @workspace/db pool)
   const PgSession = connectPgSimple(session);
+  // The session table is provisioned out-of-band (see migrations / setup) —
+  // connect-pg-simple's createTableIfMissing reads a bundled table.sql that does
+  // not survive esbuild bundling, so we disable it to avoid an ENOENT that would
+  // silently prevent sessions (and therefore all logins) from persisting.
   const pgStore = new PgSession({
     pool,
     tableName: "user_sessions",
-    createTableIfMissing: true,
+    createTableIfMissing: false,
     errorLog: (...args: unknown[]) =>
       logger.error({ args }, "Session store error"),
   });
@@ -272,6 +344,11 @@ export function setupAuth(app: Express): void {
           callbackURL: getRequestCallbackURL(req),
         } as passport.AuthenticateOptions)(req, res, next),
       (req, res) => {
+        if (req.user) {
+          recordLoginEvent(req.user.id, req.user.email ?? null).catch((err) =>
+            logger.error({ err }, "Failed to record login event"),
+          );
+        }
         req.session.save(() => {
           res.redirect("/");
         });
@@ -292,15 +369,33 @@ export function setupAuth(app: Express): void {
 
   app.get("/api/auth/user", (req, res) => {
     if (req.isAuthenticated() && req.user) {
-      res.json({
-        authenticated: true,
-        user: {
-          id: req.user.id,
-          username: req.user.username,
-          email: req.user.email,
-          displayName: req.user.displayName,
-        },
-      });
+      const u = req.user;
+      getIsAdmin(u)
+        .then((isAdmin) => {
+          res.json({
+            authenticated: true,
+            user: {
+              id: u.id,
+              username: u.username,
+              email: u.email,
+              displayName: u.displayName,
+              isAdmin,
+            },
+          });
+        })
+        .catch((err) => {
+          logger.error({ err }, "Failed to resolve admin status");
+          res.json({
+            authenticated: true,
+            user: {
+              id: u.id,
+              username: u.username,
+              email: u.email,
+              displayName: u.displayName,
+              isAdmin: false,
+            },
+          });
+        });
     } else {
       res.json({ authenticated: false, user: null });
     }
