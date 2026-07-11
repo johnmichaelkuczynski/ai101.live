@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, ClipboardCheck, LogIn, LogOut, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, PenTool, BarChart3, Activity, RotateCcw, Sparkles, ClipboardCheck, LogOut, ShieldCheck } from "lucide-react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 export type AuthUser = {
@@ -39,41 +39,30 @@ function UserFooter() {
     }
   }
 
-  if (data?.authenticated && data.user) {
-    return (
-      <div className="flex flex-col gap-2">
-        <div className="min-w-0">
-          <div className="text-sm font-medium truncate" data-testid="text-user-name">
-            {data.user.displayName || data.user.username}
-          </div>
-          {data.user.email && (
-            <div className="text-xs text-muted-foreground truncate" data-testid="text-user-email">
-              {data.user.email}
-            </div>
-          )}
-        </div>
-        <button
-          onClick={handleLogout}
-          disabled={loggingOut}
-          className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium border border-border hover:bg-secondary disabled:opacity-50 w-full justify-center"
-          data-testid="button-logout"
-        >
-          <LogOut className="w-4 h-4" />
-          {loggingOut ? "Signing out…" : "Sign out"}
-        </button>
-      </div>
-    );
-  }
+  if (!data?.authenticated || !data.user) return null;
 
   return (
-    <a
-      href="/api/auth/google"
-      data-testid="link-login"
-      className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 w-full justify-center"
-    >
-      <LogIn className="w-4 h-4" />
-      Sign in with Google
-    </a>
+    <div className="flex flex-col gap-2">
+      <div className="min-w-0">
+        <div className="text-sm font-medium truncate" data-testid="text-user-name">
+          {data.user.displayName || data.user.username}
+        </div>
+        {data.user.email && (
+          <div className="text-xs text-muted-foreground truncate" data-testid="text-user-email">
+            {data.user.email}
+          </div>
+        )}
+      </div>
+      <button
+        onClick={handleLogout}
+        disabled={loggingOut}
+        className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium border border-border hover:bg-secondary disabled:opacity-50 w-full justify-center"
+        data-testid="button-logout"
+      >
+        <LogOut className="w-4 h-4" />
+        {loggingOut ? "Signing out…" : "Sign out"}
+      </button>
+    </div>
   );
 }
 

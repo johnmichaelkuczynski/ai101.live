@@ -15,10 +15,57 @@ import AssessmentRunner from "@/pages/AssessmentRunner";
 import Diagnostics from "@/pages/Diagnostics";
 import TopicPractice from "@/pages/TopicPractice";
 import Administrative from "@/pages/Administrative";
+import { useAuthUser } from "@/components/layout/Layout";
+import { LogIn } from "lucide-react";
 
 const queryClient = new QueryClient();
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+function LoginScreen() {
+  return (
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+      <div className="flex flex-col items-center gap-6 text-center max-w-sm px-6">
+        <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-serif font-bold text-xl">
+          AI
+        </div>
+        <div>
+          <h1 className="text-3xl font-serif font-bold mb-2">AI Logic</h1>
+          <p className="text-muted-foreground text-sm">by Zhi Systems</p>
+        </div>
+        <p className="text-muted-foreground">
+          Sign in with your Google account to access the course.
+        </p>
+        <a
+          href="/api/auth/google"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90 w-full justify-center"
+          data-testid="link-login"
+        >
+          <LogIn className="w-4 h-4" />
+          Sign in with Google
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function AuthGate({ children }: { children: React.ReactNode }) {
+  const { data, isLoading } = useAuthUser();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!data?.authenticated) {
+    return <LoginScreen />;
+  }
+
+  return <>{children}</>;
+}
 
 function AppRoutes() {
   return (
@@ -44,7 +91,9 @@ function App() {
     <WouterRouter base={basePath}>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <AppRoutes />
+          <AuthGate>
+            <AppRoutes />
+          </AuthGate>
           <Toaster />
         </TooltipProvider>
       </QueryClientProvider>

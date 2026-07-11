@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Layout, useAuthUser, ADMIN_EMAIL } from "@/components/layout/Layout";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ShieldCheck, LogIn } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -117,41 +117,10 @@ function LoginChart({ title, data, loading }: { title: string; data?: SeriesPoin
 }
 
 export default function Administrative() {
-  const { data: auth, isLoading: authLoading } = useAuthUser();
+  const { data: auth } = useAuthUser();
   const isAdmin =
     !!auth?.authenticated && auth.user?.email?.toLowerCase() === ADMIN_EMAIL;
   const { data, isLoading, error } = useAdminVisits(isAdmin);
-
-  if (authLoading) {
-    return (
-      <Layout>
-        <div className="p-8 max-w-6xl mx-auto w-full">
-          <Skeleton className="h-8 w-64 mb-4" />
-          <Skeleton className="h-48 w-full" />
-        </div>
-      </Layout>
-    );
-  }
-
-  if (!auth?.authenticated) {
-    return (
-      <Layout>
-        <div className="p-8 max-w-6xl mx-auto w-full flex flex-col items-center gap-4 pt-24 text-center">
-          <ShieldCheck className="w-10 h-10 text-muted-foreground" />
-          <h1 className="text-2xl font-serif font-bold">Administrative</h1>
-          <p className="text-muted-foreground">Sign in with Google to view this page.</p>
-          <a
-            href="/api/auth/google"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90"
-            data-testid="link-login-admin"
-          >
-            <LogIn className="w-4 h-4" />
-            Sign in with Google
-          </a>
-        </div>
-      </Layout>
-    );
-  }
 
   if (!isAdmin || (error as Error | null)?.message === "forbidden") {
     return (
