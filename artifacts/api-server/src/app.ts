@@ -34,7 +34,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Google OAuth: session + passport + auth routes (all under /api).
-// Auth is optional — the app itself stays fully open; no routes are gated.
+// Login is REQUIRED — routes/index.ts gates every content route behind
+// requireAuth; ALL login-related code lives in ./lib/auth.ts.
 setupAuth(app);
 
 app.use("/api", router);

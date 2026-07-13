@@ -3,11 +3,13 @@
 //   - useAuth(): who is signed in, admin status, logout
 //   - LoginScreen: the "Sign in with Google" page shown when logged out
 //   - AuthGate: blocks the whole app until the user is signed in
+//   - AuthFooter: signed-in user card + sign out (rendered by the sidebar)
 //   - Administrative: owner-only page (login analytics + who logged in)
 // No other file in this app contains login logic; they only import from here.
 // ---------------------------------------------------------------------------
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { LogOut } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -17,7 +19,6 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { Layout } from "@/components/layout/Layout";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -150,7 +151,77 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
 }
 
 // ===========================================================================
-// 4. Administrative — owner-only login analytics page
+// 4. AuthFooter — signed-in user card + sign out (used by the sidebar)
+// ===========================================================================
+
+export function AuthFooter() {
+  const { isLoading, isAuthenticated, user, logout } = useAuth();
+  const [busy, setBusy] = useState(false);
+
+  async function handleLogout() {
+    setBusy(true);
+    try {
+      await logout();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="p-4 border-t border-border">
+        <div className="h-9 rounded-md bg-secondary animate-pulse" />
+      </div>
+    );
+  }
+
+  if (isAuthenticated && user) {
+    const label = user.displayName || user.username;
+    return (
+      <div className="p-4 border-t border-border flex flex-col gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold text-sm shrink-0">
+            {label.charAt(0).toUpperCase()}
+          </div>
+          <div className="min-w-0">
+            <div className="text-sm font-medium truncate">{label}</div>
+            {user.email && (
+              <div className="text-xs text-muted-foreground truncate">
+                {user.email}
+              </div>
+            )}
+          </div>
+        </div>
+        <button
+          onClick={handleLogout}
+          disabled={busy}
+          className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium border border-border hover:bg-secondary disabled:opacity-50"
+          data-testid="button-logout"
+        >
+          <LogOut className="w-4 h-4" />
+          {busy ? "Signing out…" : "Sign out"}
+        </button>
+      </div>
+    );
+  }
+
+  // With the whole app gated behind AuthGate this branch is unreachable in
+  // practice, but keep a sign-in link so the sidebar degrades gracefully.
+  return (
+    <div className="p-4 border-t border-border">
+      <a
+        href="/api/auth/google"
+        className="inline-flex w-full items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90"
+        data-testid="link-login-google"
+      >
+        Sign in with Google
+      </a>
+    </div>
+  );
+}
+
+// ===========================================================================
+// 5. Administrative — owner-only login analytics page
 // ===========================================================================
 
 interface Bucket {
@@ -192,6 +263,8 @@ async function fetchAdminAnalytics(): Promise<AdminAnalytics> {
   return (await res.json()) as AdminAnalytics;
 }
 
+// Rendered inside <Layout> by the router (App.tsx); this file deliberately
+// does not import Layout so no import cycle exists between auth and layout.
 export function Administrative() {
   const [range, setRange] = useState<RangeKey>("week");
   const { data, isLoading, isError } = useQuery({
@@ -201,7 +274,7 @@ export function Administrative() {
   });
 
   return (
-    <Layout>
+    <>
       <div className="p-8 max-w-6xl mx-auto w-full flex flex-col gap-8 pb-24">
         <div>
           <h1 className="text-3xl font-serif font-bold text-primary mb-2">
@@ -356,6 +429,6 @@ export function Administrative() {
           </CardContent>
         </Card>
       </div>
-    </Layout>
+    </>
   );
 }

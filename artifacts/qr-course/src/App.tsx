@@ -14,6 +14,7 @@ import Assessments from "@/pages/Assessments";
 import AssessmentRunner from "@/pages/AssessmentRunner";
 import Diagnostics from "@/pages/Diagnostics";
 import TopicPractice from "@/pages/TopicPractice";
+import { Layout } from "@/components/layout/Layout";
 import { AuthGate, Administrative } from "@/auth";
 
 const queryClient = new QueryClient();
@@ -29,7 +30,11 @@ function AppRoutes() {
       <Route path="/assessments" component={Assessments} />
       <Route path="/assessments/run/:attemptId" component={AssessmentRunner} />
       <Route path="/analytics" component={Analytics} />
-      <Route path="/administrative" component={Administrative} />
+      <Route path="/administrative">
+        <Layout>
+          <Administrative />
+        </Layout>
+      </Route>
       <Route path="/diagnostics" component={Diagnostics} />
       <Route path="/weeks/:weekNumber" component={WeekView} />
       <Route path="/lectures/:lectureId" component={LectureView} />

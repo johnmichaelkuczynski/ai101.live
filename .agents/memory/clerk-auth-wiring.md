@@ -1,28 +1,38 @@
 ---
-name: Auth status (Google OAuth, optional)
-description: This app uses optional Google OAuth login (passport). Clerk was removed earlier.
+name: Google auth wiring & isolation rule
+description: Required Google login (passport) with all login code isolated to one backend file and one frontend file; OAuth route/redirect gotchas.
 ---
 
-# Auth: optional Google OAuth (passport)
+# Auth: REQUIRED Google OAuth (passport), fully isolated
 
-History: Clerk was fully ripped out first (app became single-user, public routes).
-Then the owner added Google OAuth via passport-google-oauth20, adapted from a file
-written for a different app. **Auth is OPTIONAL** — the app itself stays fully open;
-login only establishes a session + shows the signed-in user. No API routes are gated.
+Current state: login is REQUIRED for the whole site. All content routes are
+gated (`routes/index.ts` has a single `router.use(requireAuth)`); only
+`/api/healthz` and the auth routes are public. Clerk was removed long ago.
 
-**Why:** the owner wanted their own Google login (explicitly rejected Clerk/Replit Auth),
-using their own `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`.
+**Isolation rule (user demand, repeated forcefully):** ALL login-related code
+must live in exactly one backend file (`artifacts/api-server/src/lib/auth.ts`,
+including the owner-only `/api/admin/analytics` route) and one frontend file
+(`artifacts/qr-course/src/auth.tsx`: useAuth, LoginScreen, AuthGate,
+AuthFooter, Administrative page). Do not scatter auth logic into other files;
+Layout/App only import from these. `auth.tsx` must NOT import Layout (the
+router wraps Administrative in Layout) to avoid an import cycle.
+
+**Why:** the owner issued explicit "cease and desist"-style orders to isolate
+login code after auth changes bled into multiple files.
 
 **How to apply / gotchas:**
-- The api-server only receives `/api/*` through the shared proxy, so ALL OAuth routes
-  MUST live under `/api/` — login is `/api/auth/google`, callback is
-  `/api/auth/google/callback`. A bare `/auth/...` path would never reach the server.
-- The Google Cloud OAuth client must have the redirect URI
-  `https://<domain>/api/auth/google/callback` registered for every domain (dev preview
-  + published `a-1-101.replit.app`), or login fails with redirect_uri_mismatch.
-- Session store is connect-pg-simple reusing the `pool` exported from `@workspace/db`
-  (table `user_sessions`, auto-created). Secrets: SESSION_SECRET required in production.
-- If GOOGLE_CLIENT_ID/SECRET are missing, Google login is silently disabled but the app
-  still runs (login button just 404s). Admin/visits analytics from the source file were
-  intentionally NOT ported.
-- Users table lives in `lib/db/src/schema/users.ts`. drizzle-zod here needs `zod/v4`.
+- The api-server only receives `/api/*` through the shared proxy, so ALL OAuth
+  routes MUST live under `/api/` — login `/api/auth/google`, callback
+  `/api/auth/google/callback`. A bare `/auth/...` path never reaches the server.
+- The Google Cloud OAuth client must have redirect URI
+  `https://<domain>/api/auth/google/callback` registered for every domain
+  (dev preview + published `a-1-101.replit.app`) or login fails with
+  redirect_uri_mismatch.
+- Current GOOGLE_CLIENT_ID/SECRET belong to a Replit-owned OAuth client, so the
+  consent screen says "signing back in to Replit". The owner wants their OWN
+  branding — fixing it requires their own Google Cloud OAuth client creds.
+  Do NOT suggest Replit Auth (explicitly rejected).
+- Session store is connect-pg-simple reusing `pool` from `@workspace/db`
+  (Drizzle-managed `user_sessions` table in `lib/db/src/schema/auth.ts`, which
+  also holds `login_events`). SESSION_SECRET required in production.
+- Admin = ADMIN_EMAIL env var, else the minimum-id user.
