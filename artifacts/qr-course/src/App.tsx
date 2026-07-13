@@ -14,9 +14,7 @@ import Assessments from "@/pages/Assessments";
 import AssessmentRunner from "@/pages/AssessmentRunner";
 import Diagnostics from "@/pages/Diagnostics";
 import TopicPractice from "@/pages/TopicPractice";
-import Administrative from "@/pages/Administrative";
-import { LoginScreen } from "@/components/LoginScreen";
-import { useAuth } from "@/hooks/useAuth";
+import { AuthGate, Administrative } from "@/auth";
 
 const queryClient = new QueryClient();
 
@@ -41,30 +39,14 @@ function AppRoutes() {
   );
 }
 
-function AuthGate() {
-  const { isLoading, isAuthenticated } = useAuth();
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background text-muted-foreground">
-        <div className="h-8 w-8 rounded-full border-2 border-border border-t-primary animate-spin" />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <LoginScreen />;
-  }
-
-  return <AppRoutes />;
-}
-
 function App() {
   return (
     <WouterRouter base={basePath}>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <AuthGate />
+          <AuthGate>
+            <AppRoutes />
+          </AuthGate>
           <Toaster />
         </TooltipProvider>
       </QueryClientProvider>
