@@ -5,7 +5,9 @@
 //   - AuthGate: blocks the whole app until the user is signed in
 //   - AuthFooter: signed-in user card + sign out (rendered by the sidebar)
 //   - Administrative: owner-only page (login analytics + who logged in)
-// No other file in this app contains login logic; they only import from here.
+// The backend counterpart is artifacts/api-server/src/lib/auth.ts (the
+// owner's canonical Google OAuth implementation). No other file contains
+// login logic; they only import from here.
 // ---------------------------------------------------------------------------
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -22,8 +24,10 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
+const ADMIN_EMAIL = "johnmichaelkuczynski@gmail.com";
+
 // ===========================================================================
-// 1. useAuth — session state hook
+// 1. useAuth — session state hook (talks to /api/auth/user from auth.ts)
 // ===========================================================================
 
 export interface AuthUser {
@@ -31,7 +35,6 @@ export interface AuthUser {
   username: string;
   email: string | null;
   displayName: string | null;
-  isAdmin: boolean;
 }
 
 interface AuthResponse {
@@ -62,11 +65,13 @@ export function useAuth() {
     await qc.invalidateQueries();
   }
 
+  const user = query.data?.user ?? null;
+
   return {
     isLoading: query.isLoading,
     isAuthenticated: query.data?.authenticated ?? false,
-    user: query.data?.user ?? null,
-    isAdmin: query.data?.user?.isAdmin ?? false,
+    user,
+    isAdmin: (user?.email ?? "").toLowerCase() === ADMIN_EMAIL,
     logout,
   };
 }
@@ -74,6 +79,29 @@ export function useAuth() {
 // ===========================================================================
 // 2. LoginScreen — shown to logged-out visitors
 // ===========================================================================
+
+function GoogleLogo({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" aria-hidden="true">
+      <path
+        fill="#FFC107"
+        d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"
+      />
+      <path
+        fill="#FF3D00"
+        d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"
+      />
+      <path
+        fill="#4CAF50"
+        d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"
+      />
+      <path
+        fill="#1976D2"
+        d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C39.999 35.245 44 30.028 44 24c0-1.341-.138-2.65-.389-3.917z"
+      />
+    </svg>
+  );
+}
 
 export function LoginScreen() {
   return (
@@ -93,8 +121,8 @@ export function LoginScreen() {
             Sign in to continue
           </h1>
           <p className="text-sm text-muted-foreground">
-            This course is private. Sign in with your Google account to access
-            the lectures, practice, and assessments.
+            Sign in with your Google account to access the lectures, practice,
+            and assessments.
           </p>
         </div>
 
@@ -103,24 +131,7 @@ export function LoginScreen() {
           className="inline-flex w-full items-center justify-center gap-2 px-4 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90"
           data-testid="link-login-google"
         >
-          <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
-            <path
-              fill="#FFC107"
-              d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"
-            />
-            <path
-              fill="#FF3D00"
-              d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"
-            />
-            <path
-              fill="#4CAF50"
-              d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"
-            />
-            <path
-              fill="#1976D2"
-              d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C39.999 35.245 44 30.028 44 24c0-1.341-.138-2.65-.389-3.917z"
-            />
-          </svg>
+          <GoogleLogo className="w-5 h-5" />
           Sign in with Google
         </a>
       </div>
@@ -205,15 +216,14 @@ export function AuthFooter() {
     );
   }
 
-  // With the whole app gated behind AuthGate this branch is unreachable in
-  // practice, but keep a sign-in link so the sidebar degrades gracefully.
   return (
     <div className="p-4 border-t border-border">
       <a
         href="/api/auth/google"
         className="inline-flex w-full items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90"
-        data-testid="link-login-google"
+        data-testid="link-login-google-footer"
       >
+        <GoogleLogo className="w-4 h-4" />
         Sign in with Google
       </a>
     </div>
@@ -221,7 +231,8 @@ export function AuthFooter() {
 }
 
 // ===========================================================================
-// 5. Administrative — owner-only login analytics page
+// 5. Administrative — owner-only visitor analytics page
+//    (consumes /api/admin/visits from the canonical auth.ts)
 // ===========================================================================
 
 interface Bucket {
@@ -229,47 +240,44 @@ interface Bucket {
   count: number;
 }
 
-interface AdminAnalytics {
+interface AdminVisits {
   stats: {
-    day: number;
-    week: number;
-    month: number;
-    year: number;
     allTime: number;
+    last24Hours: number;
+    lastMonth: number;
+    lastYear: number;
   };
   series: {
-    day: Bucket[];
-    week: Bucket[];
-    month: Bucket[];
-    year: Bucket[];
+    last24Hours: Bucket[];
+    lastMonth: Bucket[];
+    lastYear: Bucket[];
     allTime: Bucket[];
   };
-  recentLogins: { email: string | null; at: string }[];
+  visits: { id: number; email: string | null; visitedAt: string }[];
 }
 
-type RangeKey = "day" | "week" | "month" | "year" | "allTime";
+type RangeKey = "last24Hours" | "lastMonth" | "lastYear" | "allTime";
 
-const RANGES: { key: RangeKey; label: string; caption: string }[] = [
-  { key: "day", label: "Last day", caption: "Last 24 hours" },
-  { key: "week", label: "Last week", caption: "Last 7 days" },
-  { key: "month", label: "Last month", caption: "Last 30 days" },
-  { key: "year", label: "Last year", caption: "Last 12 months" },
-  { key: "allTime", label: "All time", caption: "By month" },
+const RANGES: { key: RangeKey; label: string }[] = [
+  { key: "last24Hours", label: "Last 24 hours" },
+  { key: "lastMonth", label: "Last month" },
+  { key: "lastYear", label: "Last year" },
+  { key: "allTime", label: "All time" },
 ];
 
-async function fetchAdminAnalytics(): Promise<AdminAnalytics> {
-  const res = await fetch("/api/admin/analytics", { credentials: "include" });
+async function fetchAdminVisits(): Promise<AdminVisits> {
+  const res = await fetch("/api/admin/visits", { credentials: "include" });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return (await res.json()) as AdminAnalytics;
+  return (await res.json()) as AdminVisits;
 }
 
 // Rendered inside <Layout> by the router (App.tsx); this file deliberately
 // does not import Layout so no import cycle exists between auth and layout.
 export function Administrative() {
-  const [range, setRange] = useState<RangeKey>("week");
+  const [range, setRange] = useState<RangeKey>("lastMonth");
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["admin", "analytics"],
-    queryFn: fetchAdminAnalytics,
+    queryKey: ["admin", "visits"],
+    queryFn: fetchAdminVisits,
     refetchOnWindowFocus: false,
   });
 
@@ -288,13 +296,14 @@ export function Administrative() {
         {isError && (
           <Card className="border-destructive bg-destructive/5">
             <CardContent className="py-4 text-sm text-destructive">
-              Failed to load analytics. You may not have administrative access.
+              Failed to load visitor data. You may not have administrative
+              access.
             </CardContent>
           </Card>
         )}
 
         {/* Stat cards */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {RANGES.map((r) => (
             <Card key={r.key}>
               <CardHeader className="pb-2">
@@ -394,7 +403,7 @@ export function Administrative() {
                   <Skeleton key={i} className="h-10 w-full" />
                 ))}
               </div>
-            ) : data.recentLogins.length === 0 ? (
+            ) : data.visits.length === 0 ? (
               <div className="text-sm text-muted-foreground py-6 text-center">
                 No logins recorded yet.
               </div>
@@ -408,9 +417,9 @@ export function Administrative() {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.recentLogins.map((row, i) => (
+                    {data.visits.map((row, i) => (
                       <tr
-                        key={i}
+                        key={row.id}
                         className="border-b border-border/60"
                         data-testid={`login-row-${i}`}
                       >
@@ -418,7 +427,7 @@ export function Administrative() {
                           {row.email ?? "—"}
                         </td>
                         <td className="py-2.5 text-muted-foreground">
-                          {new Date(row.at).toLocaleString()}
+                          {new Date(row.visitedAt).toLocaleString()}
                         </td>
                       </tr>
                     ))}

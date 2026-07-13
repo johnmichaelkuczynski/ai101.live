@@ -1,5 +1,5 @@
 - [qr-course-demo audio](qr-course-demo-audio.md) — demo video is background music ONLY; narration/TTS was removed by user. Don't re-add voice without confirming.
-- [Google auth wiring & isolation](clerk-auth-wiring.md) — login REQUIRED site-wide; ALL login code must stay in one backend file + one frontend file (user demand); OAuth routes under /api only.
+- [Canonical Google auth (verbatim)](clerk-auth-wiring.md) — owner's auth.ts installed verbatim (only domains changed); never rewrite it; proxy routes /api AND /auth to the api-server.
 - [Session store under esbuild](session-store-esbuild.md) — connect-pg-simple createTableIfMissing fails silently when bundled; provision session table via Drizzle + set false; cookie is HTTPS-only.
-- [Google auth gating](google-auth-gating.md) — site fully gated behind Google login; admin = ADMIN_EMAIL or first user (min id); routers on /api use prefix-less paths (phantom /api/api pitfall).
+- [Google auth gating](google-auth-gating.md) — site fully gated behind Google login; admin = hardcoded owner email in canonical file; routers on /api use prefix-less paths (phantom /api/api pitfall).
 - [Diagnostic Assessments](diagnostics-assessments.md) — completion (all answered) = 20% credit not correctness; retakes regenerate; generator enforces exact MC/written counts; single-user (no userId).

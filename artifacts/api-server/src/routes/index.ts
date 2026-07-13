@@ -8,7 +8,7 @@ import detectionRouter from "./detection";
 import analyticsRouter from "./analytics";
 import diagnosticsRouter from "./diagnostics";
 import assessmentsRouter from "./assessments";
-import { requireAuth } from "../lib/auth";
+import { isAuthenticated } from "../lib/auth";
 
 const router: IRouter = Router();
 
@@ -17,9 +17,9 @@ router.use(healthRouter);
 
 // Everything below requires a signed-in Google account. All login-related
 // code (auth routes, guards, admin analytics) lives in ../lib/auth.ts; the
-// /api/auth/* and /api/admin/* routes are registered there at the app level,
-// before this router, so they bypass this gate.
-router.use(requireAuth);
+// auth and admin routes are registered there at the app level, before this
+// router, so they bypass this gate.
+router.use(isAuthenticated);
 
 router.use(courseRouter);
 router.use(assignmentsRouter);
