@@ -11,6 +11,7 @@ import {
   type KeystrokeTrace,
 } from "@workspace/api-client-react";
 import { Layout } from "@/components/layout/Layout";
+import { requestLogin } from "@/auth";
 import { useParams, Link, useLocation } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
@@ -110,6 +111,10 @@ export default function LectureView() {
         `/api/diagnostics/expand-lectures?level=${target}&id=${startLectureId}`,
         { method: "POST" },
       );
+      if (res.status === 401) {
+        requestLogin();
+        throw new Error("Sign in with Google to generate deeper versions of this lecture.");
+      }
       if (!res.ok) throw new Error(`Server returned ${res.status}`);
       const data = (await res.json()) as { ok?: boolean; updated?: number };
       if (!data.ok || !data.updated) {

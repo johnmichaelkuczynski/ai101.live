@@ -1,5 +1,7 @@
 import { Link } from "wouter";
 import { BookOpen, Bot, ShieldCheck, Sparkles, ArrowRight } from "lucide-react";
+import { TopicsRail } from "@/components/TopicsRail";
+import { useSeo } from "@/lib/seo";
 
 const weeks = [
   {
@@ -47,10 +49,15 @@ const features = [
 ];
 
 export default function Landing() {
+  useSeo(
+    undefined,
+    "A free, self-paced four-week course on the ideas behind artificial intelligence: what AI is, how machines learn, neural networks and generative AI, and AI ethics and safety. No math or coding required.",
+  );
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <header className="border-b border-border">
-        <div className="max-w-6xl mx-auto w-full px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto w-full px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center text-primary-foreground font-serif font-bold text-sm">
               AI
@@ -59,91 +66,103 @@ export default function Landing() {
               Teach Yourself AI
             </span>
           </div>
-          <Link href="/sign-in">
+          <a href="/api/auth/google">
             <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-border hover:bg-secondary transition-colors">
-              Sign in
+              Sign in with Google
             </button>
-          </Link>
+          </a>
         </div>
       </header>
 
-      <main className="flex-1">
-        <section className="max-w-6xl mx-auto w-full px-6 pt-20 pb-16 text-center flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-medium mb-6">
-            <Sparkles className="w-3.5 h-3.5" />
-            A four-week introduction to the ideas behind AI
-          </div>
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary max-w-3xl leading-tight">
-            Understand artificial intelligence — the concepts, not the hype.
-          </h1>
-          <p className="mt-6 text-lg text-muted-foreground max-w-2xl">
-            What is a model? What does “training” really mean? Why do language
-            models make things up? Learn the real ideas behind modern AI in
-            plain English — no math or coding required.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Link href="/sign-up">
-              <button className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-base font-medium bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
-                Get started
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </Link>
-            <Link href="/sign-in">
-              <button className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-base font-medium border border-border hover:bg-secondary transition-colors">
-                Sign in with Google
-              </button>
-            </Link>
-          </div>
-        </section>
+      <div className="flex flex-1 max-w-7xl mx-auto w-full">
+        <TopicsRail />
 
-        <section className="max-w-6xl mx-auto w-full px-6 pb-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div
-                key={f.title}
-                className="rounded-lg border border-card-border bg-card p-6 flex flex-col gap-3"
-              >
-                <div className="w-10 h-10 rounded-md bg-secondary flex items-center justify-center text-primary">
-                  <f.icon className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-serif font-semibold">{f.title}</h3>
-                <p className="text-sm text-muted-foreground">{f.text}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <main className="flex-1 min-w-0">
+          <section className="w-full px-6 pt-16 pb-16 text-center flex flex-col items-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-xs font-medium mb-6">
+              <Sparkles className="w-3.5 h-3.5" />
+              A free four-week introduction to the ideas behind AI
+            </div>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary max-w-3xl leading-tight">
+              Understand artificial intelligence — the concepts, not the hype.
+            </h1>
+            <p className="mt-6 text-lg text-muted-foreground max-w-2xl">
+              What is a model? What does “training” really mean? Why do
+              language models make things up? Learn the real ideas behind
+              modern AI in plain English — no math or coding required.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <Link href="/course">
+                <button className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-base font-medium bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
+                  Start the course
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </Link>
+              <a href="/api/auth/google">
+                <button className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-base font-medium border border-border hover:bg-secondary transition-colors">
+                  Sign in with Google
+                </button>
+              </a>
+            </div>
+            <p className="mt-4 text-xs text-muted-foreground max-w-md">
+              No account needed to read the lectures. Sign in with Google when
+              you want unlimited tutoring, practice, and AI-graded work.
+            </p>
+          </section>
 
-        <section className="max-w-6xl mx-auto w-full px-6 pb-24">
-          <h2 className="text-2xl font-serif font-bold mb-6">The curriculum</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {weeks.map((w) => (
-              <div
-                key={w.n}
-                className="rounded-lg border border-card-border bg-card p-6"
-              >
-                <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">
-                  Week {w.n}
+          <section className="w-full px-6 pb-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {features.map((f) => (
+                <div
+                  key={f.title}
+                  className="rounded-lg border border-card-border bg-card p-6 flex flex-col gap-3"
+                >
+                  <div className="w-10 h-10 rounded-md bg-secondary flex items-center justify-center text-primary">
+                    <f.icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-serif font-semibold">
+                    {f.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">{f.text}</p>
                 </div>
-                <h3 className="text-lg font-serif font-semibold mb-2">
-                  {w.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">{w.blurb}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Link href="/sign-up">
-              <button className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-base font-medium bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
-                Start the course
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </Link>
-          </div>
-        </section>
-      </main>
+              ))}
+            </div>
+          </section>
+
+          <section className="w-full px-6 pb-24">
+            <h2 className="text-2xl font-serif font-bold mb-6">
+              The curriculum
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {weeks.map((w) => (
+                <div
+                  key={w.n}
+                  className="rounded-lg border border-card-border bg-card p-6"
+                >
+                  <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">
+                    Week {w.n}
+                  </div>
+                  <h3 className="text-lg font-serif font-semibold mb-2">
+                    {w.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">{w.blurb}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-10 text-center">
+              <Link href="/course">
+                <button className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-base font-medium bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
+                  Start the course
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </Link>
+            </div>
+          </section>
+        </main>
+      </div>
 
       <footer className="border-t border-border">
-        <div className="max-w-6xl mx-auto w-full px-6 py-6 text-sm text-muted-foreground text-center">
+        <div className="max-w-7xl mx-auto w-full px-6 py-6 text-sm text-muted-foreground text-center">
           Teach Yourself AI — read the idea, ground the idea, explain the idea.
         </div>
       </footer>

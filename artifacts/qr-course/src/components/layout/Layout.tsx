@@ -58,6 +58,7 @@ export function Sidebar() {
 
 function TopBar() {
   const [location, setLocation] = useLocation();
+  const { isAdmin } = useAuth();
   const active = location.startsWith("/diagnostics");
   const qc = useQueryClient();
   const [resetting, setResetting] = useState(false);
@@ -109,6 +110,10 @@ function TopBar() {
       setResetting(false);
     }
   }
+
+  // The lecture-rewrite, reset, and diagnostics tools are operator tools —
+  // only the site owner sees them now that the site is open to everyone.
+  if (!isAdmin) return null;
 
   return (
     <div className="sticky top-0 z-10 flex items-center justify-end gap-2 px-6 py-3 border-b border-border bg-background/80 backdrop-blur">

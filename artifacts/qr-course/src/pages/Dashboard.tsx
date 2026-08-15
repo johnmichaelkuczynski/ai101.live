@@ -5,14 +5,22 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Link } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
+import { TopicsRail } from "@/components/TopicsRail";
+import { useSeo } from "@/lib/seo";
 
 export default function Dashboard() {
   const { data: overview, isLoading: isLoadingOverview } = useGetCourseOverview();
   const { data: activity, isLoading: isLoadingActivity } = useGetRecentActivity();
+  useSeo(
+    "Course Dashboard",
+    "Your progress through Teach Yourself AI: four weeks of micro-lectures, assignments, and adaptive practice on how artificial intelligence works.",
+  );
 
   return (
     <Layout>
-      <div className="p-8 max-w-6xl mx-auto w-full flex flex-col gap-8">
+      <div className="flex w-full">
+        <TopicsRail />
+        <div className="p-8 max-w-6xl w-full flex flex-col gap-8 min-w-0">
         <div>
           <h1 className="text-3xl font-serif font-bold text-primary mb-2">
             {overview ? overview.title : <Skeleton className="h-9 w-64" />}
@@ -100,6 +108,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
+        </div>
         </div>
       </div>
     </Layout>

@@ -2,4 +2,6 @@
 - [Canonical Google auth (verbatim)](clerk-auth-wiring.md) — owner's auth.ts installed verbatim (only domains changed); never rewrite it; proxy routes /api AND /auth to the api-server.
 - [Session store under esbuild](session-store-esbuild.md) — connect-pg-simple createTableIfMissing fails silently when bundled; provision session table via Drizzle + set false; cookie is HTTPS-only.
 - [Google auth gating](google-auth-gating.md) — site fully gated behind Google login; admin = hardcoded owner email in canonical file; routers on /api use prefix-less paths (phantom /api/api pitfall).
+- [Open access + free AI quota](open-access-quota.md) — site is public; anonymous AI-output quota + admin-only diagnostics; only allowlisted AI POSTs are metered.
+- [api-server esbuild externals](api-server-esbuild-externals.md) — pdfkit/fontkit must stay external in build.mjs or the bundled server crashes at boot.
 - [Diagnostic Assessments](diagnostics-assessments.md) — completion (all answered) = 20% credit not correctness; retakes regenerate; generator enforces exact MC/written counts; single-user (no userId).

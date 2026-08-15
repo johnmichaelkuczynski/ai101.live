@@ -5,7 +5,8 @@ import path from "node:path";
 import fs from "node:fs";
 import router from "./routes";
 import { logger } from "./lib/logger";
-import { setupAuth } from "./lib/auth";
+import { setupAuth, isAdmin } from "./lib/auth";
+import { trackVisitor, uniqueVisitorsHandler } from "./lib/access";
 
 const app: Express = express();
 
@@ -34,9 +35,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Google OAuth: session + passport + auth routes (all under /api).
-// Login is REQUIRED — routes/index.ts gates every content route behind
-// requireAuth; ALL login-related code lives in ./lib/auth.ts.
+// The site is open to everyone; login is only forced once an anonymous
+// visitor exceeds the free AI-output quota (see ./lib/access.ts).
+// ALL login-related code lives in ./lib/auth.ts (canonical, do not edit).
 setupAuth(app);
+
+// Unique-visitor tracking (all traffic) + owner-only visitor stats.
+app.use("/api", trackVisitor);
+app.get("/api/admin/unique-visitors", isAdmin, uniqueVisitorsHandler);
 
 app.use("/api", router);
 

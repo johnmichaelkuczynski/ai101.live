@@ -9,7 +9,7 @@
 // owner's canonical Google OAuth implementation). No other file contains
 // login logic; they only import from here.
 // ---------------------------------------------------------------------------
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
 import {
@@ -140,25 +140,87 @@ export function LoginScreen() {
 }
 
 // ===========================================================================
-// 3. AuthGate — no login, no site
+// 3. AuthGate — the site is OPEN. Visitors can browse and sample everything;
+//    login is only demanded when the backend replies 401 LOGIN_REQUIRED
+//    (i.e. the visitor generated more than the free AI-output quota).
+//    AuthGate now just mounts the login-prompt dialog around the app.
 // ===========================================================================
 
-export function AuthGate({ children }: { children: React.ReactNode }) {
-  const { isLoading, isAuthenticated } = useAuth();
+/** Fire this when the backend says the free preview is used up. */
+export function requestLogin() {
+  window.dispatchEvent(new CustomEvent("app:login-required"));
+}
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background text-muted-foreground">
-        <div className="h-8 w-8 rounded-full border-2 border-border border-t-primary animate-spin" />
+/** True when an API error means "sign in to continue". */
+export function isLoginRequiredError(err: unknown): boolean {
+  const e = err as { status?: number; data?: { code?: string } } | null;
+  return (
+    !!e &&
+    e.status === 401 &&
+    (e.data?.code === "LOGIN_REQUIRED" || e.data === undefined)
+  );
+}
+
+function LoginPromptDialog() {
+  const [open, setOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    const show = () => setOpen(true);
+    window.addEventListener("app:login-required", show);
+    return () => window.removeEventListener("app:login-required", show);
+  }, []);
+
+  if (!open || isAuthenticated) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-6">
+      <div className="w-full max-w-md rounded-lg bg-background border border-border p-8 text-center flex flex-col items-center gap-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-serif font-bold">
+            AI
+          </div>
+          <span className="font-serif font-semibold text-xl tracking-tight">
+            Teach Yourself AI
+          </span>
+        </div>
+        <div className="space-y-2">
+          <h2 className="text-lg font-serif font-semibold">
+            You've used up the free preview
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Sign in with Google to keep using the tutor, practice, and
+            AI-graded assignments. It's free — reading the lectures never
+            requires an account.
+          </p>
+        </div>
+        <a
+          href="/api/auth/google"
+          className="inline-flex w-full items-center justify-center gap-2 px-4 py-3 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-90"
+          data-testid="link-login-google-prompt"
+        >
+          <GoogleLogo className="w-5 h-5" />
+          Sign in with Google
+        </a>
+        <button
+          onClick={() => setOpen(false)}
+          className="text-xs text-muted-foreground hover:text-foreground"
+          data-testid="button-dismiss-login-prompt"
+        >
+          Keep browsing without signing in
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  if (!isAuthenticated) {
-    return <LoginScreen />;
-  }
-
-  return <>{children}</>;
+export function AuthGate({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {children}
+      <LoginPromptDialog />
+    </>
+  );
 }
 
 // ===========================================================================
@@ -271,6 +333,20 @@ async function fetchAdminVisits(): Promise<AdminVisits> {
   return (await res.json()) as AdminVisits;
 }
 
+interface UniqueVisitors {
+  uniqueVisitors: number;
+  last24Hours: number;
+  lastMonth: number;
+}
+
+async function fetchUniqueVisitors(): Promise<UniqueVisitors> {
+  const res = await fetch("/api/admin/unique-visitors", {
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return (await res.json()) as UniqueVisitors;
+}
+
 // Rendered inside <Layout> by the router (App.tsx); this file deliberately
 // does not import Layout so no import cycle exists between auth and layout.
 export function Administrative() {
@@ -278,6 +354,11 @@ export function Administrative() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["admin", "visits"],
     queryFn: fetchAdminVisits,
+    refetchOnWindowFocus: false,
+  });
+  const { data: uniques, isLoading: uniquesLoading } = useQuery({
+    queryKey: ["admin", "unique-visitors"],
+    queryFn: fetchUniqueVisitors,
     refetchOnWindowFocus: false,
   });
 
@@ -301,6 +382,40 @@ export function Administrative() {
             </CardContent>
           </Card>
         )}
+
+        {/* Unique visitors (all traffic, logged in or not) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {(
+            [
+              { key: "uniqueVisitors", label: "Unique visitors (all time)" },
+              { key: "last24Hours", label: "Unique visitors (24 hours)" },
+              { key: "lastMonth", label: "Unique visitors (30 days)" },
+            ] as const
+          ).map((c) => (
+            <Card key={c.key}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  {c.label}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {uniquesLoading || !uniques ? (
+                  <Skeleton className="h-8 w-16" />
+                ) : (
+                  <div
+                    className="text-3xl font-bold"
+                    data-testid={`stat-unique-${c.key}`}
+                  >
+                    {uniques[c.key]}
+                  </div>
+                )}
+                <div className="text-xs text-muted-foreground mt-1">
+                  distinct devices, including visitors who never signed in
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
         {/* Stat cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
